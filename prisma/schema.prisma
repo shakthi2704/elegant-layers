@@ -1,0 +1,375 @@
+// prisma/schema.prisma  (DRAFT — for review)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum Role {
+  ADMIN
+  CASHIER
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Unit {
+  KG
+  G
+  L
+  ML
+  PCS
+}
+
+enum InventoryItemType {
+  INGREDIENT
+  PRODUCT
+}
+
+enum InventoryTransactionType {
+  PURCHASE
+  PRODUCTION_IN
+  PRODUCTION_OUT
+  SALE
+  WASTE
+  ADJUSTMENT
+}
+
+enum SaleStatus {
+  HELD
+  COMPLETED
+  VOID
+}
+
+enum CakeOrderStatus {
+  PENDING
+  IN_PROGRESS
+  READY
+  COLLECTED
+  CANCELLED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)   // NEW
+  image         String?                    // NEW
+  role          Role     @default(CASHIER)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt         // NEW
+
+  accounts  Account[]                       // NEW
+  sessions  Session[]                       // NEW
+
+  purchasesCreated     Purchase[]
+  productionsRecorded  Production[]
+  sales                Sale[]
+  inventoryTxns        InventoryTransaction[]
+  cakeOrdersCreated    CakeOrder[]
+  expensesRecorded     Expense[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+}
+
+// ============================================================
+// CATALOG
+// ============================================================
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+
+  products  Product[]
+}
+
+model Product {
+  id                String        @id @default(cuid())
+  name              String
+  sku               String        @unique
+  categoryId        String
+  category          Category      @relation(fields: [categoryId], references: [id])
+  sellingPrice      Decimal       @db.Decimal(10, 2)
+  isFinishedProduct Boolean       @default(true) // tracks stock via Production; false = sold directly, no stock tracking
+  status            ProductStatus @default(ACTIVE)
+  currentStock      Decimal       @default(0) @db.Decimal(10, 3)
+  minimumStock      Decimal       @default(0) @db.Decimal(10, 3)
+  unit              Unit          @default(PCS)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  recipe            Recipe?
+  saleItems         SaleItem[]
+  productionItems   ProductionItem[]
+  inventoryTxns     InventoryTransaction[]
+  cakeOrders        CakeOrder[]
+}
+
+model Ingredient {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  unit            Unit
+  currentStock    Decimal  @default(0) @db.Decimal(10, 3)
+  minimumStock    Decimal  @default(0) @db.Decimal(10, 3)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  recipeItems     RecipeItem[]
+  purchaseItems   PurchaseItem[]
+  inventoryTxns   InventoryTransaction[]
+}
+
+// ============================================================
+// RECIPES
+// ============================================================
+
+model Recipe {
+  id        String       @id @default(cuid())
+  productId String       @unique
+  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  items     RecipeItem[]
+}
+
+model RecipeItem {
+  id           String     @id @default(cuid())
+  recipeId     String
+  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity     Decimal    @db.Decimal(10, 3) // amount of ingredient needed per 1 unit of product
+
+  @@unique([recipeId, ingredientId])
+}
+
+// ============================================================
+// SUPPLIERS & PURCHASES
+// ============================================================
+
+model Supplier {
+  id        String     @id @default(cuid())
+  name      String
+  contact   String?
+  address   String?
+  createdAt DateTime   @default(now())
+
+  purchases Purchase[]
+}
+
+model Purchase {
+  id           String         @id @default(cuid())
+  supplierId   String
+  supplier     Supplier       @relation(fields: [supplierId], references: [id])
+  purchaseDate DateTime       @default(now())
+  totalAmount  Decimal        @db.Decimal(10, 2)
+  createdById  String
+  createdBy    User           @relation(fields: [createdById], references: [id])
+  createdAt    DateTime       @default(now())
+
+  items        PurchaseItem[]
+}
+
+model PurchaseItem {
+  id           String     @id @default(cuid())
+  purchaseId   String
+  purchase     Purchase   @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity     Decimal    @db.Decimal(10, 3)
+  unitCost     Decimal    @db.Decimal(10, 2)
+  subtotal     Decimal    @db.Decimal(10, 2)
+}
+
+// ============================================================
+// PRODUCTION
+// ============================================================
+
+model Production {
+  id             String           @id @default(cuid())
+  productionDate DateTime         @default(now())
+  notes          String?
+  producedById   String
+  producedBy     User             @relation(fields: [producedById], references: [id])
+  createdAt      DateTime         @default(now())
+
+  items          ProductionItem[]
+}
+
+model ProductionItem {
+  id                String     @id @default(cuid())
+  productionId      String
+  production        Production @relation(fields: [productionId], references: [id], onDelete: Cascade)
+  productId         String
+  product           Product    @relation(fields: [productId], references: [id])
+  quantityProduced  Decimal    @db.Decimal(10, 3)
+}
+
+// ============================================================
+// INVENTORY LEDGER  (source of truth for every stock movement)
+// ============================================================
+
+model InventoryTransaction {
+  id             String                    @id @default(cuid())
+  itemType       InventoryItemType
+  ingredientId   String?
+  ingredient     Ingredient?               @relation(fields: [ingredientId], references: [id])
+  productId      String?
+  product        Product?                  @relation(fields: [productId], references: [id])
+  type           InventoryTransactionType
+  quantity       Decimal                   @db.Decimal(10, 3) // signed: +in / -out
+  balanceAfter   Decimal                   @db.Decimal(10, 3)
+  referenceType  String?                   // "PURCHASE" | "PRODUCTION" | "SALE" | "CAKE_ORDER" | "MANUAL"
+  referenceId    String?
+  note           String?
+  createdById    String
+  createdBy      User                      @relation(fields: [createdById], references: [id])
+  createdAt      DateTime                  @default(now())
+
+  @@index([ingredientId])
+  @@index([productId])
+  @@index([type])
+}
+
+// ============================================================
+// SALES / POS
+// ============================================================
+
+model Sale {
+  id            String     @id @default(cuid())
+  saleNumber    String     @unique
+  status        SaleStatus @default(COMPLETED)
+  subtotal      Decimal    @db.Decimal(10, 2)
+  discount      Decimal    @default(0) @db.Decimal(10, 2)
+  total         Decimal    @db.Decimal(10, 2)
+  cashReceived  Decimal?   @db.Decimal(10, 2)
+  changeGiven   Decimal?   @db.Decimal(10, 2)
+  cashierId     String
+  cashier       User       @relation(fields: [cashierId], references: [id])
+  createdAt     DateTime   @default(now())
+
+  items         SaleItem[]
+}
+
+model SaleItem {
+  id         String  @id @default(cuid())
+  saleId     String
+  sale       Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product @relation(fields: [productId], references: [id])
+  quantity   Decimal @db.Decimal(10, 3)
+  unitPrice  Decimal @db.Decimal(10, 2)
+  discount   Decimal @default(0) @db.Decimal(10, 2)
+  subtotal   Decimal @db.Decimal(10, 2)
+}
+
+// ============================================================
+// CAKE ORDERS
+// ============================================================
+
+model Customer {
+  id        String      @id @default(cuid())
+  name      String
+  phone     String
+  createdAt DateTime    @default(now())
+
+  cakeOrders CakeOrder[]
+
+  @@index([phone])
+}
+
+model CakeOrder {
+  id          String          @id @default(cuid())
+  customerId  String
+  customer    Customer        @relation(fields: [customerId], references: [id])
+  productId   String?
+  product     Product?        @relation(fields: [productId], references: [id])
+  cakeName    String          // free text if not tied to a fixed Product
+  weight      String?
+  message     String?
+  pickupDate  DateTime
+  pickupTime  String
+  status      CakeOrderStatus @default(PENDING)
+  price       Decimal?        @db.Decimal(10, 2)
+  advancePaid Decimal?        @db.Decimal(10, 2)
+  notes       String?
+  createdById String
+  createdBy   User            @relation(fields: [createdById], references: [id])
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+// ============================================================
+// EXPENSES
+// ============================================================
+
+model Expense {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now())
+  category    String
+  description String?
+  amount      Decimal  @db.Decimal(10, 2)
+  recordedById String
+  recordedBy  User     @relation(fields: [recordedById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+
+model Settings {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
