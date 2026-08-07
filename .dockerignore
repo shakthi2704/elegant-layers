@@ -1,0 +1,16 @@
+
+node_modules
+.next
+.git
+node_modules
+.next
+.pnpm-store
+
+node_modules
+.pnpm-store
+.next
+dist
+build
+.env
+.env.local
+*.log
