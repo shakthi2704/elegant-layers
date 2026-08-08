@@ -1,5 +1,5 @@
 import { ComingSoon } from "@/components/layout/coming-soon";
 
 export default function DashboardPage() {
-  return <ComingSoon title="Dashboard" />;
+  return <ComingSoon title="Dashboards" />;
 }
