@@ -18,7 +18,12 @@ export default async function IngredientsPage() {
             Raw materials used in recipes and consumed by Production.
           </p>
         </div>
-        <Button variant="default" size="lg" render={<Link href="/ingredients/new" />}>
+        <Button
+          variant="default"
+          size="lg"
+          nativeButton={false}
+          render={<Link href="/ingredients/new" />}
+        >
           Add Ingredient
         </Button>
       </div>

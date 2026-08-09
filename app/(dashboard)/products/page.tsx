@@ -23,7 +23,9 @@ export default async function ProductsPage() {
             Everything sellable through the POS.
           </p>
         </div>
-        <Button render={<Link href="/products/new" />}>Add Product</Button>
+        <Button nativeButton={false} render={<Link href="/products/new" />}>
+          Add Product
+        </Button>
       </div>
 
       <div className="overflow-hidden rounded-lg border border-border">
@@ -67,6 +69,7 @@ export default async function ProductsPage() {
                     <Button
                       variant="ghost"
                       size="sm"
+                      nativeButton={false}
                       render={<Link href={`/products/${p.id}/edit`} />}
                     >
                       Edit
