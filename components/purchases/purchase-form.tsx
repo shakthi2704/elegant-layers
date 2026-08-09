@@ -21,6 +21,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+    TableFooter,
 } from "@/components/ui/table";
 
 type Supplier = { id: string; name: string };
@@ -101,7 +102,7 @@ export function PurchaseForm({
                         </SelectTrigger>
                         <SelectContent>
                             {suppliers.map((s) => (
-                                <SelectItem key={s.id} value={s.id}>
+                                <SelectItem key={s.id} value={s.name}>
                                     {s.name}
                                 </SelectItem>
                             ))}
@@ -157,7 +158,7 @@ export function PurchaseForm({
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {ingredients.map((i) => (
-                                                    <SelectItem key={i.id} value={i.id}>
+                                                    <SelectItem key={i.id} value={i.name}>
                                                         {i.name}
                                                     </SelectItem>
                                                 ))}
@@ -210,6 +211,8 @@ export function PurchaseForm({
                 </Table>
             </div>
 
+
+
             <div className="flex items-center justify-between">
                 <Button type="button" variant="outline" size="sm" onClick={addRow}>
                     <Plus className="size-4" />
@@ -219,6 +222,7 @@ export function PurchaseForm({
                     Total: <span className="text-base">Rs. {money(total)}</span>
                 </p>
             </div>
+
 
             {state.fieldErrors?.items && (
                 <p className="text-sm text-destructive">{state.fieldErrors.items[0]}</p>
