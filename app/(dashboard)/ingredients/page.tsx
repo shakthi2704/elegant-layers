@@ -18,7 +18,9 @@ export default async function IngredientsPage() {
             Raw materials used in recipes and consumed by Production.
           </p>
         </div>
-        <Button render={<Link href="/ingredients/new" />}>Add Ingredient</Button>
+        <Button variant="default" size="lg" render={<Link href="/ingredients/new" />}>
+          Add Ingredient
+        </Button>
       </div>
 
       <div className="overflow-hidden rounded-lg border border-border">
@@ -53,6 +55,7 @@ export default async function IngredientsPage() {
                   <Button
                     variant="ghost"
                     size="sm"
+                    nativeButton={false}
                     render={<Link href={`/ingredients/${i.id}/edit`} />}
                   >
                     Edit
