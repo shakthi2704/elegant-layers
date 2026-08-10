@@ -42,7 +42,11 @@ export function ProductForm({
   const [state, formAction, pending] = useActionState(action, {});
 
   return (
-    <form action={formAction} className="max-w-lg space-y-5">
+    <form
+      key={defaultValues ? JSON.stringify(defaultValues) : "new"}
+      action={formAction}
+      className="max-w-lg space-y-5"
+    >
       <div className="space-y-1.5">
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" defaultValue={defaultValues?.name} required />
@@ -64,7 +68,11 @@ export function ProductForm({
           <Label htmlFor="categoryId">Category</Label>
           <Select name="categoryId" defaultValue={defaultValues?.categoryId}>
             <SelectTrigger id="categoryId">
-              <SelectValue placeholder="Select category" />
+              <SelectValue placeholder="Select category">
+                {(value: string | null) =>
+                  categories.find((c) => c.id === value)?.name ?? "Select category"
+                }
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {categories.map((c) => (

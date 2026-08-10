@@ -6,6 +6,8 @@ import { X, Plus } from "lucide-react";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
     Select,
     SelectContent,
@@ -22,16 +24,12 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-type Ingredient = {
-    id: string;
-    name: string;
-    unit: string;
-};
+type Product = { id: string; name: string; unit: string };
 
 type Row = {
     key: string;
-    ingredientId: string;
-    quantity: string;
+    productId: string;
+    quantityProduced: string;
 };
 
 let rowKeySeed = 0;
@@ -40,31 +38,27 @@ function newRowKey() {
     return `row-${rowKeySeed}-${Date.now()}`;
 }
 
-export function RecipeForm({
+function todayIsoDate() {
+    return new Date().toISOString().slice(0, 10);
+}
+
+export function ProductionForm({
     action,
-    productId,
-    productName,
-    ingredients,
-    defaultItems,
+    products,
 }: {
     action: (prevState: ActionState, formData: FormData) => Promise<ActionState>;
-    productId: string;
-    productName: string;
-    ingredients: Ingredient[];
-    defaultItems: { ingredientId: string; quantity: string }[];
+    products: Product[];
 }) {
     const [state, formAction, pending] = useActionState(action, {});
 
-    const [rows, setRows] = useState<Row[]>(() =>
-        defaultItems.length > 0
-            ? defaultItems.map((item) => ({ key: newRowKey(), ...item }))
-            : [{ key: newRowKey(), ingredientId: "", quantity: "" }]
-    );
+    const [rows, setRows] = useState<Row[]>([
+        { key: newRowKey(), productId: "", quantityProduced: "" },
+    ]);
 
-    const ingredientById = new Map(ingredients.map((i) => [i.id, i]));
+    const productById = new Map(products.map((p) => [p.id, p]));
 
     function addRow() {
-        setRows((prev) => [...prev, { key: newRowKey(), ingredientId: "", quantity: "" }]);
+        setRows((prev) => [...prev, { key: newRowKey(), productId: "", quantityProduced: "" }]);
     }
 
     function removeRow(key: string) {
@@ -76,70 +70,79 @@ export function RecipeForm({
     }
 
     return (
-        <form action={formAction} className="max-w-2xl space-y-5">
-            <input type="hidden" name="productId" value={productId} />
-
-            <div className="space-y-1.5">
-                <p className="text-sm text-muted-foreground">Product</p>
-                <p className="font-medium">{productName}</p>
+        <form action={formAction} className="max-w-3xl space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                    <Label htmlFor="productionDate">Production Date</Label>
+                    <Input
+                        id="productionDate"
+                        name="productionDate"
+                        type="date"
+                        defaultValue={todayIsoDate()}
+                        required
+                    />
+                    {state.fieldErrors?.productionDate && (
+                        <p className="text-sm text-destructive">{state.fieldErrors.productionDate[0]}</p>
+                    )}
+                </div>
             </div>
 
             <div className="overflow-hidden rounded-lg border border-border">
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Ingredient</TableHead>
-                            <TableHead className="w-40">Quantity per unit</TableHead>
+                            <TableHead>Product</TableHead>
+                            <TableHead className="w-32">Quantity Produced</TableHead>
                             <TableHead className="w-16">Unit</TableHead>
                             <TableHead className="w-10" />
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {rows.map((row) => {
-                            const selectedIngredient = ingredientById.get(row.ingredientId);
-                            const takenElsewhere = new Set(
-                                rows.filter((r) => r.key !== row.key).map((r) => r.ingredientId)
-                            );
+                            const selectedProduct = productById.get(row.productId);
 
                             return (
                                 <TableRow key={row.key}>
                                     <TableCell>
                                         <Select
-                                            name="ingredientId"
-                                            value={row.ingredientId}
-                                            onValueChange={(value) => updateRow(row.key, { ingredientId: value ?? "" })}
+                                            name="productId"
+                                            value={row.productId}
+                                            onValueChange={(value) => updateRow(row.key, { productId: value ?? "" })}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Select ingredient">
+                                                <SelectValue placeholder="Select product">
                                                     {(value: string | null) =>
-                                                        ingredients.find((i) => i.id === value)?.name ?? "Select ingredient"
+                                                        products.find((p) => p.id === value)?.name ?? "Select product"
                                                     }
                                                 </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {ingredients
-                                                    .filter((i) => !takenElsewhere.has(i.id))
-                                                    .map((i) => (
-                                                        <SelectItem key={i.id} value={i.id}>
-                                                            {i.name}
-                                                        </SelectItem>
-                                                    ))}
+                                                {products.length === 0 && (
+                                                    <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                                                        No products with a recipe yet
+                                                    </div>
+                                                )}
+                                                {products.map((p) => (
+                                                    <SelectItem key={p.id} value={p.id}>
+                                                        {p.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </TableCell>
                                     <TableCell>
                                         <Input
-                                            name="quantity"
+                                            name="quantityProduced"
                                             type="number"
                                             step="0.001"
                                             min="0.001"
                                             placeholder="0.000"
-                                            value={row.quantity}
-                                            onChange={(e) => updateRow(row.key, { quantity: e.target.value })}
+                                            value={row.quantityProduced}
+                                            onChange={(e) => updateRow(row.key, { quantityProduced: e.target.value })}
                                         />
                                     </TableCell>
                                     <TableCell className="text-muted-foreground">
-                                        {selectedIngredient?.unit ?? "—"}
+                                        {selectedProduct?.unit ?? "—"}
                                     </TableCell>
                                     <TableCell>
                                         <Button
@@ -161,19 +164,22 @@ export function RecipeForm({
 
             <Button type="button" variant="outline" size="sm" onClick={addRow}>
                 <Plus className="size-4" />
-                Add Ingredient
+                Add Product
             </Button>
+
+            <div className="space-y-1.5">
+                <Label htmlFor="notes">Notes (optional)</Label>
+                <Textarea id="notes" name="notes" placeholder="e.g. extra batch for weekend rush" />
+            </div>
 
             {state.fieldErrors?.items && (
                 <p className="text-sm text-destructive">{state.fieldErrors.items[0]}</p>
             )}
             {state.error && <p className="text-sm text-destructive">{state.error}</p>}
 
-            <div className="flex gap-3">
-                <Button type="submit" disabled={pending}>
-                    {pending ? "Saving..." : "Save Recipe"}
-                </Button>
-            </div>
+            <Button type="submit" disabled={pending}>
+                {pending ? "Saving..." : "Record Production"}
+            </Button>
         </form>
     );
 }

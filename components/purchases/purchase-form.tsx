@@ -98,11 +98,16 @@ export function PurchaseForm({
                     <Label htmlFor="supplierId">Supplier</Label>
                     <Select name="supplierId" value={supplierId} onValueChange={(v) => setSupplierId(v ?? "")}>
                         <SelectTrigger id="supplierId" className="w-full">
-                            <SelectValue placeholder="Select supplier" />
+                            {/* <SelectValue placeholder="Select supplier" /> */}
+                            <SelectValue placeholder="Select supplier">
+                                {(value: string | null) =>
+                                    suppliers.find((s) => s.id === value)?.name ?? "Select supplier"
+                                }
+                            </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                             {suppliers.map((s) => (
-                                <SelectItem key={s.id} value={s.name}>
+                                <SelectItem key={s.id} value={s.id}>
                                     {s.name}
                                 </SelectItem>
                             ))}
@@ -154,11 +159,16 @@ export function PurchaseForm({
                                             onValueChange={(value) => updateRow(row.key, { ingredientId: value ?? "" })}
                                         >
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Select ingredient" />
+                                                {/* <SelectValue placeholder="Select ingredient" /> */}
+                                                <SelectValue placeholder="Select ingredient">
+                                                    {(value: string | null) =>
+                                                        ingredients.find((i) => i.id === value)?.name ?? "Select ingredient"
+                                                    }
+                                                </SelectValue>
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {ingredients.map((i) => (
-                                                    <SelectItem key={i.id} value={i.name}>
+                                                    <SelectItem key={i.id} value={i.id}>
                                                         {i.name}
                                                     </SelectItem>
                                                 ))}

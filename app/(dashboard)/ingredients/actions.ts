@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/require-role";
@@ -37,7 +36,7 @@ export async function createIngredient(
   await prisma.ingredient.create({ data: parsed.data });
 
   revalidatePath("/ingredients");
-  redirect("/ingredients");
+  return { success: true };
 }
 
 export async function updateIngredient(

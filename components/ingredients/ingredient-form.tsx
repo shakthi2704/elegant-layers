@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,16 @@ export function IngredientForm({
   submitLabel: string;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
+  const formRef = useRef<HTMLFormElement>(null);
 
+  useEffect(() => {
+    if (state.success) {
+      formRef.current?.reset();
+    }
+  }, [state.success]);
   return (
     <form action={formAction} className="max-w-md space-y-5">
+
       <div className="space-y-1.5">
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" defaultValue={defaultValues?.name} required />

@@ -10,6 +10,7 @@ import { productSchema } from "@/lib/validations/product";
 export type ActionState = {
     error?: string;
     fieldErrors?: Record<string, string[]>;
+    success?: boolean;
 };
 
 function parseFormData(formData: FormData) {
