@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+*.zip
 
 # debug
 npm-debug.log*
@@ -44,11 +45,3 @@ next-env.d.ts
 node_modules
 .next
 .pnpm-store
-
-
-node_modules/
-.next/
-.env*.local
-.env
-
-generated/
