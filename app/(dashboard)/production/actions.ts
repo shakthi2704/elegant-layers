@@ -46,29 +46,40 @@ export async function createProduction(
     const productIds = [...producedByProduct.keys()];
     const products = await prisma.product.findMany({
         where: { id: { in: productIds } },
-        include: { recipe: { include: { items: true } } },
+        include: {
+            productRecipes: {
+                include: { recipe: { include: { items: true } } },
+            },
+        },
     });
 
     if (products.length !== productIds.length) {
         return { error: "One or more products could not be found." };
     }
 
-    const missingRecipe = products.find((p) => !p.recipe || p.recipe.items.length === 0);
-    if (missingRecipe) {
+    const missingComponents = products.find((p) => p.productRecipes.length === 0);
+    if (missingComponents) {
         return {
-            error: `"${missingRecipe.name}" has no recipe defined yet — add one in Recipes first.`,
+            error: `"${missingComponents.name}" has no recipe components attached yet — attach at least one in Products first.`,
         };
     }
 
     const consumptionByIngredient = new Map<string, number>();
     for (const product of products) {
         const quantityProduced = producedByProduct.get(product.id)!;
-        for (const recipeItem of product.recipe!.items) {
-            const needed = recipeItem.quantity.toNumber() * quantityProduced;
-            consumptionByIngredient.set(
-                recipeItem.ingredientId,
-                (consumptionByIngredient.get(recipeItem.ingredientId) ?? 0) + needed
-            );
+
+        for (const productRecipe of product.productRecipes) {
+            const componentMultiplier = productRecipe.quantity.toNumber();
+
+            for (const recipeItem of productRecipe.recipe.items) {
+                const needed =
+                    recipeItem.quantity.toNumber() * componentMultiplier * quantityProduced;
+
+                consumptionByIngredient.set(
+                    recipeItem.ingredientId,
+                    (consumptionByIngredient.get(recipeItem.ingredientId) ?? 0) + needed
+                );
+            }
         }
     }
 

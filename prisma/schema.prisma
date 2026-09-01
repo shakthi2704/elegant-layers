@@ -147,7 +147,7 @@ model Product {
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 
-  recipe            Recipe?
+  productRecipes    ProductRecipe[]
   saleItems         SaleItem[]
   productionItems   ProductionItem[]
   inventoryTxns     InventoryTransaction[]
@@ -172,14 +172,18 @@ model Ingredient {
 // RECIPES
 // ============================================================
 
+// ============================================================
+// RECIPES
+// ============================================================
+
 model Recipe {
-  id        String       @id @default(cuid())
-  productId String       @unique
-  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id        String          @id @default(cuid())
+  name      String          @unique // e.g. "Butter Cake Base", "Vanilla Icing" — reusable, not tied to one product
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
 
   items     RecipeItem[]
+  products  ProductRecipe[]
 }
 
 model RecipeItem {
@@ -188,9 +192,23 @@ model RecipeItem {
   recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   ingredientId String
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
-  quantity     Decimal    @db.Decimal(10, 3) // amount of ingredient needed per 1 unit of product
+  quantity     Decimal    @db.Decimal(10, 3) // amount of ingredient needed per 1 unit of the recipe's output
 
   @@unique([recipeId, ingredientId])
+}
+
+// Join table: which recipe components make up a given product, and how many
+// of each (e.g. Iced Butter Cake = 1x Butter Cake Base + 1x Vanilla Icing).
+model ProductRecipe {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id])
+  quantity  Decimal  @default(1) @db.Decimal(10, 3) // multiplier — e.g. 2 = double icing
+  createdAt DateTime @default(now())
+
+  @@unique([productId, recipeId])
 }
 
 // ============================================================

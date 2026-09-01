@@ -2,8 +2,9 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { deleteRecipe } from "@/app/(dashboard)/recipes/actions";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { DeleteRecipeButton } from "@/components/recipes/delete-recipe-button";
 import {
   Table,
   TableBody,
@@ -16,80 +17,72 @@ import {
 export default async function RecipesPage() {
   await requireRole(["ADMIN"]);
 
-  const products = await prisma.product.findMany({
-    where: { isFinishedProduct: true, status: "ACTIVE" },
+  const recipes = await prisma.recipe.findMany({
     include: {
-      category: true,
-      recipe: { include: { items: true } },
+      items: true,
+      products: true,
     },
-    orderBy: [{ category: { sortOrder: "asc" } }, { name: "asc" }],
+    orderBy: { name: "asc" },
   });
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold">Recipes</h1>
-        <p className="text-sm text-muted-foreground">
-          Define which ingredients — and how much of each — go into one unit of a
-          Production-tracked product.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-semibold">Recipe Components</h1>
+          <p className="text-sm text-muted-foreground">
+            Reusable building blocks (e.g. &quot;Butter Cake Base&quot;,
+            &quot;Vanilla Icing&quot;). Attach one or more to a product to
+            define what it&apos;s made of.
+          </p>
+        </div>
+        <Button nativeButton={false} render={<Link href="/recipes/new" />}>
+          Add Recipe Component
+        </Button>
       </div>
 
       <div className="overflow-hidden rounded-lg border border-border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Category</TableHead>
+              <TableHead>Name</TableHead>
               <TableHead>Ingredients</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Used By</TableHead>
               <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => {
-              const itemCount = product.recipe?.items.length ?? 0;
-              const hasRecipe = itemCount > 0;
-
-              return (
-                <TableRow key={product.id}>
-                  <TableCell className="font-medium">{product.name}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {product.category.name}
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {hasRecipe
-                      ? `${itemCount} ingredient${itemCount === 1 ? "" : "s"}`
-                      : "—"}
-                  </TableCell>
-                  <TableCell>
-                    {hasRecipe ? (
-                      <Badge variant="secondary">Defined</Badge>
-                    ) : (
-                      <Badge variant="destructive">Not set</Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
+            {recipes.map((recipe) => (
+              <TableRow key={recipe.id}>
+                <TableCell className="font-medium">{recipe.name}</TableCell>
+                <TableCell className="text-muted-foreground">
+                  {recipe.items.length} ingredient{recipe.items.length === 1 ? "" : "s"}
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {recipe.products.length} product{recipe.products.length === 1 ? "" : "s"}
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex justify-end gap-1">
                     <Button
                       variant="ghost"
                       size="sm"
                       nativeButton={false}
-                      render={<Link href={`/recipes/${product.id}`} />}
+                      render={<Link href={`/recipes/${recipe.id}/edit`} />}
                     >
-                      {hasRecipe ? "Edit Recipe" : "Add Recipe"}
+                      Edit
                     </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-            {products.length === 0 && (
+                    <DeleteRecipeButton
+                      recipeName={recipe.name}
+                      action={deleteRecipe.bind(null, recipe.id)}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+            {recipes.length === 0 && (
               <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="py-10 text-center text-muted-foreground"
-                >
-                  No Production-tracked products yet. Mark a product as
-                  &quot;Finished Product&quot; to define a recipe for it.
+                <TableCell colSpan={4} className="py-10 text-center text-muted-foreground">
+                  No recipe components yet. Add your first one to get started.
                 </TableCell>
               </TableRow>
             )}

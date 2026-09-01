@@ -13,7 +13,7 @@ function parseFormData(formData: FormData) {
     const quantities = formData.getAll("quantity");
 
     return {
-        productId: formData.get("productId"),
+        name: formData.get("name"),
         items: ingredientIds.map((ingredientId, index) => ({
             ingredientId,
             quantity: quantities[index],
@@ -21,8 +21,7 @@ function parseFormData(formData: FormData) {
     };
 }
 
-export async function saveRecipe(
-    productId: string,
+export async function createRecipe(
     _prevState: ActionState,
     formData: FormData
 ): Promise<ActionState> {
@@ -33,27 +32,59 @@ export async function saveRecipe(
         return { fieldErrors: parsed.error.flatten().fieldErrors };
     }
 
-    if (parsed.data.productId !== productId) {
-        return { error: "Product mismatch. Please reload and try again." };
+    const existing = await prisma.recipe.findUnique({
+        where: { name: parsed.data.name },
+    });
+    if (existing) {
+        return { fieldErrors: { name: ["A recipe component with this name already exists."] } };
     }
 
-    const product = await prisma.product.findUnique({ where: { id: productId } });
-    if (!product) {
-        return { error: "Product not found." };
+    await prisma.recipe.create({
+        data: {
+            name: parsed.data.name,
+            items: {
+                create: parsed.data.items.map((item) => ({
+                    ingredientId: item.ingredientId,
+                    quantity: item.quantity,
+                })),
+            },
+        },
+    });
+
+    revalidatePath("/recipes");
+    redirect("/recipes");
+}
+
+export async function updateRecipe(
+    recipeId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    await requireRole(["ADMIN"]);
+
+    const parsed = recipeSchema.safeParse(parseFormData(formData));
+    if (!parsed.success) {
+        return { fieldErrors: parsed.error.flatten().fieldErrors };
+    }
+
+    const existing = await prisma.recipe.findUnique({
+        where: { name: parsed.data.name },
+    });
+    if (existing && existing.id !== recipeId) {
+        return { fieldErrors: { name: ["A recipe component with this name already exists."] } };
     }
 
     await prisma.$transaction(async (tx) => {
-        const recipe = await tx.recipe.upsert({
-            where: { productId },
-            create: { productId },
-            update: {},
+        await tx.recipe.update({
+            where: { id: recipeId },
+            data: { name: parsed.data.name },
         });
 
-        await tx.recipeItem.deleteMany({ where: { recipeId: recipe.id } });
+        await tx.recipeItem.deleteMany({ where: { recipeId } });
 
         await tx.recipeItem.createMany({
             data: parsed.data.items.map((item) => ({
-                recipeId: recipe.id,
+                recipeId,
                 ingredientId: item.ingredientId,
                 quantity: item.quantity,
             })),
@@ -61,15 +92,23 @@ export async function saveRecipe(
     });
 
     revalidatePath("/recipes");
-    revalidatePath(`/recipes/${productId}`);
-    redirect("/recipes");
+    revalidatePath(`/recipes/${recipeId}/edit`);
+    return {};
 }
 
-export async function deleteRecipe(productId: string): Promise<ActionState> {
+export async function deleteRecipe(recipeId: string): Promise<ActionState> {
     await requireRole(["ADMIN"]);
 
-    await prisma.recipe.deleteMany({ where: { productId } });
+    const usageCount = await prisma.productRecipe.count({ where: { recipeId } });
+    if (usageCount > 0) {
+        return {
+            error: `This recipe component is used by ${usageCount} product${usageCount === 1 ? "" : "s"
+                }. Remove it from those products first before deleting.`,
+        };
+    }
+
+    await prisma.recipe.delete({ where: { id: recipeId } });
 
     revalidatePath("/recipes");
-    return {};
+    return { success: true };
 }

@@ -34,7 +34,12 @@ export function IngredientForm({
     }
   }, [state.success]);
   return (
-    <form action={formAction} className="max-w-md space-y-5">
+    <form
+      ref={formRef}
+      key={defaultValues ? JSON.stringify(defaultValues) : "new"}
+      action={formAction}
+      className="max-w-md space-y-5"
+    >
 
       <div className="space-y-1.5">
         <Label htmlFor="name">Name</Label>
