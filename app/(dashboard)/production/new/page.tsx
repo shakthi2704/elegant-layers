@@ -10,7 +10,7 @@ export default async function NewProductionPage() {
         where: {
             isFinishedProduct: true,
             status: "ACTIVE",
-            recipe: { items: { some: {} } },
+            productRecipes: { some: {} },
         },
         orderBy: { name: "asc" },
     });

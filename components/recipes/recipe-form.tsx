@@ -6,6 +6,7 @@ import { X, Plus } from "lucide-react";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
@@ -42,22 +43,23 @@ function newRowKey() {
 
 export function RecipeForm({
     action,
-    productId,
-    productName,
     ingredients,
-    defaultItems,
+    defaultValues,
+    submitLabel,
 }: {
     action: (prevState: ActionState, formData: FormData) => Promise<ActionState>;
-    productId: string;
-    productName: string;
     ingredients: Ingredient[];
-    defaultItems: { ingredientId: string; quantity: string }[];
+    defaultValues?: {
+        name: string;
+        items: { ingredientId: string; quantity: string }[];
+    };
+    submitLabel: string;
 }) {
     const [state, formAction, pending] = useActionState(action, {});
 
     const [rows, setRows] = useState<Row[]>(() =>
-        defaultItems.length > 0
-            ? defaultItems.map((item) => ({ key: newRowKey(), ...item }))
+        defaultValues && defaultValues.items.length > 0
+            ? defaultValues.items.map((item) => ({ key: newRowKey(), ...item }))
             : [{ key: newRowKey(), ingredientId: "", quantity: "" }]
     );
 
@@ -77,11 +79,18 @@ export function RecipeForm({
 
     return (
         <form action={formAction} className="max-w-2xl space-y-5">
-            <input type="hidden" name="productId" value={productId} />
-
             <div className="space-y-1.5">
-                <p className="text-sm text-muted-foreground">Product</p>
-                <p className="font-medium">{productName}</p>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                    id="name"
+                    name="name"
+                    placeholder="e.g. Butter Cake Base, Vanilla Icing"
+                    defaultValue={defaultValues?.name}
+                    required
+                />
+                {state.fieldErrors?.name && (
+                    <p className="text-sm text-destructive">{state.fieldErrors.name[0]}</p>
+                )}
             </div>
 
             <div className="overflow-hidden rounded-lg border border-border">
@@ -171,7 +180,7 @@ export function RecipeForm({
 
             <div className="flex gap-3">
                 <Button type="submit" disabled={pending}>
-                    {pending ? "Saving..." : "Save Recipe"}
+                    {pending ? "Saving..." : submitLabel}
                 </Button>
             </div>
         </form>

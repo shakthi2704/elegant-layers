@@ -9,7 +9,7 @@ export const recipeItemSchema = z.object({
 
 export const recipeSchema = z
     .object({
-        productId: z.string().min(1, "Product is required"),
+        name: z.string().trim().min(1, "Name is required").max(120),
         items: z
             .array(recipeItemSchema)
             .min(1, "Add at least one ingredient"),

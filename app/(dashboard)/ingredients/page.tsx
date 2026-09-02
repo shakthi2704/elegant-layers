@@ -47,7 +47,7 @@ export default async function IngredientsPage() {
                     className={
                       Number(i.currentStock) <= Number(i.minimumStock)
                         ? "font-medium text-destructive"
-                        : ""
+                        : "font-medium text-green-600"
                     }
                   >
                     {i.currentStock.toString()} {i.unit}
