@@ -50,6 +50,9 @@ export async function createProduction(
             productRecipes: {
                 include: { recipe: { include: { items: true } } },
             },
+            components: {
+                include: { componentProduct: true },
+            },
         },
     });
 
@@ -57,14 +60,18 @@ export async function createProduction(
         return { error: "One or more products could not be found." };
     }
 
-    const missingComponents = products.find((p) => p.productRecipes.length === 0);
-    if (missingComponents) {
+    const noRecipesOrComponents = products.find(
+        (p) => p.productRecipes.length === 0 && p.components.length === 0
+    );
+    if (noRecipesOrComponents) {
         return {
-            error: `"${missingComponents.name}" has no recipe components attached yet — attach at least one in Products first.`,
+            error: `"${noRecipesOrComponents.name}" has no recipe components or base components attached yet — attach at least one in Products first.`,
         };
     }
 
     const consumptionByIngredient = new Map<string, number>();
+    const consumptionByComponentProduct = new Map<string, { name: string; quantity: number }>();
+
     for (const product of products) {
         const quantityProduced = producedByProduct.get(product.id)!;
 
@@ -80,6 +87,16 @@ export async function createProduction(
                     (consumptionByIngredient.get(recipeItem.ingredientId) ?? 0) + needed
                 );
             }
+        }
+
+        for (const component of product.components) {
+            const needed = component.quantity.toNumber() * quantityProduced;
+            const existing = consumptionByComponentProduct.get(component.componentProductId);
+
+            consumptionByComponentProduct.set(component.componentProductId, {
+                name: component.componentProduct.name,
+                quantity: (existing?.quantity ?? 0) + needed,
+            });
         }
     }
 
@@ -107,13 +124,37 @@ export async function createProduction(
                 });
 
                 if (updated.currentStock.lessThan(0)) {
-                    throw new Error(`INSUFFICIENT_STOCK:${updated.name}`);
+                    throw new Error(`INSUFFICIENT_STOCK:INGREDIENT:${updated.name}`);
                 }
 
                 await tx.inventoryTransaction.create({
                     data: {
                         itemType: "INGREDIENT",
                         ingredientId,
+                        type: "PRODUCTION_OUT",
+                        quantity: -quantity,
+                        balanceAfter: updated.currentStock,
+                        referenceType: "PRODUCTION",
+                        referenceId: production.id,
+                        createdById: user.id,
+                    },
+                });
+            }
+
+            for (const [componentProductId, { name, quantity }] of consumptionByComponentProduct) {
+                const updated = await tx.product.update({
+                    where: { id: componentProductId },
+                    data: { currentStock: { decrement: quantity } },
+                });
+
+                if (updated.currentStock.lessThan(0)) {
+                    throw new Error(`INSUFFICIENT_STOCK:COMPONENT:${name}`);
+                }
+
+                await tx.inventoryTransaction.create({
+                    data: {
+                        itemType: "PRODUCT",
+                        productId: componentProductId,
                         type: "PRODUCTION_OUT",
                         quantity: -quantity,
                         balanceAfter: updated.currentStock,
@@ -148,9 +189,14 @@ export async function createProduction(
         });
     } catch (err) {
         if (err instanceof Error && err.message.startsWith("INSUFFICIENT_STOCK:")) {
-            const ingredientName = err.message.split(":")[1];
+            const [, source, name] = err.message.split(":");
+            if (source === "COMPONENT") {
+                return {
+                    error: `Not enough stock of base "${name}" to complete this production run. Produce more of that base first, or reduce the quantity.`,
+                };
+            }
             return {
-                error: `Not enough stock of "${ingredientName}" to complete this production run. Record a purchase first, or reduce the quantity.`,
+                error: `Not enough stock of "${name}" to complete this production run. Record a purchase first, or reduce the quantity.`,
             };
         }
         throw err;

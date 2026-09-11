@@ -78,7 +78,11 @@ export function RecipeForm({
     }
 
     return (
-        <form action={formAction} className="max-w-2xl space-y-5">
+        <form
+            action={formAction}
+            key={defaultValues ? JSON.stringify(defaultValues) : "new"}
+            className="max-w-2xl space-y-5"
+        >
             <div className="space-y-1.5">
                 <Label htmlFor="name">Name</Label>
                 <Input

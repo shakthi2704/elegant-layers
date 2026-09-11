@@ -68,6 +68,11 @@ export type RecipeItem = Prisma.RecipeItemModel
  */
 export type ProductRecipe = Prisma.ProductRecipeModel
 /**
+ * Model ProductComponent
+ * 
+ */
+export type ProductComponent = Prisma.ProductComponentModel
+/**
  * Model Supplier
  * 
  */

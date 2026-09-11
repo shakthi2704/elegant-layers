@@ -152,6 +152,9 @@ model Product {
   productionItems   ProductionItem[]
   inventoryTxns     InventoryTransaction[]
   cakeOrders        CakeOrder[]
+
+  components        ProductComponent[] @relation("ParentComponents")   // bases (and quantities) this product needs
+  usedAsComponentIn ProductComponent[] @relation("ComponentUsedIn")    // other products that use this one as a base
 }
 
 model Ingredient {
@@ -209,6 +212,22 @@ model ProductRecipe {
   createdAt DateTime @default(now())
 
   @@unique([productId, recipeId])
+}
+
+// Join table: which other products (bases) a finished product requires, and
+// how many of each (e.g. Layered Naked Cake = 1x Vanilla Base 1kg + 1x Chocolate Base 1kg).
+// A component product may not itself have components attached (enforced in app logic,
+// not the DB) — bases stay one level deep: ingredients -> base -> finished product.
+model ProductComponent {
+  id                 String   @id @default(cuid())
+  parentProductId    String
+  parentProduct      Product  @relation("ParentComponents", fields: [parentProductId], references: [id], onDelete: Cascade)
+  componentProductId String
+  componentProduct   Product  @relation("ComponentUsedIn", fields: [componentProductId], references: [id])
+  quantity           Decimal  @default(1) @db.Decimal(10, 3) // units of the component needed per 1 unit of the parent
+  createdAt          DateTime @default(now())
+
+  @@unique([parentProductId, componentProductId])
 }
 
 // ============================================================

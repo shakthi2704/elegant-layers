@@ -76,6 +76,16 @@ export default async function ProductsPage() {
                         Recipe
                       </Button>
                     )}
+                    {p.isFinishedProduct && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        nativeButton={false}
+                        render={<Link href={`/products/${p.id}/components`} />}
+                      >
+                        Base
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="sm"

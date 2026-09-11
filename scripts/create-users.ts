@@ -19,8 +19,8 @@ async function createUser(
 }
 
 async function main() {
-    await createUser("admin@elegantlayers.local", "Admin@1234", "Admin", "ADMIN");
-    await createUser("cashier@elegantlayers.local", "Cashier@1234", "Cashier", "CASHIER");
+    await createUser("owner1@elegantlayers.local", "ChangeMe@1234", "Owner One", "ADMIN");
+    await createUser("owner2@elegantlayers.local", "ChangeMe@1234", "Owner Two", "ADMIN");
 }
 
 main()
