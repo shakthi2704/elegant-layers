@@ -10,7 +10,7 @@ export default async function NewProductionPage() {
         where: {
             isFinishedProduct: true,
             status: "ACTIVE",
-            productRecipes: { some: {} },
+            OR: [{ productRecipes: { some: {} } }, { components: { some: {} } }],
         },
         orderBy: { name: "asc" },
     });
@@ -20,14 +20,15 @@ export default async function NewProductionPage() {
             <div>
                 <h1 className="text-xl font-semibold">Record Production</h1>
                 <p className="text-sm text-muted-foreground">
-                    Consumes ingredients per recipe and increases product stock immediately.
+                    Consumes ingredients per recipe and/or base products per component, and
+                    increases this product&apos;s stock immediately.
                 </p>
             </div>
 
             {products.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
-                    No products have a recipe yet — define one in Recipes before recording
-                    production.
+                    No products have a recipe or a base component attached yet — set one up
+                    before recording production.
                 </p>
             ) : (
                 <ProductionForm
