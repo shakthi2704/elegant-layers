@@ -65,6 +65,14 @@ export const SaleStatus = {
 export type SaleStatus = (typeof SaleStatus)[keyof typeof SaleStatus]
 
 
+export const SaleType = {
+  DINE_IN: 'DINE_IN',
+  TAKEAWAY: 'TAKEAWAY'
+} as const
+
+export type SaleType = (typeof SaleType)[keyof typeof SaleType]
+
+
 export const CakeOrderStatus = {
   PENDING: 'PENDING',
   IN_PROGRESS: 'IN_PROGRESS',

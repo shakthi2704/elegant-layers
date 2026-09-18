@@ -46,6 +46,8 @@ export type SaleMinAggregateOutputType = {
   id: string | null
   saleNumber: string | null
   status: $Enums.SaleStatus | null
+  type: $Enums.SaleType | null
+  holdLabel: string | null
   subtotal: runtime.Decimal | null
   discount: runtime.Decimal | null
   total: runtime.Decimal | null
@@ -53,12 +55,18 @@ export type SaleMinAggregateOutputType = {
   changeGiven: runtime.Decimal | null
   cashierId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
+  voidReason: string | null
+  voidedAt: Date | null
+  voidedById: string | null
 }
 
 export type SaleMaxAggregateOutputType = {
   id: string | null
   saleNumber: string | null
   status: $Enums.SaleStatus | null
+  type: $Enums.SaleType | null
+  holdLabel: string | null
   subtotal: runtime.Decimal | null
   discount: runtime.Decimal | null
   total: runtime.Decimal | null
@@ -66,12 +74,18 @@ export type SaleMaxAggregateOutputType = {
   changeGiven: runtime.Decimal | null
   cashierId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
+  voidReason: string | null
+  voidedAt: Date | null
+  voidedById: string | null
 }
 
 export type SaleCountAggregateOutputType = {
   id: number
   saleNumber: number
   status: number
+  type: number
+  holdLabel: number
   subtotal: number
   discount: number
   total: number
@@ -79,6 +93,10 @@ export type SaleCountAggregateOutputType = {
   changeGiven: number
   cashierId: number
   createdAt: number
+  updatedAt: number
+  voidReason: number
+  voidedAt: number
+  voidedById: number
   _all: number
 }
 
@@ -103,6 +121,8 @@ export type SaleMinAggregateInputType = {
   id?: true
   saleNumber?: true
   status?: true
+  type?: true
+  holdLabel?: true
   subtotal?: true
   discount?: true
   total?: true
@@ -110,12 +130,18 @@ export type SaleMinAggregateInputType = {
   changeGiven?: true
   cashierId?: true
   createdAt?: true
+  updatedAt?: true
+  voidReason?: true
+  voidedAt?: true
+  voidedById?: true
 }
 
 export type SaleMaxAggregateInputType = {
   id?: true
   saleNumber?: true
   status?: true
+  type?: true
+  holdLabel?: true
   subtotal?: true
   discount?: true
   total?: true
@@ -123,12 +149,18 @@ export type SaleMaxAggregateInputType = {
   changeGiven?: true
   cashierId?: true
   createdAt?: true
+  updatedAt?: true
+  voidReason?: true
+  voidedAt?: true
+  voidedById?: true
 }
 
 export type SaleCountAggregateInputType = {
   id?: true
   saleNumber?: true
   status?: true
+  type?: true
+  holdLabel?: true
   subtotal?: true
   discount?: true
   total?: true
@@ -136,6 +168,10 @@ export type SaleCountAggregateInputType = {
   changeGiven?: true
   cashierId?: true
   createdAt?: true
+  updatedAt?: true
+  voidReason?: true
+  voidedAt?: true
+  voidedById?: true
   _all?: true
 }
 
@@ -229,6 +265,8 @@ export type SaleGroupByOutputType = {
   id: string
   saleNumber: string
   status: $Enums.SaleStatus
+  type: $Enums.SaleType
+  holdLabel: string | null
   subtotal: runtime.Decimal
   discount: runtime.Decimal
   total: runtime.Decimal
@@ -236,6 +274,10 @@ export type SaleGroupByOutputType = {
   changeGiven: runtime.Decimal | null
   cashierId: string
   createdAt: Date
+  updatedAt: Date
+  voidReason: string | null
+  voidedAt: Date | null
+  voidedById: string | null
   _count: SaleCountAggregateOutputType | null
   _avg: SaleAvgAggregateOutputType | null
   _sum: SaleSumAggregateOutputType | null
@@ -265,6 +307,8 @@ export type SaleWhereInput = {
   id?: Prisma.StringFilter<"Sale"> | string
   saleNumber?: Prisma.StringFilter<"Sale"> | string
   status?: Prisma.EnumSaleStatusFilter<"Sale"> | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFilter<"Sale"> | $Enums.SaleType
+  holdLabel?: Prisma.StringNullableFilter<"Sale"> | string | null
   subtotal?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -272,7 +316,12 @@ export type SaleWhereInput = {
   changeGiven?: Prisma.DecimalNullableFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringFilter<"Sale"> | string
   createdAt?: Prisma.DateTimeFilter<"Sale"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Sale"> | Date | string
+  voidReason?: Prisma.StringNullableFilter<"Sale"> | string | null
+  voidedAt?: Prisma.DateTimeNullableFilter<"Sale"> | Date | string | null
+  voidedById?: Prisma.StringNullableFilter<"Sale"> | string | null
   cashier?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  voidedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.SaleItemListRelationFilter
 }
 
@@ -280,6 +329,8 @@ export type SaleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   saleNumber?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  holdLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount?: Prisma.SortOrder
   total?: Prisma.SortOrder
@@ -287,7 +338,12 @@ export type SaleOrderByWithRelationInput = {
   changeGiven?: Prisma.SortOrderInput | Prisma.SortOrder
   cashierId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  voidReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  voidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  voidedById?: Prisma.SortOrderInput | Prisma.SortOrder
   cashier?: Prisma.UserOrderByWithRelationInput
+  voidedBy?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.SaleItemOrderByRelationAggregateInput
 }
 
@@ -298,6 +354,8 @@ export type SaleWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SaleWhereInput[]
   NOT?: Prisma.SaleWhereInput | Prisma.SaleWhereInput[]
   status?: Prisma.EnumSaleStatusFilter<"Sale"> | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFilter<"Sale"> | $Enums.SaleType
+  holdLabel?: Prisma.StringNullableFilter<"Sale"> | string | null
   subtotal?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -305,7 +363,12 @@ export type SaleWhereUniqueInput = Prisma.AtLeast<{
   changeGiven?: Prisma.DecimalNullableFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringFilter<"Sale"> | string
   createdAt?: Prisma.DateTimeFilter<"Sale"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Sale"> | Date | string
+  voidReason?: Prisma.StringNullableFilter<"Sale"> | string | null
+  voidedAt?: Prisma.DateTimeNullableFilter<"Sale"> | Date | string | null
+  voidedById?: Prisma.StringNullableFilter<"Sale"> | string | null
   cashier?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  voidedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.SaleItemListRelationFilter
 }, "id" | "saleNumber">
 
@@ -313,6 +376,8 @@ export type SaleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   saleNumber?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  holdLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount?: Prisma.SortOrder
   total?: Prisma.SortOrder
@@ -320,6 +385,10 @@ export type SaleOrderByWithAggregationInput = {
   changeGiven?: Prisma.SortOrderInput | Prisma.SortOrder
   cashierId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  voidReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  voidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  voidedById?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SaleCountOrderByAggregateInput
   _avg?: Prisma.SaleAvgOrderByAggregateInput
   _max?: Prisma.SaleMaxOrderByAggregateInput
@@ -334,6 +403,8 @@ export type SaleScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Sale"> | string
   saleNumber?: Prisma.StringWithAggregatesFilter<"Sale"> | string
   status?: Prisma.EnumSaleStatusWithAggregatesFilter<"Sale"> | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeWithAggregatesFilter<"Sale"> | $Enums.SaleType
+  holdLabel?: Prisma.StringNullableWithAggregatesFilter<"Sale"> | string | null
   subtotal?: Prisma.DecimalWithAggregatesFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalWithAggregatesFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalWithAggregatesFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -341,19 +412,29 @@ export type SaleScalarWhereWithAggregatesInput = {
   changeGiven?: Prisma.DecimalNullableWithAggregatesFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringWithAggregatesFilter<"Sale"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Sale"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Sale"> | Date | string
+  voidReason?: Prisma.StringNullableWithAggregatesFilter<"Sale"> | string | null
+  voidedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
+  voidedById?: Prisma.StringNullableWithAggregatesFilter<"Sale"> | string | null
 }
 
 export type SaleCreateInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
   cashier: Prisma.UserCreateNestedOneWithoutSalesInput
+  voidedBy?: Prisma.UserCreateNestedOneWithoutVoidedSalesInput
   items?: Prisma.SaleItemCreateNestedManyWithoutSaleInput
 }
 
@@ -361,6 +442,8 @@ export type SaleUncheckedCreateInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -368,6 +451,10 @@ export type SaleUncheckedCreateInput = {
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  voidedById?: string | null
   items?: Prisma.SaleItemUncheckedCreateNestedManyWithoutSaleInput
 }
 
@@ -375,13 +462,19 @@ export type SaleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cashier?: Prisma.UserUpdateOneRequiredWithoutSalesNestedInput
+  voidedBy?: Prisma.UserUpdateOneWithoutVoidedSalesNestedInput
   items?: Prisma.SaleItemUpdateManyWithoutSaleNestedInput
 }
 
@@ -389,6 +482,8 @@ export type SaleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -396,6 +491,10 @@ export type SaleUncheckedUpdateInput = {
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SaleItemUncheckedUpdateManyWithoutSaleNestedInput
 }
 
@@ -403,6 +502,8 @@ export type SaleCreateManyInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -410,24 +511,35 @@ export type SaleCreateManyInput = {
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  voidedById?: string | null
 }
 
 export type SaleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SaleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -435,6 +547,10 @@ export type SaleUncheckedUpdateManyInput = {
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SaleListRelationFilter = {
@@ -451,6 +567,8 @@ export type SaleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   saleNumber?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  holdLabel?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount?: Prisma.SortOrder
   total?: Prisma.SortOrder
@@ -458,6 +576,10 @@ export type SaleCountOrderByAggregateInput = {
   changeGiven?: Prisma.SortOrder
   cashierId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  voidReason?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrder
+  voidedById?: Prisma.SortOrder
 }
 
 export type SaleAvgOrderByAggregateInput = {
@@ -472,6 +594,8 @@ export type SaleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   saleNumber?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  holdLabel?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount?: Prisma.SortOrder
   total?: Prisma.SortOrder
@@ -479,12 +603,18 @@ export type SaleMaxOrderByAggregateInput = {
   changeGiven?: Prisma.SortOrder
   cashierId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  voidReason?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrder
+  voidedById?: Prisma.SortOrder
 }
 
 export type SaleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   saleNumber?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  holdLabel?: Prisma.SortOrder
   subtotal?: Prisma.SortOrder
   discount?: Prisma.SortOrder
   total?: Prisma.SortOrder
@@ -492,6 +622,10 @@ export type SaleMinOrderByAggregateInput = {
   changeGiven?: Prisma.SortOrder
   cashierId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  voidReason?: Prisma.SortOrder
+  voidedAt?: Prisma.SortOrder
+  voidedById?: Prisma.SortOrder
 }
 
 export type SaleSumOrderByAggregateInput = {
@@ -514,10 +648,24 @@ export type SaleCreateNestedManyWithoutCashierInput = {
   connect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
 }
 
+export type SaleCreateNestedManyWithoutVoidedByInput = {
+  create?: Prisma.XOR<Prisma.SaleCreateWithoutVoidedByInput, Prisma.SaleUncheckedCreateWithoutVoidedByInput> | Prisma.SaleCreateWithoutVoidedByInput[] | Prisma.SaleUncheckedCreateWithoutVoidedByInput[]
+  connectOrCreate?: Prisma.SaleCreateOrConnectWithoutVoidedByInput | Prisma.SaleCreateOrConnectWithoutVoidedByInput[]
+  createMany?: Prisma.SaleCreateManyVoidedByInputEnvelope
+  connect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+}
+
 export type SaleUncheckedCreateNestedManyWithoutCashierInput = {
   create?: Prisma.XOR<Prisma.SaleCreateWithoutCashierInput, Prisma.SaleUncheckedCreateWithoutCashierInput> | Prisma.SaleCreateWithoutCashierInput[] | Prisma.SaleUncheckedCreateWithoutCashierInput[]
   connectOrCreate?: Prisma.SaleCreateOrConnectWithoutCashierInput | Prisma.SaleCreateOrConnectWithoutCashierInput[]
   createMany?: Prisma.SaleCreateManyCashierInputEnvelope
+  connect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+}
+
+export type SaleUncheckedCreateNestedManyWithoutVoidedByInput = {
+  create?: Prisma.XOR<Prisma.SaleCreateWithoutVoidedByInput, Prisma.SaleUncheckedCreateWithoutVoidedByInput> | Prisma.SaleCreateWithoutVoidedByInput[] | Prisma.SaleUncheckedCreateWithoutVoidedByInput[]
+  connectOrCreate?: Prisma.SaleCreateOrConnectWithoutVoidedByInput | Prisma.SaleCreateOrConnectWithoutVoidedByInput[]
+  createMany?: Prisma.SaleCreateManyVoidedByInputEnvelope
   connect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
 }
 
@@ -535,6 +683,20 @@ export type SaleUpdateManyWithoutCashierNestedInput = {
   deleteMany?: Prisma.SaleScalarWhereInput | Prisma.SaleScalarWhereInput[]
 }
 
+export type SaleUpdateManyWithoutVoidedByNestedInput = {
+  create?: Prisma.XOR<Prisma.SaleCreateWithoutVoidedByInput, Prisma.SaleUncheckedCreateWithoutVoidedByInput> | Prisma.SaleCreateWithoutVoidedByInput[] | Prisma.SaleUncheckedCreateWithoutVoidedByInput[]
+  connectOrCreate?: Prisma.SaleCreateOrConnectWithoutVoidedByInput | Prisma.SaleCreateOrConnectWithoutVoidedByInput[]
+  upsert?: Prisma.SaleUpsertWithWhereUniqueWithoutVoidedByInput | Prisma.SaleUpsertWithWhereUniqueWithoutVoidedByInput[]
+  createMany?: Prisma.SaleCreateManyVoidedByInputEnvelope
+  set?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  disconnect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  delete?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  connect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  update?: Prisma.SaleUpdateWithWhereUniqueWithoutVoidedByInput | Prisma.SaleUpdateWithWhereUniqueWithoutVoidedByInput[]
+  updateMany?: Prisma.SaleUpdateManyWithWhereWithoutVoidedByInput | Prisma.SaleUpdateManyWithWhereWithoutVoidedByInput[]
+  deleteMany?: Prisma.SaleScalarWhereInput | Prisma.SaleScalarWhereInput[]
+}
+
 export type SaleUncheckedUpdateManyWithoutCashierNestedInput = {
   create?: Prisma.XOR<Prisma.SaleCreateWithoutCashierInput, Prisma.SaleUncheckedCreateWithoutCashierInput> | Prisma.SaleCreateWithoutCashierInput[] | Prisma.SaleUncheckedCreateWithoutCashierInput[]
   connectOrCreate?: Prisma.SaleCreateOrConnectWithoutCashierInput | Prisma.SaleCreateOrConnectWithoutCashierInput[]
@@ -549,8 +711,26 @@ export type SaleUncheckedUpdateManyWithoutCashierNestedInput = {
   deleteMany?: Prisma.SaleScalarWhereInput | Prisma.SaleScalarWhereInput[]
 }
 
+export type SaleUncheckedUpdateManyWithoutVoidedByNestedInput = {
+  create?: Prisma.XOR<Prisma.SaleCreateWithoutVoidedByInput, Prisma.SaleUncheckedCreateWithoutVoidedByInput> | Prisma.SaleCreateWithoutVoidedByInput[] | Prisma.SaleUncheckedCreateWithoutVoidedByInput[]
+  connectOrCreate?: Prisma.SaleCreateOrConnectWithoutVoidedByInput | Prisma.SaleCreateOrConnectWithoutVoidedByInput[]
+  upsert?: Prisma.SaleUpsertWithWhereUniqueWithoutVoidedByInput | Prisma.SaleUpsertWithWhereUniqueWithoutVoidedByInput[]
+  createMany?: Prisma.SaleCreateManyVoidedByInputEnvelope
+  set?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  disconnect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  delete?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  connect?: Prisma.SaleWhereUniqueInput | Prisma.SaleWhereUniqueInput[]
+  update?: Prisma.SaleUpdateWithWhereUniqueWithoutVoidedByInput | Prisma.SaleUpdateWithWhereUniqueWithoutVoidedByInput[]
+  updateMany?: Prisma.SaleUpdateManyWithWhereWithoutVoidedByInput | Prisma.SaleUpdateManyWithWhereWithoutVoidedByInput[]
+  deleteMany?: Prisma.SaleScalarWhereInput | Prisma.SaleScalarWhereInput[]
+}
+
 export type EnumSaleStatusFieldUpdateOperationsInput = {
   set?: $Enums.SaleStatus
+}
+
+export type EnumSaleTypeFieldUpdateOperationsInput = {
+  set?: $Enums.SaleType
 }
 
 export type NullableDecimalFieldUpdateOperationsInput = {
@@ -579,12 +759,18 @@ export type SaleCreateWithoutCashierInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  voidedBy?: Prisma.UserCreateNestedOneWithoutVoidedSalesInput
   items?: Prisma.SaleItemCreateNestedManyWithoutSaleInput
 }
 
@@ -592,12 +778,18 @@ export type SaleUncheckedCreateWithoutCashierInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  voidedById?: string | null
   items?: Prisma.SaleItemUncheckedCreateNestedManyWithoutSaleInput
 }
 
@@ -608,6 +800,54 @@ export type SaleCreateOrConnectWithoutCashierInput = {
 
 export type SaleCreateManyCashierInputEnvelope = {
   data: Prisma.SaleCreateManyCashierInput | Prisma.SaleCreateManyCashierInput[]
+  skipDuplicates?: boolean
+}
+
+export type SaleCreateWithoutVoidedByInput = {
+  id?: string
+  saleNumber: string
+  status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  cashier: Prisma.UserCreateNestedOneWithoutSalesInput
+  items?: Prisma.SaleItemCreateNestedManyWithoutSaleInput
+}
+
+export type SaleUncheckedCreateWithoutVoidedByInput = {
+  id?: string
+  saleNumber: string
+  status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cashierId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  items?: Prisma.SaleItemUncheckedCreateNestedManyWithoutSaleInput
+}
+
+export type SaleCreateOrConnectWithoutVoidedByInput = {
+  where: Prisma.SaleWhereUniqueInput
+  create: Prisma.XOR<Prisma.SaleCreateWithoutVoidedByInput, Prisma.SaleUncheckedCreateWithoutVoidedByInput>
+}
+
+export type SaleCreateManyVoidedByInputEnvelope = {
+  data: Prisma.SaleCreateManyVoidedByInput | Prisma.SaleCreateManyVoidedByInput[]
   skipDuplicates?: boolean
 }
 
@@ -634,6 +874,8 @@ export type SaleScalarWhereInput = {
   id?: Prisma.StringFilter<"Sale"> | string
   saleNumber?: Prisma.StringFilter<"Sale"> | string
   status?: Prisma.EnumSaleStatusFilter<"Sale"> | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFilter<"Sale"> | $Enums.SaleType
+  holdLabel?: Prisma.StringNullableFilter<"Sale"> | string | null
   subtotal?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -641,25 +883,53 @@ export type SaleScalarWhereInput = {
   changeGiven?: Prisma.DecimalNullableFilter<"Sale"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringFilter<"Sale"> | string
   createdAt?: Prisma.DateTimeFilter<"Sale"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Sale"> | Date | string
+  voidReason?: Prisma.StringNullableFilter<"Sale"> | string | null
+  voidedAt?: Prisma.DateTimeNullableFilter<"Sale"> | Date | string | null
+  voidedById?: Prisma.StringNullableFilter<"Sale"> | string | null
+}
+
+export type SaleUpsertWithWhereUniqueWithoutVoidedByInput = {
+  where: Prisma.SaleWhereUniqueInput
+  update: Prisma.XOR<Prisma.SaleUpdateWithoutVoidedByInput, Prisma.SaleUncheckedUpdateWithoutVoidedByInput>
+  create: Prisma.XOR<Prisma.SaleCreateWithoutVoidedByInput, Prisma.SaleUncheckedCreateWithoutVoidedByInput>
+}
+
+export type SaleUpdateWithWhereUniqueWithoutVoidedByInput = {
+  where: Prisma.SaleWhereUniqueInput
+  data: Prisma.XOR<Prisma.SaleUpdateWithoutVoidedByInput, Prisma.SaleUncheckedUpdateWithoutVoidedByInput>
+}
+
+export type SaleUpdateManyWithWhereWithoutVoidedByInput = {
+  where: Prisma.SaleScalarWhereInput
+  data: Prisma.XOR<Prisma.SaleUpdateManyMutationInput, Prisma.SaleUncheckedUpdateManyWithoutVoidedByInput>
 }
 
 export type SaleCreateWithoutItemsInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
   cashier: Prisma.UserCreateNestedOneWithoutSalesInput
+  voidedBy?: Prisma.UserCreateNestedOneWithoutVoidedSalesInput
 }
 
 export type SaleUncheckedCreateWithoutItemsInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -667,6 +937,10 @@ export type SaleUncheckedCreateWithoutItemsInput = {
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  voidedById?: string | null
 }
 
 export type SaleCreateOrConnectWithoutItemsInput = {
@@ -689,19 +963,27 @@ export type SaleUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cashier?: Prisma.UserUpdateOneRequiredWithoutSalesNestedInput
+  voidedBy?: Prisma.UserUpdateOneWithoutVoidedSalesNestedInput
 }
 
 export type SaleUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -709,30 +991,64 @@ export type SaleUncheckedUpdateWithoutItemsInput = {
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cashierId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SaleCreateManyCashierInput = {
   id?: string
   saleNumber: string
   status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
+  voidedById?: string | null
+}
+
+export type SaleCreateManyVoidedByInput = {
+  id?: string
+  saleNumber: string
+  status?: $Enums.SaleStatus
+  type?: $Enums.SaleType
+  holdLabel?: string | null
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cashReceived?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  changeGiven?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cashierId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  voidReason?: string | null
+  voidedAt?: Date | string | null
 }
 
 export type SaleUpdateWithoutCashierInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  voidedBy?: Prisma.UserUpdateOneWithoutVoidedSalesNestedInput
   items?: Prisma.SaleItemUpdateManyWithoutSaleNestedInput
 }
 
@@ -740,12 +1056,18 @@ export type SaleUncheckedUpdateWithoutCashierInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SaleItemUncheckedUpdateManyWithoutSaleNestedInput
 }
 
@@ -753,12 +1075,74 @@ export type SaleUncheckedUpdateManyWithoutCashierInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type SaleUpdateWithoutVoidedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cashier?: Prisma.UserUpdateOneRequiredWithoutSalesNestedInput
+  items?: Prisma.SaleItemUpdateManyWithoutSaleNestedInput
+}
+
+export type SaleUncheckedUpdateWithoutVoidedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cashierId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  items?: Prisma.SaleItemUncheckedUpdateManyWithoutSaleNestedInput
+}
+
+export type SaleUncheckedUpdateManyWithoutVoidedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  saleNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSaleStatusFieldUpdateOperationsInput | $Enums.SaleStatus
+  type?: Prisma.EnumSaleTypeFieldUpdateOperationsInput | $Enums.SaleType
+  holdLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cashReceived?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  changeGiven?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cashierId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -796,6 +1180,8 @@ export type SaleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   saleNumber?: boolean
   status?: boolean
+  type?: boolean
+  holdLabel?: boolean
   subtotal?: boolean
   discount?: boolean
   total?: boolean
@@ -803,7 +1189,12 @@ export type SaleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   changeGiven?: boolean
   cashierId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  voidReason?: boolean
+  voidedAt?: boolean
+  voidedById?: boolean
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
   items?: boolean | Prisma.Sale$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.SaleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sale"]>
@@ -812,6 +1203,8 @@ export type SaleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   saleNumber?: boolean
   status?: boolean
+  type?: boolean
+  holdLabel?: boolean
   subtotal?: boolean
   discount?: boolean
   total?: boolean
@@ -819,13 +1212,20 @@ export type SaleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   changeGiven?: boolean
   cashierId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  voidReason?: boolean
+  voidedAt?: boolean
+  voidedById?: boolean
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
 }, ExtArgs["result"]["sale"]>
 
 export type SaleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   saleNumber?: boolean
   status?: boolean
+  type?: boolean
+  holdLabel?: boolean
   subtotal?: boolean
   discount?: boolean
   total?: boolean
@@ -833,13 +1233,20 @@ export type SaleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   changeGiven?: boolean
   cashierId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  voidReason?: boolean
+  voidedAt?: boolean
+  voidedById?: boolean
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
 }, ExtArgs["result"]["sale"]>
 
 export type SaleSelectScalar = {
   id?: boolean
   saleNumber?: boolean
   status?: boolean
+  type?: boolean
+  holdLabel?: boolean
   subtotal?: boolean
   discount?: boolean
   total?: boolean
@@ -847,31 +1254,41 @@ export type SaleSelectScalar = {
   changeGiven?: boolean
   cashierId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  voidReason?: boolean
+  voidedAt?: boolean
+  voidedById?: boolean
 }
 
-export type SaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "saleNumber" | "status" | "subtotal" | "discount" | "total" | "cashReceived" | "changeGiven" | "cashierId" | "createdAt", ExtArgs["result"]["sale"]>
+export type SaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "saleNumber" | "status" | "type" | "holdLabel" | "subtotal" | "discount" | "total" | "cashReceived" | "changeGiven" | "cashierId" | "createdAt" | "updatedAt" | "voidReason" | "voidedAt" | "voidedById", ExtArgs["result"]["sale"]>
 export type SaleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
   items?: boolean | Prisma.Sale$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.SaleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SaleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
 }
 export type SaleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
 }
 
 export type $SalePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Sale"
   objects: {
     cashier: Prisma.$UserPayload<ExtArgs>
+    voidedBy: Prisma.$UserPayload<ExtArgs> | null
     items: Prisma.$SaleItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     saleNumber: string
     status: $Enums.SaleStatus
+    type: $Enums.SaleType
+    holdLabel: string | null
     subtotal: runtime.Decimal
     discount: runtime.Decimal
     total: runtime.Decimal
@@ -879,6 +1296,10 @@ export type $SalePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     changeGiven: runtime.Decimal | null
     cashierId: string
     createdAt: Date
+    updatedAt: Date
+    voidReason: string | null
+    voidedAt: Date | null
+    voidedById: string | null
   }, ExtArgs["result"]["sale"]>
   composites: {}
 }
@@ -1274,6 +1695,7 @@ readonly fields: SaleFieldRefs;
 export interface Prisma__SaleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cashier<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  voidedBy<T extends Prisma.Sale$voidedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sale$voidedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.Sale$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sale$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SaleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1307,6 +1729,8 @@ export interface SaleFieldRefs {
   readonly id: Prisma.FieldRef<"Sale", 'String'>
   readonly saleNumber: Prisma.FieldRef<"Sale", 'String'>
   readonly status: Prisma.FieldRef<"Sale", 'SaleStatus'>
+  readonly type: Prisma.FieldRef<"Sale", 'SaleType'>
+  readonly holdLabel: Prisma.FieldRef<"Sale", 'String'>
   readonly subtotal: Prisma.FieldRef<"Sale", 'Decimal'>
   readonly discount: Prisma.FieldRef<"Sale", 'Decimal'>
   readonly total: Prisma.FieldRef<"Sale", 'Decimal'>
@@ -1314,6 +1738,10 @@ export interface SaleFieldRefs {
   readonly changeGiven: Prisma.FieldRef<"Sale", 'Decimal'>
   readonly cashierId: Prisma.FieldRef<"Sale", 'String'>
   readonly createdAt: Prisma.FieldRef<"Sale", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Sale", 'DateTime'>
+  readonly voidReason: Prisma.FieldRef<"Sale", 'String'>
+  readonly voidedAt: Prisma.FieldRef<"Sale", 'DateTime'>
+  readonly voidedById: Prisma.FieldRef<"Sale", 'String'>
 }
     
 
@@ -1712,6 +2140,25 @@ export type SaleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Sales to delete.
    */
   limit?: number
+}
+
+/**
+ * Sale.voidedBy
+ */
+export type Sale$voidedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

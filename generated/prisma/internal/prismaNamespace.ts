@@ -2401,13 +2401,19 @@ export const SaleScalarFieldEnum = {
   id: 'id',
   saleNumber: 'saleNumber',
   status: 'status',
+  type: 'type',
+  holdLabel: 'holdLabel',
   subtotal: 'subtotal',
   discount: 'discount',
   total: 'total',
   cashReceived: 'cashReceived',
   changeGiven: 'changeGiven',
   cashierId: 'cashierId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  voidReason: 'voidReason',
+  voidedAt: 'voidedAt',
+  voidedById: 'voidedById'
 } as const
 
 export type SaleScalarFieldEnum = (typeof SaleScalarFieldEnum)[keyof typeof SaleScalarFieldEnum]
@@ -2653,6 +2659,20 @@ export type EnumSaleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'SaleStatus[]'
  */
 export type ListEnumSaleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SaleStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SaleType'
+ */
+export type EnumSaleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SaleType'>
+    
+
+
+/**
+ * Reference to a field of type 'SaleType[]'
+ */
+export type ListEnumSaleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SaleType[]'>
     
 
 

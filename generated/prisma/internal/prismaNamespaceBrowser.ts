@@ -313,13 +313,19 @@ export const SaleScalarFieldEnum = {
   id: 'id',
   saleNumber: 'saleNumber',
   status: 'status',
+  type: 'type',
+  holdLabel: 'holdLabel',
   subtotal: 'subtotal',
   discount: 'discount',
   total: 'total',
   cashReceived: 'cashReceived',
   changeGiven: 'changeGiven',
   cashierId: 'cashierId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  voidReason: 'voidReason',
+  voidedAt: 'voidedAt',
+  voidedById: 'voidedById'
 } as const
 
 export type SaleScalarFieldEnum = (typeof SaleScalarFieldEnum)[keyof typeof SaleScalarFieldEnum]
