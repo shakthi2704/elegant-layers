@@ -37,8 +37,11 @@ export default async function ProductionDetailPage({
             referenceId: production.id,
             type: "PRODUCTION_OUT",
         },
-        include: { ingredient: true },
+        include: { ingredient: true, product: true },
     });
+
+    const ingredientsConsumed = consumed.filter((txn) => txn.itemType === "INGREDIENT");
+    const componentsConsumed = consumed.filter((txn) => txn.itemType === "PRODUCT");
 
     return (
         <div className="space-y-6">
@@ -100,7 +103,7 @@ export default async function ProductionDetailPage({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {consumed.map((txn) => (
+                            {ingredientsConsumed.map((txn) => (
                                 <TableRow key={txn.id}>
                                     <TableCell className="font-medium">{txn.ingredient?.name}</TableCell>
                                     <TableCell className="text-right">
@@ -112,6 +115,34 @@ export default async function ProductionDetailPage({
                     </Table>
                 </div>
             </div>
+
+            {componentsConsumed.length > 0 && (
+                <div className="max-w-2xl space-y-2">
+                    <h2 className="text-sm font-medium text-muted-foreground">
+                        Base Components Consumed
+                    </h2>
+                    <div className="overflow-hidden rounded-lg border border-border">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Base Product</TableHead>
+                                    <TableHead className="text-right">Quantity</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {componentsConsumed.map((txn) => (
+                                    <TableRow key={txn.id}>
+                                        <TableCell className="font-medium">{txn.product?.name}</TableCell>
+                                        <TableCell className="text-right">
+                                            {txn.quantity.abs().toString()} {txn.product?.unit}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

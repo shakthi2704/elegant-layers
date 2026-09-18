@@ -3,6 +3,8 @@ import Link from "next/link";
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
+import { deleteIngredient } from "@/app/(dashboard)/ingredients/actions";
+import { DeleteIngredientButton } from "@/components/ingredients/delete-ingredient-button";
 
 export default async function IngredientsPage() {
   await requireRole(["ADMIN"]);
@@ -56,7 +58,7 @@ export default async function IngredientsPage() {
                 <td className="px-4 py-2.5 text-muted-foreground">
                   {i.minimumStock.toString()} {i.unit}
                 </td>
-                <td className="px-4 py-2.5 text-right">
+                <td className="px-4 py-2.5 text-right space-x-1">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -65,6 +67,10 @@ export default async function IngredientsPage() {
                   >
                     Edit
                   </Button>
+                  <DeleteIngredientButton
+                    ingredientName={i.name}
+                    action={deleteIngredient.bind(null, i.id)}
+                  />
                 </td>
               </tr>
             ))}

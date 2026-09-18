@@ -67,3 +67,29 @@ export async function updateIngredient(
   revalidatePath(`/ingredients/${ingredientId}/edit`);
   return {};
 }
+
+export async function deleteIngredient(ingredientId: string): Promise<ActionState> {
+  await requireRole(["ADMIN"]);
+
+  const [recipeUsage, purchaseUsage] = await Promise.all([
+    prisma.recipeItem.count({ where: { ingredientId } }),
+    prisma.purchaseItem.count({ where: { ingredientId } }),
+  ]);
+
+  if (recipeUsage > 0) {
+    return {
+      error: `This ingredient is used in ${recipeUsage} recipe${recipeUsage === 1 ? "" : "s"}. Remove it from ${recipeUsage === 1 ? "that recipe" : "those recipes"} first before deleting.`,
+    };
+  }
+
+  if (purchaseUsage > 0) {
+    return {
+      error: `This ingredient has purchase history and can't be deleted, since Purchases are permanent records.`,
+    };
+  }
+
+  await prisma.ingredient.delete({ where: { id: ingredientId } });
+
+  revalidatePath("/ingredients");
+  return { success: true };
+}

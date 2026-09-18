@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StatusToggleButton } from "@/components/products/status-toggle-button";
+import { deleteProduct } from "@/app/(dashboard)/products/actions";
+import { DeleteProductButton } from "@/components/products/delete-product-button";
 
 export default async function ProductsPage() {
   await requireRole(["ADMIN"]);
@@ -95,6 +97,10 @@ export default async function ProductsPage() {
                       Edit
                     </Button>
                     <StatusToggleButton productId={p.id} status={p.status} />
+                    <DeleteProductButton
+                      productName={p.name}
+                      action={deleteProduct.bind(null, p.id)}
+                    />
                   </div>
                 </td>
               </tr>

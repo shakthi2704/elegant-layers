@@ -219,6 +219,7 @@ export type UserWhereInput = {
   purchasesCreated?: Prisma.PurchaseListRelationFilter
   productionsRecorded?: Prisma.ProductionListRelationFilter
   sales?: Prisma.SaleListRelationFilter
+  voidedSales?: Prisma.SaleListRelationFilter
   inventoryTxns?: Prisma.InventoryTransactionListRelationFilter
   cakeOrdersCreated?: Prisma.CakeOrderListRelationFilter
   expensesRecorded?: Prisma.ExpenseListRelationFilter
@@ -239,6 +240,7 @@ export type UserOrderByWithRelationInput = {
   purchasesCreated?: Prisma.PurchaseOrderByRelationAggregateInput
   productionsRecorded?: Prisma.ProductionOrderByRelationAggregateInput
   sales?: Prisma.SaleOrderByRelationAggregateInput
+  voidedSales?: Prisma.SaleOrderByRelationAggregateInput
   inventoryTxns?: Prisma.InventoryTransactionOrderByRelationAggregateInput
   cakeOrdersCreated?: Prisma.CakeOrderOrderByRelationAggregateInput
   expensesRecorded?: Prisma.ExpenseOrderByRelationAggregateInput
@@ -262,6 +264,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   purchasesCreated?: Prisma.PurchaseListRelationFilter
   productionsRecorded?: Prisma.ProductionListRelationFilter
   sales?: Prisma.SaleListRelationFilter
+  voidedSales?: Prisma.SaleListRelationFilter
   inventoryTxns?: Prisma.InventoryTransactionListRelationFilter
   cakeOrdersCreated?: Prisma.CakeOrderListRelationFilter
   expensesRecorded?: Prisma.ExpenseListRelationFilter
@@ -312,6 +315,7 @@ export type UserCreateInput = {
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
@@ -332,6 +336,7 @@ export type UserUncheckedCreateInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
@@ -352,6 +357,7 @@ export type UserUpdateInput = {
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
@@ -372,6 +378,7 @@ export type UserUncheckedUpdateInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
@@ -452,6 +459,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -550,12 +562,28 @@ export type UserCreateNestedOneWithoutSalesInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutVoidedSalesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVoidedSalesInput, Prisma.UserUncheckedCreateWithoutVoidedSalesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVoidedSalesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneRequiredWithoutSalesNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSalesInput, Prisma.UserUncheckedCreateWithoutSalesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSalesInput
   upsert?: Prisma.UserUpsertWithoutSalesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSalesInput, Prisma.UserUpdateWithoutSalesInput>, Prisma.UserUncheckedUpdateWithoutSalesInput>
+}
+
+export type UserUpdateOneWithoutVoidedSalesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVoidedSalesInput, Prisma.UserUncheckedCreateWithoutVoidedSalesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVoidedSalesInput
+  upsert?: Prisma.UserUpsertWithoutVoidedSalesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVoidedSalesInput, Prisma.UserUpdateWithoutVoidedSalesInput>, Prisma.UserUncheckedUpdateWithoutVoidedSalesInput>
 }
 
 export type UserCreateNestedOneWithoutCakeOrdersCreatedInput = {
@@ -600,6 +628,7 @@ export type UserCreateWithoutSessionsInput = {
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
@@ -619,6 +648,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
@@ -654,6 +684,7 @@ export type UserUpdateWithoutSessionsInput = {
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
@@ -673,6 +704,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
@@ -692,6 +724,7 @@ export type UserCreateWithoutAccountsInput = {
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
@@ -711,6 +744,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
@@ -746,6 +780,7 @@ export type UserUpdateWithoutAccountsInput = {
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
@@ -765,6 +800,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
@@ -784,6 +820,7 @@ export type UserCreateWithoutPurchasesCreatedInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
@@ -803,6 +840,7 @@ export type UserUncheckedCreateWithoutPurchasesCreatedInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
@@ -838,6 +876,7 @@ export type UserUpdateWithoutPurchasesCreatedInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
@@ -857,6 +896,7 @@ export type UserUncheckedUpdateWithoutPurchasesCreatedInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
@@ -876,6 +916,7 @@ export type UserCreateWithoutProductionsRecordedInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
@@ -895,6 +936,7 @@ export type UserUncheckedCreateWithoutProductionsRecordedInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
@@ -930,6 +972,7 @@ export type UserUpdateWithoutProductionsRecordedInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
@@ -949,6 +992,7 @@ export type UserUncheckedUpdateWithoutProductionsRecordedInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
@@ -969,6 +1013,7 @@ export type UserCreateWithoutInventoryTxnsInput = {
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
 }
@@ -988,6 +1033,7 @@ export type UserUncheckedCreateWithoutInventoryTxnsInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
 }
@@ -1023,6 +1069,7 @@ export type UserUpdateWithoutInventoryTxnsInput = {
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
 }
@@ -1042,6 +1089,7 @@ export type UserUncheckedUpdateWithoutInventoryTxnsInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
 }
@@ -1060,6 +1108,7 @@ export type UserCreateWithoutSalesInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
@@ -1079,6 +1128,7 @@ export type UserUncheckedCreateWithoutSalesInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
@@ -1087,6 +1137,51 @@ export type UserUncheckedCreateWithoutSalesInput = {
 export type UserCreateOrConnectWithoutSalesInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutSalesInput, Prisma.UserUncheckedCreateWithoutSalesInput>
+}
+
+export type UserCreateWithoutVoidedSalesInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.Role
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
+  productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
+  sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
+  cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
+  expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+}
+
+export type UserUncheckedCreateWithoutVoidedSalesInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.Role
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
+  productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
+  sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
+  expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+}
+
+export type UserCreateOrConnectWithoutVoidedSalesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVoidedSalesInput, Prisma.UserUncheckedCreateWithoutVoidedSalesInput>
 }
 
 export type UserUpsertWithoutSalesInput = {
@@ -1114,6 +1209,7 @@ export type UserUpdateWithoutSalesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
@@ -1133,6 +1229,58 @@ export type UserUncheckedUpdateWithoutSalesInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
+  inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+  expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+}
+
+export type UserUpsertWithoutVoidedSalesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVoidedSalesInput, Prisma.UserUncheckedUpdateWithoutVoidedSalesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVoidedSalesInput, Prisma.UserUncheckedCreateWithoutVoidedSalesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVoidedSalesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVoidedSalesInput, Prisma.UserUncheckedUpdateWithoutVoidedSalesInput>
+}
+
+export type UserUpdateWithoutVoidedSalesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
+  productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
+  sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
+  cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
+  expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVoidedSalesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
+  productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
+  sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
@@ -1153,6 +1301,7 @@ export type UserCreateWithoutCakeOrdersCreatedInput = {
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
 }
@@ -1172,6 +1321,7 @@ export type UserUncheckedCreateWithoutCakeOrdersCreatedInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
 }
@@ -1207,6 +1357,7 @@ export type UserUpdateWithoutCakeOrdersCreatedInput = {
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
 }
@@ -1226,6 +1377,7 @@ export type UserUncheckedUpdateWithoutCakeOrdersCreatedInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
 }
@@ -1245,6 +1397,7 @@ export type UserCreateWithoutExpensesRecordedInput = {
   purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
 }
@@ -1264,6 +1417,7 @@ export type UserUncheckedCreateWithoutExpensesRecordedInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
   productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
   sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
 }
@@ -1299,6 +1453,7 @@ export type UserUpdateWithoutExpensesRecordedInput = {
   purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
 }
@@ -1318,6 +1473,7 @@ export type UserUncheckedUpdateWithoutExpensesRecordedInput = {
   purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
   productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
   sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
 }
@@ -1333,6 +1489,7 @@ export type UserCountOutputType = {
   purchasesCreated: number
   productionsRecorded: number
   sales: number
+  voidedSales: number
   inventoryTxns: number
   cakeOrdersCreated: number
   expensesRecorded: number
@@ -1344,6 +1501,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   purchasesCreated?: boolean | UserCountOutputTypeCountPurchasesCreatedArgs
   productionsRecorded?: boolean | UserCountOutputTypeCountProductionsRecordedArgs
   sales?: boolean | UserCountOutputTypeCountSalesArgs
+  voidedSales?: boolean | UserCountOutputTypeCountVoidedSalesArgs
   inventoryTxns?: boolean | UserCountOutputTypeCountInventoryTxnsArgs
   cakeOrdersCreated?: boolean | UserCountOutputTypeCountCakeOrdersCreatedArgs
   expensesRecorded?: boolean | UserCountOutputTypeCountExpensesRecordedArgs
@@ -1397,6 +1555,13 @@ export type UserCountOutputTypeCountSalesArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountVoidedSalesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SaleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountInventoryTxnsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InventoryTransactionWhereInput
 }
@@ -1431,6 +1596,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   purchasesCreated?: boolean | Prisma.User$purchasesCreatedArgs<ExtArgs>
   productionsRecorded?: boolean | Prisma.User$productionsRecordedArgs<ExtArgs>
   sales?: boolean | Prisma.User$salesArgs<ExtArgs>
+  voidedSales?: boolean | Prisma.User$voidedSalesArgs<ExtArgs>
   inventoryTxns?: boolean | Prisma.User$inventoryTxnsArgs<ExtArgs>
   cakeOrdersCreated?: boolean | Prisma.User$cakeOrdersCreatedArgs<ExtArgs>
   expensesRecorded?: boolean | Prisma.User$expensesRecordedArgs<ExtArgs>
@@ -1480,6 +1646,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   purchasesCreated?: boolean | Prisma.User$purchasesCreatedArgs<ExtArgs>
   productionsRecorded?: boolean | Prisma.User$productionsRecordedArgs<ExtArgs>
   sales?: boolean | Prisma.User$salesArgs<ExtArgs>
+  voidedSales?: boolean | Prisma.User$voidedSalesArgs<ExtArgs>
   inventoryTxns?: boolean | Prisma.User$inventoryTxnsArgs<ExtArgs>
   cakeOrdersCreated?: boolean | Prisma.User$cakeOrdersCreatedArgs<ExtArgs>
   expensesRecorded?: boolean | Prisma.User$expensesRecordedArgs<ExtArgs>
@@ -1496,6 +1663,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     purchasesCreated: Prisma.$PurchasePayload<ExtArgs>[]
     productionsRecorded: Prisma.$ProductionPayload<ExtArgs>[]
     sales: Prisma.$SalePayload<ExtArgs>[]
+    voidedSales: Prisma.$SalePayload<ExtArgs>[]
     inventoryTxns: Prisma.$InventoryTransactionPayload<ExtArgs>[]
     cakeOrdersCreated: Prisma.$CakeOrderPayload<ExtArgs>[]
     expensesRecorded: Prisma.$ExpensePayload<ExtArgs>[]
@@ -1909,6 +2077,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   purchasesCreated<T extends Prisma.User$purchasesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$purchasesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   productionsRecorded<T extends Prisma.User$productionsRecordedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$productionsRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales<T extends Prisma.User$salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$salesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  voidedSales<T extends Prisma.User$voidedSalesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$voidedSalesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventoryTxns<T extends Prisma.User$inventoryTxnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$inventoryTxnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cakeOrdersCreated<T extends Prisma.User$cakeOrdersCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cakeOrdersCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CakeOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expensesRecorded<T extends Prisma.User$expensesRecordedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2442,6 +2611,30 @@ export type User$productionsRecordedArgs<ExtArgs extends runtime.Types.Extension
  * User.sales
  */
 export type User$salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Sale
+   */
+  select?: Prisma.SaleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Sale
+   */
+  omit?: Prisma.SaleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SaleInclude<ExtArgs> | null
+  where?: Prisma.SaleWhereInput
+  orderBy?: Prisma.SaleOrderByWithRelationInput | Prisma.SaleOrderByWithRelationInput[]
+  cursor?: Prisma.SaleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SaleScalarFieldEnum | Prisma.SaleScalarFieldEnum[]
+}
+
+/**
+ * User.voidedSales
+ */
+export type User$voidedSalesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Sale
    */

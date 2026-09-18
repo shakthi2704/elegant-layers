@@ -93,3 +93,46 @@ export async function toggleProductStatus(productId: string) {
 
     revalidatePath("/products");
 }
+
+export async function deleteProduct(productId: string): Promise<ActionState> {
+    await requireRole(["ADMIN"]);
+
+    const product = await prisma.product.findUnique({
+        where: { id: productId },
+        include: { usedAsComponentIn: { include: { parentProduct: true } } },
+    });
+    if (!product) {
+        return { error: "Product not found." };
+    }
+
+    if (product.usedAsComponentIn.length > 0) {
+        const usedInNames = product.usedAsComponentIn
+            .map((pc) => pc.parentProduct.name)
+            .join(", ");
+        return {
+            error: `"${product.name}" is used as a base for ${usedInNames}. Remove it from ${product.usedAsComponentIn.length === 1 ? "that product's" : "those products'"} Base Setup first before deleting.`,
+        };
+    }
+
+    const [txnCount, cakeOrderCount] = await Promise.all([
+        prisma.inventoryTransaction.count({ where: { productId } }),
+        prisma.cakeOrder.count({ where: { productId } }),
+    ]);
+
+    if (txnCount > 0) {
+        return {
+            error: `"${product.name}" has stock activity recorded (purchases, production, sales, or adjustments) and can't be deleted. Deactivate it instead to hide it from new orders.`,
+        };
+    }
+
+    if (cakeOrderCount > 0) {
+        return {
+            error: `"${product.name}" is referenced in ${cakeOrderCount} cake order${cakeOrderCount === 1 ? "" : "s"} and can't be deleted.`,
+        };
+    }
+
+    await prisma.product.delete({ where: { id: productId } });
+
+    revalidatePath("/products");
+    return { success: true };
+}

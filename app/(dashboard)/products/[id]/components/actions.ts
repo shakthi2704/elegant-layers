@@ -31,12 +31,24 @@ export async function saveProductComponents(
         return { fieldErrors: parsed.error.flatten().fieldErrors };
     }
 
-    const product = await prisma.product.findUnique({ where: { id: productId } });
+    const product = await prisma.product.findUnique({
+        where: { id: productId },
+        include: { usedAsComponentIn: { include: { parentProduct: true } } },
+    });
     if (!product) {
         return { error: "Product not found." };
     }
 
     if (parsed.data.components.length > 0) {
+        if (product.usedAsComponentIn.length > 0) {
+            const usedInNames = product.usedAsComponentIn
+                .map((pc) => pc.parentProduct.name)
+                .join(", ");
+            return {
+                error: `"${product.name}" is already used as a base for ${usedInNames}, so it can't have its own bases attached. Components can only be one level deep.`,
+            };
+        }
+
         const componentProductIds = parsed.data.components.map((c) => c.componentProductId);
 
         if (componentProductIds.includes(productId)) {
