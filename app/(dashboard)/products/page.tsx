@@ -68,16 +68,14 @@ export default async function ProductsPage() {
                 </td>
                 <td className="px-4 py-2.5 text-right">
                   <div className="flex justify-end gap-1">
-                    {p.isFinishedProduct && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        nativeButton={false}
-                        render={<Link href={`/products/${p.id}/recipes`} />}
-                      >
-                        Recipe
-                      </Button>
-                    )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      nativeButton={false}
+                      render={<Link href={`/products/${p.id}/recipes`} />}
+                    >
+                      Recipe
+                    </Button>
                     {p.isFinishedProduct && (
                       <Button
                         variant="ghost"
