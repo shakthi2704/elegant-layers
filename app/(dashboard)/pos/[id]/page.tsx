@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDateTime } from "@/lib/format";
 import { POSTerminal } from "@/components/pos/pos-terminal";
 import { DiscardSaleButton } from "@/components/pos/discard-sale-button";
 import { VoidSaleButton } from "@/components/pos/void-sale-button";
+import { PrintBillButton } from "@/components/pos/print-bill-button";
 
 export default async function SaleDetailPage({
     params,
@@ -79,74 +81,85 @@ export default async function SaleDetailPage({
 
     // COMPLETED or VOID — receipt-style read-only view
     return (
-        <div className="max-w-lg space-y-6">
+        <div className="max-w-lg space-y-6 print:max-w-none print:space-y-2 print:font-mono print:text-[11px]">
             <div>
-                <h1 className="text-xl font-semibold">{sale.saleNumber}</h1>
-                <p className="text-sm text-muted-foreground">
+                <h1 className="text-xl font-semibold print:text-sm print:text-black">
+                    {sale.saleNumber}
+                </h1>
+                <p className="text-sm text-muted-foreground print:text-black">
                     {sale.type === "DINE_IN" ? "Dine-in" : "Takeaway"} · Rung up by {sale.cashier.name} on{" "}
-                    {sale.createdAt.toLocaleString()}
+                    {formatDateTime(sale.createdAt)}
                 </p>
             </div>
 
             {sale.status === "VOID" && (
-                <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4">
-                    <p className="font-medium text-destructive">Voided</p>
-                    <p className="text-sm text-muted-foreground">
-                        By {sale.voidedBy?.name} on {sale.voidedAt?.toLocaleString()}
+                <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 print:border-black print:bg-white print:p-0">
+                    <p className="font-medium text-destructive print:text-black">Voided</p>
+                    <p className="text-sm text-muted-foreground print:text-black">
+                        By {sale.voidedBy?.name} on{" "}
+                        {sale.voidedAt ? formatDateTime(sale.voidedAt) : ""}
                     </p>
-                    <p className="mt-2 text-sm">{sale.voidReason}</p>
+                    <p className="mt-2 text-sm print:text-black">{sale.voidReason}</p>
                 </div>
             )}
 
-            <div className="overflow-hidden rounded-lg border border-border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left text-muted-foreground">
+            <div className="overflow-hidden rounded-lg border border-border print:rounded-none print:border-black">
+                <table className="w-full text-sm print:text-[11px]">
+                    <thead className="bg-muted/50 text-left text-muted-foreground print:bg-white print:text-black">
                         <tr>
-                            <th className="px-4 py-2 font-medium">Item</th>
-                            <th className="px-4 py-2 font-medium text-right">Qty</th>
-                            <th className="px-4 py-2 font-medium text-right">Price</th>
-                            <th className="px-4 py-2 font-medium text-right">Subtotal</th>
+                            <th className="px-4 py-2 font-medium print:px-1 print:py-1">Item</th>
+                            <th className="px-4 py-2 font-medium text-right print:px-1 print:py-1">Qty</th>
+                            <th className="px-4 py-2 font-medium text-right print:px-1 print:py-1">Price</th>
+                            <th className="px-4 py-2 font-medium text-right print:px-1 print:py-1">Subtotal</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-border">
+                    <tbody className="divide-y divide-border print:divide-black">
                         {sale.items.map((item) => (
-                            <tr key={item.id}>
-                                <td className="px-4 py-2">{item.product.name}</td>
-                                <td className="px-4 py-2 text-right">{item.quantity.toString()}</td>
-                                <td className="px-4 py-2 text-right">{item.unitPrice.toString()}</td>
-                                <td className="px-4 py-2 text-right">{item.subtotal.toString()}</td>
+                            <tr key={item.id} className="print:text-black">
+                                <td className="px-4 py-2 print:px-1 print:py-1">{item.product.name}</td>
+                                <td className="px-4 py-2 text-right print:px-1 print:py-1">
+                                    {item.quantity.toString()}
+                                </td>
+                                <td className="px-4 py-2 text-right print:px-1 print:py-1">
+                                    {item.unitPrice.toString()}
+                                </td>
+                                <td className="px-4 py-2 text-right print:px-1 print:py-1">
+                                    {item.subtotal.toString()}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
 
-            <div className="space-y-1 text-sm">
+            <div className="space-y-1 text-sm print:text-[11px]">
                 <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>Rs. {sale.subtotal.toString()}</span>
+                    <span className="text-muted-foreground print:text-black">Subtotal</span>
+                    <span className="print:text-black">Rs. {sale.subtotal.toString()}</span>
                 </div>
-                <div className="flex justify-between text-lg font-semibold">
-                    <span>Total</span>
-                    <span>Rs. {sale.total.toString()}</span>
+                <div className="flex justify-between text-lg font-semibold print:text-sm">
+                    <span className="print:text-black">Total</span>
+                    <span className="print:text-black">Rs. {sale.total.toString()}</span>
                 </div>
                 {sale.cashReceived && (
                     <>
-                        <div className="flex justify-between text-muted-foreground">
+                        <div className="flex justify-between text-muted-foreground print:text-black">
                             <span>Cash received</span>
                             <span>Rs. {sale.cashReceived.toString()}</span>
                         </div>
-                        <div className="flex justify-between text-muted-foreground">
+                        <div className="flex justify-between text-muted-foreground print:text-black">
                             <span>Change</span>
                             <span>Rs. {sale.changeGiven?.toString()}</span>
                         </div>
                     </>
                 )}
             </div>
-
-            {sale.status === "COMPLETED" && user.role === "ADMIN" && (
-                <VoidSaleButton saleId={sale.id} saleLabel={sale.saleNumber} />
-            )}
+            <div className="flex gap-2 print:hidden">
+                <PrintBillButton />
+                {sale.status === "COMPLETED" && user.role === "ADMIN" && (
+                    <VoidSaleButton saleId={sale.id} saleLabel={sale.saleNumber} />
+                )}
+            </div>
         </div>
     );
 }

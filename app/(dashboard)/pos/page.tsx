@@ -41,7 +41,7 @@ export default async function POSPage() {
       {heldSales.length > 0 && (
         <div className="space-y-2">
           <h2 className="text-sm font-medium text-muted-foreground">Held Bills</h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 ">
             {heldSales.map((sale) => (
               <Link
                 key={sale.id}

@@ -651,10 +651,6 @@ export type InventoryTransactionUncheckedUpdateManyWithoutIngredientNestedInput 
   deleteMany?: Prisma.InventoryTransactionScalarWhereInput | Prisma.InventoryTransactionScalarWhereInput[]
 }
 
-export type EnumInventoryItemTypeFieldUpdateOperationsInput = {
-  set?: $Enums.InventoryItemType
-}
-
 export type EnumInventoryTransactionTypeFieldUpdateOperationsInput = {
   set?: $Enums.InventoryTransactionType
 }

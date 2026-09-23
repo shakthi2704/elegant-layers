@@ -261,7 +261,9 @@ export type PurchaseScalarFieldEnum = (typeof PurchaseScalarFieldEnum)[keyof typ
 export const PurchaseItemScalarFieldEnum = {
   id: 'id',
   purchaseId: 'purchaseId',
+  itemType: 'itemType',
   ingredientId: 'ingredientId',
+  productId: 'productId',
   quantity: 'quantity',
   unitCost: 'unitCost',
   subtotal: 'subtotal'

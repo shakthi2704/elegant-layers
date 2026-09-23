@@ -180,3 +180,12 @@
     letter-spacing: var(--tracking-normal);
   }
 }
+
+/* Bill printing on an 80mm thermal receipt printer.
+   If the client's printer is actually 58mm, change the width below to 58mm. */
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}

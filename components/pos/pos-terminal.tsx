@@ -149,13 +149,13 @@ export function POSTerminal({
                     ))}
                 </div>
 
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-3 ">
                     {visibleProducts.map((p) => (
                         <button
                             key={p.id}
                             type="button"
                             onClick={() => addToCart(p)}
-                            className="rounded-lg border border-border p-3 text-left hover:bg-muted/50"
+                            className="rounded-lg border border-border p-3 border- text-left hover:bg-muted/50"
                         >
                             <p className="font-medium">{p.name}</p>
                             <p className="text-sm text-muted-foreground">

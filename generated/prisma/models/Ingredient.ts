@@ -450,10 +450,12 @@ export type IngredientCreateNestedOneWithoutPurchaseItemsInput = {
   connect?: Prisma.IngredientWhereUniqueInput
 }
 
-export type IngredientUpdateOneRequiredWithoutPurchaseItemsNestedInput = {
+export type IngredientUpdateOneWithoutPurchaseItemsNestedInput = {
   create?: Prisma.XOR<Prisma.IngredientCreateWithoutPurchaseItemsInput, Prisma.IngredientUncheckedCreateWithoutPurchaseItemsInput>
   connectOrCreate?: Prisma.IngredientCreateOrConnectWithoutPurchaseItemsInput
   upsert?: Prisma.IngredientUpsertWithoutPurchaseItemsInput
+  disconnect?: Prisma.IngredientWhereInput | boolean
+  delete?: Prisma.IngredientWhereInput | boolean
   connect?: Prisma.IngredientWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.IngredientUpdateToOneWithWhereWithoutPurchaseItemsInput, Prisma.IngredientUpdateWithoutPurchaseItemsInput>, Prisma.IngredientUncheckedUpdateWithoutPurchaseItemsInput>
 }
