@@ -18,9 +18,8 @@ const saleBaseSchema = z.object({
 });
 
 export const holdSaleSchema = saleBaseSchema.extend({
-    holdLabel: z.string().trim().min(1, "Give this held bill a label").max(100),
+    holdLabel: z.string().trim().max(100).optional(),
 });
-
 export const completeSaleSchema = saleBaseSchema.extend({
     cashReceived: z.coerce
         .number({ message: "Cash received is required" })

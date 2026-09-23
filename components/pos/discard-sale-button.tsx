@@ -1,7 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useActionState, useState } from "react";
 
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { discardSale } from "@/app/(dashboard)/pos/actions";
@@ -18,19 +17,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export function DiscardSaleButton({ saleId, label }: { saleId: string; label: string }) {
-    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [state, formAction, pending] = useActionState(
         async (_prevState: ActionState) => discardSale(saleId),
         {}
     );
-
-    useEffect(() => {
-        if (state.success) {
-            setOpen(false);
-            router.push("/pos");
-        }
-    }, [state.success, router]);
 
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>

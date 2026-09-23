@@ -131,7 +131,7 @@ export async function holdSale(
     const { type, holdLabel, discount, items } = parsed.data;
     const { subtotal, total } = calculateTotals(items, discount);
 
-    const newSaleId = await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
         if (saleId) {
             const existing = await tx.sale.findUnique({ where: { id: saleId } });
             if (!existing || existing.status !== "HELD") {
@@ -186,7 +186,7 @@ export async function holdSale(
     });
 
     revalidatePath("/pos");
-    redirect(`/pos/${newSaleId}`);
+    redirect("/pos");
 }
 
 export async function completeSale(
@@ -355,7 +355,7 @@ export async function discardSale(saleId: string): Promise<ActionState> {
     await prisma.sale.delete({ where: { id: saleId } });
 
     revalidatePath("/pos");
-    return { success: true };
+    redirect("/pos");
 }
 
 export async function voidSale(
