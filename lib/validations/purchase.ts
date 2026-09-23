@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const purchaseItemSchema = z.object({
-    ingredientId: z.string().min(1, "Ingredient is required"),
+    itemType: z.enum(["INGREDIENT", "PRODUCT"], {
+        message: "Choose whether this line is an ingredient or a product",
+    }),
+    itemId: z.string().min(1, "Select an item"),
     quantity: z.coerce
         .number({ message: "Quantity is required" })
         .positive("Quantity must be greater than 0"),
@@ -13,7 +16,7 @@ export const purchaseItemSchema = z.object({
 export const purchaseSchema = z.object({
     supplierId: z.string().min(1, "Supplier is required"),
     purchaseDate: z.coerce.date({ message: "Purchase date is required" }),
-    items: z.array(purchaseItemSchema).min(1, "Add at least one ingredient"),
+    items: z.array(purchaseItemSchema).min(1, "Add at least one item"),
 });
 
 export type PurchaseInput = z.infer<typeof purchaseSchema>;

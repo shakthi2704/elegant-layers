@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDate } from "@/lib/format";
 import {
     Table,
     TableBody,
@@ -24,7 +25,7 @@ export default async function PurchaseDetailPage({
         include: {
             supplier: true,
             createdBy: true,
-            items: { include: { ingredient: true } },
+            items: { include: { ingredient: true, product: true } },
         },
     });
 
@@ -37,8 +38,7 @@ export default async function PurchaseDetailPage({
             <div>
                 <h1 className="text-xl font-semibold">Purchase Details</h1>
                 <p className="text-sm text-muted-foreground">
-                    Recorded by {purchase.createdBy.name} on{" "}
-                    {purchase.createdAt.toLocaleDateString()}
+                    Recorded by {purchase.createdBy.name} on {formatDate(purchase.createdAt)}
                 </p>
             </div>
 
@@ -49,7 +49,7 @@ export default async function PurchaseDetailPage({
                 </div>
                 <div>
                     <p className="text-sm text-muted-foreground">Purchase Date</p>
-                    <p className="font-medium">{purchase.purchaseDate.toLocaleDateString()}</p>
+                    <p className="font-medium">{formatDate(purchase.purchaseDate)}</p>
                 </div>
             </div>
 
@@ -57,25 +57,30 @@ export default async function PurchaseDetailPage({
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Ingredient</TableHead>
+                            <TableHead>Item</TableHead>
                             <TableHead>Quantity</TableHead>
                             <TableHead>Unit Cost</TableHead>
                             <TableHead className="text-right">Subtotal</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {purchase.items.map((item) => (
-                            <TableRow key={item.id}>
-                                <TableCell className="font-medium">{item.ingredient.name}</TableCell>
-                                <TableCell className="text-muted-foreground">
-                                    {item.quantity.toString()} {item.ingredient.unit}
-                                </TableCell>
-                                <TableCell className="text-muted-foreground">
-                                    Rs. {item.unitCost.toString()}
-                                </TableCell>
-                                <TableCell className="text-right">Rs. {item.subtotal.toString()}</TableCell>
-                            </TableRow>
-                        ))}
+                        {purchase.items.map((item) => {
+                            const name = item.itemType === "PRODUCT" ? item.product?.name : item.ingredient?.name;
+                            const unit = item.itemType === "PRODUCT" ? item.product?.unit : item.ingredient?.unit;
+
+                            return (
+                                <TableRow key={item.id}>
+                                    <TableCell className="font-medium">{name}</TableCell>
+                                    <TableCell className="text-muted-foreground">
+                                        {item.quantity.toString()} {unit}
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
+                                        Rs. {item.unitCost.toString()}
+                                    </TableCell>
+                                    <TableCell className="text-right">Rs. {item.subtotal.toString()}</TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </div>
