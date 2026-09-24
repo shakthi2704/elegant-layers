@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { CurrentTime } from "@/components/layout/current-time";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -38,7 +39,11 @@ export default async function DashboardLayout({
             <SidebarTrigger />
             <Separator orientation="vertical" className="h-4" />
           </div>
-          <ThemeToggle />
+
+          <div className="flex items-center gap-4">
+            <CurrentTime />
+            <ThemeToggle />
+          </div>
         </header>
         <main className="flex-1 overflow-y-auto bg-background p-6 print:overflow-visible print:bg-white print:p-0">
           {children}

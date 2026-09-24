@@ -63,8 +63,8 @@ export function LoginForm({
             className={cn("flex flex-col gap-6", className)}
             {...props}
         >
-            <Card>
-                <CardHeader>
+            <Card className="w-full max-w-md">
+                <CardHeader className="px-8 pt-8 text-center">
                     <CardTitle>Login to your account</CardTitle>
 
                     <CardDescription>
@@ -72,7 +72,7 @@ export function LoginForm({
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent>
+                <CardContent className="px-8 pb-8">
                     <form onSubmit={handleSubmit}>
                         <FieldGroup>
                             {/* Email */}
@@ -97,12 +97,7 @@ export function LoginForm({
                                         Password
                                     </FieldLabel>
 
-                                    <a
-                                        href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
+
                                 </div>
 
                                 <Input
@@ -115,14 +110,12 @@ export function LoginForm({
                                 />
                             </Field>
 
-                            {/* Error */}
                             {error && (
                                 <p className="text-sm text-destructive">
                                     {error}
                                 </p>
                             )}
 
-                            {/* Buttons */}
                             <Field>
                                 <Button
                                     type="submit"
@@ -131,20 +124,12 @@ export function LoginForm({
                                 >
                                     {loading ? "Signing in..." : "Login"}
                                 </Button>
-
-                                <Button variant="outline" type="button">
-                                    Login with Google
-                                </Button>
-
-                                <FieldDescription className="text-center">
-                                    Don&apos;t have an account?{" "}
-                                    <a href="/sign-up">Sign up</a>
-                                </FieldDescription>
                             </Field>
                         </FieldGroup>
                     </form>
                 </CardContent>
             </Card>
+
         </div>
     );
 }

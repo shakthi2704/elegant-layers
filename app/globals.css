@@ -64,7 +64,8 @@
   --card-foreground: oklch(0.9851 0 0);
   --popover: oklch(0.1408 0.0044 285.8229);
   --popover-foreground: oklch(0.9851 0 0);
-  --primary: oklch(0.8770 0.1792 93.0918);
+  --primary: oklch(0.7695 0.1362 81.13);
+  /* --primary: oklch(0.8770 0.1792 93.0918); */
   --primary-foreground: oklch(0.2161 0.0061 56.0434);
   --secondary: oklch(0.2739 0.0055 286.0326);
   --secondary-foreground: oklch(0.9851 0 0);
@@ -181,8 +182,6 @@
   }
 }
 
-/* Bill printing on an 80mm thermal receipt printer.
-   If the client's printer is actually 58mm, change the width below to 58mm. */
 @media print {
   @page {
     size: 80mm auto;

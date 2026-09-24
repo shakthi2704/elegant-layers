@@ -131,7 +131,7 @@ export function POSTerminal({
                     <Button
                         type="button"
                         size="sm"
-                        variant={activeCategory === "ALL" ? "default" : "outline"}
+                        variant={activeCategory === "ALL" ? "default" : "secondary"}
                         onClick={() => setActiveCategory("ALL")}
                     >
                         All
@@ -141,7 +141,7 @@ export function POSTerminal({
                             key={c.id}
                             type="button"
                             size="sm"
-                            variant={activeCategory === c.id ? "default" : "outline"}
+                            variant={activeCategory === c.id ? "default" : "secondary"}
                             onClick={() => setActiveCategory(c.id)}
                         >
                             {c.name}
@@ -155,11 +155,11 @@ export function POSTerminal({
                             key={p.id}
                             type="button"
                             onClick={() => addToCart(p)}
-                            className="rounded-lg border border-border p-3 border- text-left hover:bg-muted/50"
+                            className="rounded-lg border border-border py-6 px-4 border- text-left bg-muted/50  hover:bg-muted/50"
                         >
-                            <p className="font-medium">{p.name}</p>
+                            <p className="font-semibold text-base">{p.name}</p>
                             <p className="text-sm text-muted-foreground">
-                                Rs. {p.sellingPrice.toFixed(2)} / {p.unit}
+                                Rs. {p.sellingPrice.toFixed(2)} /<span className="text-xs"> {p.unit}</span>
                             </p>
                         </button>
                     ))}
@@ -172,7 +172,7 @@ export function POSTerminal({
             </div>
 
             {/* Cart + checkout */}
-            <div className="space-y-4 rounded-lg border border-border p-4">
+            <div className="space-y-4 rounded-lg border border-border p-4 border-muted">
                 <div className="flex gap-2">
                     <Button
                         type="button"
@@ -185,7 +185,7 @@ export function POSTerminal({
                     <Button
                         type="button"
                         size="sm"
-                        variant={saleType === "DINE_IN" ? "default" : "outline"}
+                        variant={saleType === "DINE_IN" ? "default" : "secondary"}
                         onClick={() => setSaleType("DINE_IN")}
                     >
                         Dine-in
@@ -197,7 +197,7 @@ export function POSTerminal({
                         <div key={line.productId} className="flex items-center justify-between gap-2 text-sm">
                             <div className="flex-1">
                                 <p className="font-medium">{line.name}</p>
-                                <p className="text-muted-foreground">
+                                <p className="text-muted-foreground text-xs">
                                     Rs. {line.unitPrice.toFixed(2)} / {line.unit}
                                 </p>
                             </div>
@@ -243,7 +243,9 @@ export function POSTerminal({
 
                 <div className="flex justify-between border-t border-border pt-3 text-lg font-semibold">
                     <span>Total</span>
-                    <span>Rs. {total.toFixed(2)}</span>
+                    <span className="text-primary">
+                        Rs. {total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
                 </div>
 
                 {/* Hold form */}
@@ -262,7 +264,7 @@ export function POSTerminal({
                     {holdState.error && <p className="text-sm text-destructive">{holdState.error}</p>}
                     <Button
                         type="submit"
-                        variant="outline"
+                        variant="secondary"
                         className="w-full"
                         disabled={cart.length === 0 || holdPending}
                     >

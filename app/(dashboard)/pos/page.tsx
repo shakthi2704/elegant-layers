@@ -25,11 +25,11 @@ export default async function POSPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">POS Billing</h1>
-          <p className="text-sm text-muted-foreground">Ring up a sale.</p>
+          <h1 className="text-3xl font-semibold">POS Billing</h1>
+          <p className="text-base text-muted-foreground">Ring up a sale.</p>
         </div>
         <Button
-          variant="outline"
+          variant="secondary"
           size="sm"
           nativeButton={false}
           render={<Link href="/pos/history" />}
@@ -41,14 +41,14 @@ export default async function POSPage() {
       {heldSales.length > 0 && (
         <div className="space-y-2">
           <h2 className="text-sm font-medium text-muted-foreground">Held Bills</h2>
-          <div className="flex flex-wrap gap-2 ">
+          <div className="flex flex-wrap gap-2  ">
             {heldSales.map((sale) => (
               <Link
                 key={sale.id}
                 href={`/pos/${sale.id}`}
-                className="rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted/50"
+                className="bg-secondary rounded-lg border border-border px-6 py-4 text-sm hover:bg-muted/50"
               >
-                <p className="font-medium">{sale.holdLabel || sale.saleNumber}</p>
+                <p className="font-medium"> B/N {sale.holdLabel || sale.saleNumber}</p>
                 <p className="text-muted-foreground">Rs. {sale.total.toString()}</p>
               </Link>
             ))}
