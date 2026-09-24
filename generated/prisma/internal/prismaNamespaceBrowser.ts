@@ -73,6 +73,7 @@ export const ModelName = {
   Customer: 'Customer',
   CakeOrder: 'CakeOrder',
   Expense: 'Expense',
+  FixedAsset: 'FixedAsset',
   Settings: 'Settings'
 } as const
 
@@ -388,6 +389,25 @@ export const ExpenseScalarFieldEnum = {
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const FixedAssetScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  purchaseDate: 'purchaseDate',
+  purchaseCost: 'purchaseCost',
+  salvageValue: 'salvageValue',
+  usefulLifeMonths: 'usefulLifeMonths',
+  status: 'status',
+  disposalDate: 'disposalDate',
+  notes: 'notes',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FixedAssetScalarFieldEnum = (typeof FixedAssetScalarFieldEnum)[keyof typeof FixedAssetScalarFieldEnum]
 
 
 export const SettingsScalarFieldEnum = {

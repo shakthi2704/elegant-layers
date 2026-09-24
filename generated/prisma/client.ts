@@ -152,6 +152,11 @@ export type CakeOrder = Prisma.CakeOrderModel
  */
 export type Expense = Prisma.ExpenseModel
 /**
+ * Model FixedAsset
+ * 
+ */
+export type FixedAsset = Prisma.FixedAssetModel
+/**
  * Model Settings
  * 
  */

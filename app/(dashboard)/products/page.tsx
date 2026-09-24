@@ -2,16 +2,25 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StatusToggleButton } from "@/components/products/status-toggle-button";
 import { deleteProduct } from "@/app/(dashboard)/products/actions";
 import { DeleteProductButton } from "@/components/products/delete-product-button";
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
   await requireRole(["ADMIN"]);
+  const { category: categoryId } = await searchParams;
+
+  const categories = await prisma.category.findMany({ orderBy: { sortOrder: "asc" } });
 
   const products = await prisma.product.findMany({
+    where: categoryId ? { categoryId } : undefined,
     include: { category: true },
     orderBy: [{ category: { sortOrder: "asc" } }, { name: "asc" }],
   });
@@ -28,6 +37,34 @@ export default async function ProductsPage() {
         <Button nativeButton={false} render={<Link href="/products/new" />}>
           Add Product
         </Button>
+      </div>
+
+      <div className="flex flex-wrap gap-1 border-b border-border pb-2">
+        <Link
+          href="/products"
+          className={cn(
+            "rounded-md px-3 py-1.5 text-sm font-medium",
+            !categoryId
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+          )}
+        >
+          All
+        </Link>
+        {categories.map((c) => (
+          <Link
+            key={c.id}
+            href={`/products?category=${c.id}`}
+            className={cn(
+              "rounded-md px-3 py-1.5 text-sm font-medium",
+              categoryId === c.id
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            )}
+          >
+            {c.name}
+          </Link>
+        ))}
       </div>
 
       <div className="overflow-hidden rounded-lg border border-border">
@@ -106,13 +143,13 @@ export default async function ProductsPage() {
             {products.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-4 py-10 text-center text-muted-foreground">
-                  No products yet. Add your first one to get started.
+                  {categoryId ? "No products in this category." : "No products yet. Add your first one to get started."}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-    </div >
+    </div>
   );
 }

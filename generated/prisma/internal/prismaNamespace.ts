@@ -419,6 +419,7 @@ export const ModelName = {
   Customer: 'Customer',
   CakeOrder: 'CakeOrder',
   Expense: 'Expense',
+  FixedAsset: 'FixedAsset',
   Settings: 'Settings'
 } as const
 
@@ -435,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "category" | "product" | "ingredient" | "recipe" | "recipeItem" | "productRecipe" | "productComponent" | "supplier" | "purchase" | "purchaseItem" | "production" | "productionItem" | "inventoryTransaction" | "sale" | "saleItem" | "customer" | "cakeOrder" | "expense" | "settings"
+    modelProps: "user" | "session" | "account" | "verification" | "category" | "product" | "ingredient" | "recipe" | "recipeItem" | "productRecipe" | "productComponent" | "supplier" | "purchase" | "purchaseItem" | "production" | "productionItem" | "inventoryTransaction" | "sale" | "saleItem" | "customer" | "cakeOrder" | "expense" | "fixedAsset" | "settings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2067,6 +2068,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FixedAsset: {
+      payload: Prisma.$FixedAssetPayload<ExtArgs>
+      fields: Prisma.FixedAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FixedAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FixedAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.FixedAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FixedAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>
+        }
+        findMany: {
+          args: Prisma.FixedAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>[]
+        }
+        create: {
+          args: Prisma.FixedAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>
+        }
+        createMany: {
+          args: Prisma.FixedAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FixedAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.FixedAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>
+        }
+        update: {
+          args: Prisma.FixedAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.FixedAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FixedAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FixedAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.FixedAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FixedAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.FixedAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFixedAsset>
+        }
+        groupBy: {
+          args: Prisma.FixedAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FixedAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FixedAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FixedAssetCountAggregateOutputType> | number
+        }
+      }
+    }
     Settings: {
       payload: Prisma.$SettingsPayload<ExtArgs>
       fields: Prisma.SettingsFieldRefs
@@ -2478,6 +2553,25 @@ export const ExpenseScalarFieldEnum = {
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
 
 
+export const FixedAssetScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  purchaseDate: 'purchaseDate',
+  purchaseCost: 'purchaseCost',
+  salvageValue: 'salvageValue',
+  usefulLifeMonths: 'usefulLifeMonths',
+  status: 'status',
+  disposalDate: 'disposalDate',
+  notes: 'notes',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FixedAssetScalarFieldEnum = (typeof FixedAssetScalarFieldEnum)[keyof typeof FixedAssetScalarFieldEnum]
+
+
 export const SettingsScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -2693,6 +2787,20 @@ export type ListEnumCakeOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'AssetStatus'
+ */
+export type EnumAssetStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AssetStatus[]'
+ */
+export type ListEnumAssetStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2878,6 +2986,7 @@ export type GlobalOmitConfig = {
   customer?: Prisma.CustomerOmit
   cakeOrder?: Prisma.CakeOrderOmit
   expense?: Prisma.ExpenseOmit
+  fixedAsset?: Prisma.FixedAssetOmit
   settings?: Prisma.SettingsOmit
 }
 

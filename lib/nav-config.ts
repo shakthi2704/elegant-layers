@@ -13,6 +13,7 @@ import {
   Receipt,
   BarChart3,
   Users,
+  Boxes
 } from "lucide-react";
 
 export type NavItem = {
@@ -62,6 +63,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { title: "Expenses", href: "/expenses", icon: Receipt, roles: ["ADMIN"] },
       { title: "Reports", href: "/reports", icon: BarChart3, roles: ["ADMIN"] },
+      { title: "Fixed Assets", href: "/fixed-assets", icon: Boxes, roles: ["ADMIN"] },
     ],
   },
   {

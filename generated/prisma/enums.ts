@@ -82,3 +82,11 @@ export const CakeOrderStatus = {
 } as const
 
 export type CakeOrderStatus = (typeof CakeOrderStatus)[keyof typeof CakeOrderStatus]
+
+
+export const AssetStatus = {
+  ACTIVE: 'ACTIVE',
+  DISPOSED: 'DISPOSED'
+} as const
+
+export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
