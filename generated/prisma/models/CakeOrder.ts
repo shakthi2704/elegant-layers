@@ -41,13 +41,16 @@ export type CakeOrderMinAggregateOutputType = {
   customerId: string | null
   productId: string | null
   cakeName: string | null
+  shape: string | null
   weight: string | null
   message: string | null
+  imageUrl: string | null
   pickupDate: Date | null
   pickupTime: string | null
   status: $Enums.CakeOrderStatus | null
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string | null
   createdAt: Date | null
@@ -59,13 +62,16 @@ export type CakeOrderMaxAggregateOutputType = {
   customerId: string | null
   productId: string | null
   cakeName: string | null
+  shape: string | null
   weight: string | null
   message: string | null
+  imageUrl: string | null
   pickupDate: Date | null
   pickupTime: string | null
   status: $Enums.CakeOrderStatus | null
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string | null
   createdAt: Date | null
@@ -77,13 +83,16 @@ export type CakeOrderCountAggregateOutputType = {
   customerId: number
   productId: number
   cakeName: number
+  shape: number
   weight: number
   message: number
+  imageUrl: number
   pickupDate: number
   pickupTime: number
   status: number
   price: number
   advancePaid: number
+  paymentMethod: number
   notes: number
   createdById: number
   createdAt: number
@@ -107,13 +116,16 @@ export type CakeOrderMinAggregateInputType = {
   customerId?: true
   productId?: true
   cakeName?: true
+  shape?: true
   weight?: true
   message?: true
+  imageUrl?: true
   pickupDate?: true
   pickupTime?: true
   status?: true
   price?: true
   advancePaid?: true
+  paymentMethod?: true
   notes?: true
   createdById?: true
   createdAt?: true
@@ -125,13 +137,16 @@ export type CakeOrderMaxAggregateInputType = {
   customerId?: true
   productId?: true
   cakeName?: true
+  shape?: true
   weight?: true
   message?: true
+  imageUrl?: true
   pickupDate?: true
   pickupTime?: true
   status?: true
   price?: true
   advancePaid?: true
+  paymentMethod?: true
   notes?: true
   createdById?: true
   createdAt?: true
@@ -143,13 +158,16 @@ export type CakeOrderCountAggregateInputType = {
   customerId?: true
   productId?: true
   cakeName?: true
+  shape?: true
   weight?: true
   message?: true
+  imageUrl?: true
   pickupDate?: true
   pickupTime?: true
   status?: true
   price?: true
   advancePaid?: true
+  paymentMethod?: true
   notes?: true
   createdById?: true
   createdAt?: true
@@ -248,13 +266,16 @@ export type CakeOrderGroupByOutputType = {
   customerId: string
   productId: string | null
   cakeName: string
+  shape: string | null
   weight: string | null
   message: string | null
+  imageUrl: string | null
   pickupDate: Date
   pickupTime: string
   status: $Enums.CakeOrderStatus
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string
   createdAt: Date
@@ -289,13 +310,16 @@ export type CakeOrderWhereInput = {
   customerId?: Prisma.StringFilter<"CakeOrder"> | string
   productId?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringFilter<"CakeOrder"> | string
+  shape?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   pickupDate?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   pickupTime?: Prisma.StringFilter<"CakeOrder"> | string
   status?: Prisma.EnumCakeOrderStatusFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
@@ -310,13 +334,16 @@ export type CakeOrderOrderByWithRelationInput = {
   customerId?: Prisma.SortOrder
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   cakeName?: Prisma.SortOrder
+  shape?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   pickupDate?: Prisma.SortOrder
   pickupTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   advancePaid?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -334,13 +361,16 @@ export type CakeOrderWhereUniqueInput = Prisma.AtLeast<{
   customerId?: Prisma.StringFilter<"CakeOrder"> | string
   productId?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringFilter<"CakeOrder"> | string
+  shape?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   pickupDate?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   pickupTime?: Prisma.StringFilter<"CakeOrder"> | string
   status?: Prisma.EnumCakeOrderStatusFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
@@ -355,13 +385,16 @@ export type CakeOrderOrderByWithAggregationInput = {
   customerId?: Prisma.SortOrder
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   cakeName?: Prisma.SortOrder
+  shape?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   pickupDate?: Prisma.SortOrder
   pickupTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   advancePaid?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -381,13 +414,16 @@ export type CakeOrderScalarWhereWithAggregatesInput = {
   customerId?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
   productId?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
+  shape?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   pickupDate?: Prisma.DateTimeWithAggregatesFilter<"CakeOrder"> | Date | string
   pickupTime?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
   status?: Prisma.EnumCakeOrderStatusWithAggregatesFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableWithAggregatesFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableWithAggregatesFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableWithAggregatesFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CakeOrder"> | Date | string
@@ -397,13 +433,16 @@ export type CakeOrderScalarWhereWithAggregatesInput = {
 export type CakeOrderCreateInput = {
   id?: string
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -417,13 +456,16 @@ export type CakeOrderUncheckedCreateInput = {
   customerId: string
   productId?: string | null
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
   createdAt?: Date | string
@@ -433,13 +475,16 @@ export type CakeOrderUncheckedCreateInput = {
 export type CakeOrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -453,13 +498,16 @@ export type CakeOrderUncheckedUpdateInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -471,13 +519,16 @@ export type CakeOrderCreateManyInput = {
   customerId: string
   productId?: string | null
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
   createdAt?: Date | string
@@ -487,13 +538,16 @@ export type CakeOrderCreateManyInput = {
 export type CakeOrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -504,13 +558,16 @@ export type CakeOrderUncheckedUpdateManyInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -532,13 +589,16 @@ export type CakeOrderCountOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   cakeName?: Prisma.SortOrder
+  shape?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   pickupDate?: Prisma.SortOrder
   pickupTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -555,13 +615,16 @@ export type CakeOrderMaxOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   cakeName?: Prisma.SortOrder
+  shape?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   pickupDate?: Prisma.SortOrder
   pickupTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -573,13 +636,16 @@ export type CakeOrderMinOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   cakeName?: Prisma.SortOrder
+  shape?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   pickupDate?: Prisma.SortOrder
   pickupTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -721,16 +787,23 @@ export type EnumCakeOrderStatusFieldUpdateOperationsInput = {
   set?: $Enums.CakeOrderStatus
 }
 
+export type NullableEnumPaymentMethodFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentMethod | null
+}
+
 export type CakeOrderCreateWithoutCreatedByInput = {
   id?: string
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -743,13 +816,16 @@ export type CakeOrderUncheckedCreateWithoutCreatedByInput = {
   customerId: string
   productId?: string | null
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -789,13 +865,16 @@ export type CakeOrderScalarWhereInput = {
   customerId?: Prisma.StringFilter<"CakeOrder"> | string
   productId?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringFilter<"CakeOrder"> | string
+  shape?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   pickupDate?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   pickupTime?: Prisma.StringFilter<"CakeOrder"> | string
   status?: Prisma.EnumCakeOrderStatusFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
@@ -805,13 +884,16 @@ export type CakeOrderScalarWhereInput = {
 export type CakeOrderCreateWithoutProductInput = {
   id?: string
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -823,13 +905,16 @@ export type CakeOrderUncheckedCreateWithoutProductInput = {
   id?: string
   customerId: string
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
   createdAt?: Date | string
@@ -865,13 +950,16 @@ export type CakeOrderUpdateManyWithWhereWithoutProductInput = {
 export type CakeOrderCreateWithoutCustomerInput = {
   id?: string
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -883,13 +971,16 @@ export type CakeOrderUncheckedCreateWithoutCustomerInput = {
   id?: string
   productId?: string | null
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
   createdAt?: Date | string
@@ -927,13 +1018,16 @@ export type CakeOrderCreateManyCreatedByInput = {
   customerId: string
   productId?: string | null
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -942,13 +1036,16 @@ export type CakeOrderCreateManyCreatedByInput = {
 export type CakeOrderUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -961,13 +1058,16 @@ export type CakeOrderUncheckedUpdateWithoutCreatedByInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -978,13 +1078,16 @@ export type CakeOrderUncheckedUpdateManyWithoutCreatedByInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -994,13 +1097,16 @@ export type CakeOrderCreateManyProductInput = {
   id?: string
   customerId: string
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
   createdAt?: Date | string
@@ -1010,13 +1116,16 @@ export type CakeOrderCreateManyProductInput = {
 export type CakeOrderUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1028,13 +1137,16 @@ export type CakeOrderUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1045,13 +1157,16 @@ export type CakeOrderUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1062,13 +1177,16 @@ export type CakeOrderCreateManyCustomerInput = {
   id?: string
   productId?: string | null
   cakeName: string
+  shape?: string | null
   weight?: string | null
   message?: string | null
+  imageUrl?: string | null
   pickupDate: Date | string
   pickupTime: string
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
   createdAt?: Date | string
@@ -1078,13 +1196,16 @@ export type CakeOrderCreateManyCustomerInput = {
 export type CakeOrderUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1096,13 +1217,16 @@ export type CakeOrderUncheckedUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1113,13 +1237,16 @@ export type CakeOrderUncheckedUpdateManyWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
+  shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pickupTime?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1133,13 +1260,16 @@ export type CakeOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   customerId?: boolean
   productId?: boolean
   cakeName?: boolean
+  shape?: boolean
   weight?: boolean
   message?: boolean
+  imageUrl?: boolean
   pickupDate?: boolean
   pickupTime?: boolean
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
   createdAt?: boolean
@@ -1154,13 +1284,16 @@ export type CakeOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   customerId?: boolean
   productId?: boolean
   cakeName?: boolean
+  shape?: boolean
   weight?: boolean
   message?: boolean
+  imageUrl?: boolean
   pickupDate?: boolean
   pickupTime?: boolean
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
   createdAt?: boolean
@@ -1175,13 +1308,16 @@ export type CakeOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   customerId?: boolean
   productId?: boolean
   cakeName?: boolean
+  shape?: boolean
   weight?: boolean
   message?: boolean
+  imageUrl?: boolean
   pickupDate?: boolean
   pickupTime?: boolean
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
   createdAt?: boolean
@@ -1196,20 +1332,23 @@ export type CakeOrderSelectScalar = {
   customerId?: boolean
   productId?: boolean
   cakeName?: boolean
+  shape?: boolean
   weight?: boolean
   message?: boolean
+  imageUrl?: boolean
   pickupDate?: boolean
   pickupTime?: boolean
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "weight" | "message" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "notes" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
+export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "paymentMethod" | "notes" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
 export type CakeOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   product?: boolean | Prisma.CakeOrder$productArgs<ExtArgs>
@@ -1238,13 +1377,16 @@ export type $CakeOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     customerId: string
     productId: string | null
     cakeName: string
+    shape: string | null
     weight: string | null
     message: string | null
+    imageUrl: string | null
     pickupDate: Date
     pickupTime: string
     status: $Enums.CakeOrderStatus
     price: runtime.Decimal | null
     advancePaid: runtime.Decimal | null
+    paymentMethod: $Enums.PaymentMethod | null
     notes: string | null
     createdById: string
     createdAt: Date
@@ -1679,13 +1821,16 @@ export interface CakeOrderFieldRefs {
   readonly customerId: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly productId: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly cakeName: Prisma.FieldRef<"CakeOrder", 'String'>
+  readonly shape: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly weight: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly message: Prisma.FieldRef<"CakeOrder", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly pickupDate: Prisma.FieldRef<"CakeOrder", 'DateTime'>
   readonly pickupTime: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly status: Prisma.FieldRef<"CakeOrder", 'CakeOrderStatus'>
   readonly price: Prisma.FieldRef<"CakeOrder", 'Decimal'>
   readonly advancePaid: Prisma.FieldRef<"CakeOrder", 'Decimal'>
+  readonly paymentMethod: Prisma.FieldRef<"CakeOrder", 'PaymentMethod'>
   readonly notes: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly createdById: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly createdAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>

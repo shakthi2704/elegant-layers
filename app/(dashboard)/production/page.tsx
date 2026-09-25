@@ -47,7 +47,13 @@ export default async function ProductionPage() {
             {productions.map((production) => {
               const summary = production.items
                 .map((item) => `${item.product.name} (${item.quantityProduced.toString()})`)
-                .join(", ");
+                .join(" , "); // Renders as a line break in HTML
+
+              // const summary = production.items.map((item, index) => (
+              //   <div key={index}>
+              //     {item.product.name} ({item.quantityProduced.toString()})
+              //   </div>
+              // ));
 
               return (
                 <TableRow key={production.id}>

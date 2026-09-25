@@ -90,3 +90,11 @@ export const AssetStatus = {
 } as const
 
 export type AssetStatus = (typeof AssetStatus)[keyof typeof AssetStatus]
+
+
+export const PaymentMethod = {
+  CASH: 'CASH',
+  BANK_DEPOSIT: 'BANK_DEPOSIT'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]

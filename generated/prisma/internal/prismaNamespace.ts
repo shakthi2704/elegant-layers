@@ -2524,13 +2524,16 @@ export const CakeOrderScalarFieldEnum = {
   customerId: 'customerId',
   productId: 'productId',
   cakeName: 'cakeName',
+  shape: 'shape',
   weight: 'weight',
   message: 'message',
+  imageUrl: 'imageUrl',
   pickupDate: 'pickupDate',
   pickupTime: 'pickupTime',
   status: 'status',
   price: 'price',
   advancePaid: 'advancePaid',
+  paymentMethod: 'paymentMethod',
   notes: 'notes',
   createdById: 'createdById',
   createdAt: 'createdAt',
@@ -2783,6 +2786,20 @@ export type EnumCakeOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'CakeOrderStatus[]'
  */
 export type ListEnumCakeOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CakeOrderStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMethod'
+ */
+export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMethod[]'
+ */
+export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>
     
 
 
