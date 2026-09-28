@@ -51,9 +51,13 @@ export function AppSidebar({
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" render={<Link href="/dashboard" />}>
-                            <div className="flex size-7 items-center justify-center rounded-md bg-sidebar-primary text-sm font-bold text-sidebar-primary-foreground">
-                                E
-                            </div>
+                            <Image
+                                src="/logo/logo.png"
+                                alt="Elegant Layers"
+                                width={56}
+                                height={56}
+                                className="size-7 shrink-0 rounded-md object-contain"
+                            />
                             <div className="grid flex-1 text-left text-sm leading-tight">
                                 <span className="truncate font-semibold">Elegant Layers</span>
                                 <span className="truncate text-xs text-sidebar-foreground/60">

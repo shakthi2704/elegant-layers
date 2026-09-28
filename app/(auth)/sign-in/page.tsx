@@ -28,11 +28,11 @@ export default function Page() {
             </div>
             <div className="relative hidden bg-muted lg:block">
                 <Image
-                    src="/images/wallpaper.jpg"
+                    src="/logo/logo.webp"
                     width={600}
                     height={400}
-                    alt="Image"
-                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                    alt="Elegant Layers"
+                    className="absolute inset-0 h-full w-full object-cover"
                 />
             </div>
 
