@@ -38,8 +38,11 @@ export default async function FixedAssetDetailPage({
                     <p className="text-sm text-muted-foreground">
                         {asset.category || "Uncategorized"} · Purchased {formatDate(asset.purchaseDate)}
                     </p>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                        This fixed asset is recorded in the system for tracking and depreciation purposes.
+                    </p>
                 </div>
-                <Badge variant={asset.status === "ACTIVE" ? "default" : "secondary"}>
+                <Badge variant={asset.status === "ACTIVE" ? "link" : "secondary"}>
                     {asset.status}
                 </Badge>
             </div>

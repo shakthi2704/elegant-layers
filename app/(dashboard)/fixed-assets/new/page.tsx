@@ -1,18 +1,31 @@
 import { requireRole } from "@/lib/require-role";
 import { createFixedAsset } from "@/app/(dashboard)/fixed-assets/actions";
 import { FixedAssetForm } from "@/components/fixed-assets/fixed-asset-form";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
 
 export default async function NewFixedAssetPage() {
     await requireRole(["ADMIN"]);
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Add Fixed Asset</h1>
-                <p className="text-sm text-muted-foreground">
-                    Record a piece of equipment, furniture, or other asset to depreciate.
-                </p>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Edit Fixed Asset</CardTitle>
+
+                    <p className="pt-1 text-sm text-muted-foreground">
+                        This fixed asset is recorded in the system for tracking and
+                        depreciation purposes.
+                    </p>
+                </CardHeader>
+            </Card>
+
 
             <FixedAssetForm action={createFixedAsset} submitLabel="Add Asset" />
         </div>

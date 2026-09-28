@@ -7,6 +7,16 @@ import { calculateDepreciation } from "@/lib/fixed-asset-depreciation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+
+
 export default async function FixedAssetsPage() {
     await requireRole(["ADMIN"]);
 
@@ -27,21 +37,37 @@ export default async function FixedAssetsPage() {
                     Add Asset
                 </Button>
             </div>
+            <div className="overflow-hidden rounded-md">
+                <Table className="w-full text-sm  border border-border ">
+                    <TableHeader className="bg-muted ">
+                        <TableRow className="">
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Name
+                            </TableHead>
 
-            <div className="overflow-hidden rounded-lg border border-border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left text-muted-foreground">
-                        <tr>
-                            <th className="px-4 py-2.5 font-medium">Name</th>
-                            <th className="px-4 py-2.5 font-medium">Category</th>
-                            <th className="px-4 py-2.5 font-medium">Purchase Date</th>
-                            <th className="px-4 py-2.5 font-medium">Cost</th>
-                            <th className="px-4 py-2.5 font-medium">Book Value</th>
-                            <th className="px-4 py-2.5 font-medium">Status</th>
-                            <th className="px-4 py-2.5 font-medium" />
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border">
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Category
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Purchase Date
+                            </TableHead>
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Cost
+                            </TableHead>
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Book Value
+                            </TableHead>
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Status
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 text-right font-medium">
+                                Actions
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody className="divide-y divide-border bg-muted/20">
                         {assets.map((asset) => {
                             const { bookValue } = calculateDepreciation({
                                 purchaseCost: asset.purchaseCost.toNumber(),
@@ -52,43 +78,70 @@ export default async function FixedAssetsPage() {
                             });
 
                             return (
-                                <tr key={asset.id}>
-                                    <td className="px-4 py-2.5 font-medium">{asset.name}</td>
-                                    <td className="px-4 py-2.5 text-muted-foreground">
+                                <TableRow key={asset.id}>
+                                    <TableCell className="font-medium">
+                                        {asset.name}
+                                    </TableCell>
+
+                                    <TableCell className="text-muted-foreground">
                                         {asset.category || "—"}
-                                    </td>
-                                    <td className="px-4 py-2.5 text-muted-foreground">
+                                    </TableCell>
+
+                                    <TableCell className="text-muted-foreground">
                                         {formatDate(asset.purchaseDate)}
-                                    </td>
-                                    <td className="px-4 py-2.5">Rs. {asset.purchaseCost.toString()}</td>
-                                    <td className="px-4 py-2.5">Rs. {bookValue.toFixed(2)}</td>
-                                    <td className="px-4 py-2.5">
-                                        <Badge variant={asset.status === "ACTIVE" ? "default" : "secondary"}>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        Rs. {asset.purchaseCost.toString()}
+                                    </TableCell>
+
+                                    <TableCell>
+                                        Rs. {bookValue.toFixed(2)}
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Badge
+                                            variant={
+                                                asset.status === "ACTIVE"
+                                                    ? "default"
+                                                    : "secondary"
+                                            }
+                                        >
                                             {asset.status}
                                         </Badge>
-                                    </td>
-                                    <td className="px-4 py-2.5 text-right">
+                                    </TableCell>
+
+                                    <TableCell className="text-right">
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             nativeButton={false}
-                                            render={<Link href={`/fixed-assets/${asset.id}`} />}
+                                            render={
+                                                <Link
+                                                    href={`/fixed-assets/${asset.id}`}
+                                                />
+                                            }
                                         >
                                             View
                                         </Button>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             );
                         })}
+
                         {assets.length === 0 && (
-                            <tr>
-                                <td colSpan={7} className="px-4 py-10 text-center text-muted-foreground">
+                            <TableRow>
+                                <TableCell
+                                    colSpan={7}
+                                    className="py-10 text-center text-muted-foreground"
+                                >
                                     No fixed assets recorded yet.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+
+                </Table>
             </div>
         </div>
     );

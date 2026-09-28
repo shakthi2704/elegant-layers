@@ -64,7 +64,7 @@ export function DisposeAssetButton({ assetId, assetName }: { assetId: string; as
                     {state.error && <p className="text-sm text-destructive">{state.error}</p>}
                     <AlertDialogFooter>
                         <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
-                        <Button type="submit" disabled={pending}>
+                        <Button type="submit" disabled={pending} variant={"destructive"}>
                             {pending ? "Disposing..." : "Dispose"}
                         </Button>
                     </AlertDialogFooter>

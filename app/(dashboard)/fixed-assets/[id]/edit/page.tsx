@@ -23,6 +23,9 @@ export default async function EditFixedAssetPage({
             <div>
                 <h1 className="text-xl font-semibold">Edit Fixed Asset</h1>
                 <p className="text-sm text-muted-foreground">{asset.name}</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                    This fixed asset is recorded in the system for tracking and depreciation purposes.
+                </p>
             </div>
 
             {asset.status === "DISPOSED" ? (
