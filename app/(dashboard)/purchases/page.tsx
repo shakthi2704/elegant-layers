@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -26,7 +27,7 @@ export default async function PurchasesPage() {
         <div>
           <h1 className="text-xl font-semibold">Purchases</h1>
           <p className="text-sm text-muted-foreground">
-            Ingredient purchases from suppliers. Each entry increases stock.
+            Ingredient and product purchases from suppliers. Each entry increases stock.
           </p>
         </div>
         <Button nativeButton={false} render={<Link href="/purchases/new" />}>
@@ -49,7 +50,7 @@ export default async function PurchasesPage() {
             {purchases.map((purchase) => (
               <TableRow key={purchase.id}>
                 <TableCell className="text-muted-foreground">
-                  {purchase.purchaseDate.toLocaleDateString()}
+                  {formatDate(purchase.purchaseDate)}
                 </TableCell>
                 <TableCell className="font-medium">{purchase.supplier.name}</TableCell>
                 <TableCell className="text-muted-foreground">
