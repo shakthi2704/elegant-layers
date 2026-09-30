@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -78,7 +79,7 @@ export default async function InventoryPage() {
               return (
                 <TableRow key={txn.id}>
                   <TableCell className="px-4 py-2.5 text-muted-foreground">
-                    {txn.createdAt.toLocaleDateString()}
+                    {formatDate(txn.createdAt)}
                   </TableCell>
 
                   <TableCell className="px-4 py-2.5 font-medium">
@@ -87,8 +88,8 @@ export default async function InventoryPage() {
 
                   <TableCell
                     className={`px-4 py-2.5 ${quantity >= 0
-                        ? "text-emerald-500"
-                        : "text-destructive"
+                      ? "text-emerald-500"
+                      : "text-destructive"
                       }`}
                   >
                     {quantity >= 0 ? "+" : ""}

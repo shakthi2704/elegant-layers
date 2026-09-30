@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDate } from "@/lib/format";
 
 
 import {
@@ -39,7 +40,7 @@ export default async function AdjustmentDetailPage({
                     <CardTitle className="text-xl">Stock Details</CardTitle>
                     <CardDescription>
                         Recorded by {adjustment.createdBy.name} on{" "}
-                        {adjustment.createdAt.toLocaleDateString()}
+                        {formatDate(adjustment.createdAt)}
                     </CardDescription>
                 </CardHeader>
             </Card>

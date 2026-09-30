@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDate } from "@/lib/format";
 import {
     Card,
     CardContent,
@@ -66,7 +67,7 @@ export default async function ProductionDetailPage({
 
                     <CardDescription>
                         Recorded by {production.producedBy.name} on{" "}
-                        {production.createdAt.toLocaleDateString()}
+                        {formatDate(production.createdAt)}
                     </CardDescription>
                 </CardHeader>
 
@@ -78,7 +79,7 @@ export default async function ProductionDetailPage({
                             </p>
 
                             <p className="font-medium">
-                                {production.productionDate.toLocaleDateString()}
+                                {formatDate(production.productionDate)}
                             </p>
                         </div>
 
