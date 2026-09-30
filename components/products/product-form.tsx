@@ -30,6 +30,7 @@ export function ProductForm({
     categoryId?: string;
     sellingPrice?: number | string;
     unit?: string;
+    isFinishedProduct?: boolean;
     minimumStock?: number | string;
   };
   submitLabel: string;
@@ -125,6 +126,23 @@ export function ProductForm({
           min="0"
           defaultValue={defaultValues?.minimumStock}
         />
+      </div>
+
+      <div className="flex items-start gap-3">
+        <input
+          id="isFinishedProduct"
+          name="isFinishedProduct"
+          type="checkbox"
+          defaultChecked={defaultValues?.isFinishedProduct ?? true}
+          className="mt-0.5 size-4 rounded border-input accent-primary"
+        />
+        <div className="space-y-0.5">
+          <Label htmlFor="isFinishedProduct">Finished product (tracks stock)</Label>
+          <p className="text-xs text-muted-foreground">
+            Stock comes in through Production and is deducted when sold. Untick for items
+            sold directly, where the recipe&apos;s ingredients are deducted instead.
+          </p>
+        </div>
       </div>
 
       {state.error && <p className="text-sm text-destructive">{state.error}</p>}
