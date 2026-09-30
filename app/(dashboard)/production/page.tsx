@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
+import { formatDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -59,21 +60,21 @@ export default async function ProductionPage() {
 
           <TableBody className="divide-y divide-border bg-muted/20">
             {productions.map((production) => {
-              const summary = production.items
-                .map(
-                  (item) =>
-                    `${item.product.name} (${item.quantityProduced.toString()})`
-                )
-                .join(" , ");
+              const lines = production.items.map(
+                (item) =>
+                  `${item.product.name} (${item.quantityProduced.toString()})`
+              );
 
               return (
                 <TableRow key={production.id}>
                   <TableCell className="px-4 py-2.5 text-muted-foreground">
-                    {production.productionDate.toLocaleDateString()}
+                    {formatDate(production.productionDate)}
                   </TableCell>
 
                   <TableCell className="px-4 py-2.5 font-medium">
-                    {summary}
+                    {lines.map((line, i) => (
+                      <div key={i}>{line}</div>
+                    ))}
                   </TableCell>
 
                   <TableCell className="px-4 py-2.5 text-right">
