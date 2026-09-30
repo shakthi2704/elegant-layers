@@ -3,7 +3,7 @@ import type { Prisma } from "@/generated/prisma/client";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
-import { formatDate } from "@/lib/format";
+import { formatDate, isPickupOverdue } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CakeOrderStatusFilterSelect } from "@/components/cake-orders/cake-order-status-filter";
@@ -45,6 +45,12 @@ export default async function CakeOrdersPage({
     orderBy: [{ pickupDate: "asc" }, { pickupTime: "asc" }],
   });
 
+  const now = new Date();
+  const isOverdue = (o: (typeof orders)[number]) =>
+    (ACTIVE_STATUSES as readonly string[]).includes(o.status) &&
+    isPickupOverdue(o.pickupDate, o.pickupTime, now);
+  const overdueCount = orders.filter(isOverdue).length;
+
   return (
     <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
@@ -53,6 +59,12 @@ export default async function CakeOrdersPage({
           <p className="text-sm text-muted-foreground">
             Custom cake orders, sorted by soonest pickup.
           </p>
+          {overdueCount > 0 && (
+            <p className="mt-1 text-sm font-medium text-destructive">
+              {overdueCount} order{overdueCount === 1 ? "" : "s"} past pickup
+              time and not collected.
+            </p>
+          )}
         </div>
         <Button nativeButton={false} render={<Link href="/cake-orders/new" />}>
           New Order
@@ -112,7 +124,10 @@ export default async function CakeOrdersPage({
 
             <TableBody className="divide-y divide-border bg-muted/20">
               {orders.map((order) => (
-                <TableRow key={order.id}>
+                <TableRow
+                  key={order.id}
+                  className={isOverdue(order) ? "bg-destructive/10" : undefined}
+                >
                   <TableCell className="font-medium">
                     {order.customer.name}
                   </TableCell>
@@ -123,6 +138,11 @@ export default async function CakeOrdersPage({
 
                   <TableCell className="text-muted-foreground">
                     {formatDate(order.pickupDate)} at {order.pickupTime}
+                    {isOverdue(order) && (
+                      <Badge variant="destructive" className="ml-2">
+                        Overdue
+                      </Badge>
+                    )}
                   </TableCell>
 
                   <TableCell>
