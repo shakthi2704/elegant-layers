@@ -72,8 +72,7 @@ export function CakeOrderForm({
                 <CardTitle>Cake Order</CardTitle>
 
                 <CardDescription>
-                    Create a new cake order and provide the customer's pickup
-                    and payment details.
+                    Customer, cake, pickup and payment details.
                 </CardDescription>
             </CardHeader>
 

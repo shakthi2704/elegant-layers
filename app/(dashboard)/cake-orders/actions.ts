@@ -69,6 +69,65 @@ export async function createCakeOrder(
     redirect(`/cake-orders/${order.id}`);
 }
 
+export async function updateCakeOrder(
+    orderId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    await requireRole(["ADMIN", "CASHIER"]);
+
+    const existing = await prisma.cakeOrder.findUnique({ where: { id: orderId } });
+    if (!existing) {
+        return { error: "Order not found." };
+    }
+    if (existing.status === "COLLECTED" || existing.status === "CANCELLED") {
+        return {
+            error: `This order is ${existing.status.toLowerCase()} and can't be edited.`,
+        };
+    }
+
+    const parsed = cakeOrderSchema.safeParse(parseFormData(formData));
+    if (!parsed.success) {
+        return { fieldErrors: parsed.error.flatten().fieldErrors };
+    }
+
+    const { customerName, customerPhone, ...orderData } = parsed.data;
+
+    await prisma.$transaction(async (tx) => {
+        const customer = await tx.customer.upsert({
+            where: { phone: customerPhone },
+            update: { name: customerName },
+            create: { name: customerName, phone: customerPhone },
+        });
+
+        // Prisma treats `undefined` as "leave unchanged", so every optional
+        // field is mapped to null explicitly; otherwise clearing a field in
+        // the form (e.g. removing the photo) would silently do nothing.
+        await tx.cakeOrder.update({
+            where: { id: orderId },
+            data: {
+                customerId: customer.id,
+                productId: orderData.productId ?? null,
+                cakeName: orderData.cakeName,
+                shape: orderData.shape ?? null,
+                weight: orderData.weight ?? null,
+                message: orderData.message ?? null,
+                imageUrl: orderData.imageUrl ?? null,
+                pickupDate: orderData.pickupDate,
+                pickupTime: orderData.pickupTime,
+                price: orderData.price ?? null,
+                advancePaid: orderData.advancePaid ?? null,
+                paymentMethod: orderData.paymentMethod ?? null,
+                notes: orderData.notes ?? null,
+            },
+        });
+    });
+
+    revalidatePath("/cake-orders");
+    revalidatePath(`/cake-orders/${orderId}`);
+    redirect(`/cake-orders/${orderId}`);
+}
+
 export async function advanceCakeOrderStatus(
     orderId: string,
     _prevState: ActionState,
