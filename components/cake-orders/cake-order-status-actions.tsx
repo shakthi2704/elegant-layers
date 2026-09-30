@@ -48,6 +48,14 @@ export function CakeOrderStatusActions({
         }
     }, [cancelState.success]);
 
+    const [collectOpen, setCollectOpen] = useState(false);
+
+    useEffect(() => {
+        if (advanceState.success) {
+            setCollectOpen(false);
+        }
+    }, [advanceState.success]);
+
     if (status === "COLLECTED" || status === "CANCELLED") {
         return null;
     }
@@ -56,12 +64,36 @@ export function CakeOrderStatusActions({
 
     return (
         <div className="flex flex-wrap items-center gap-2">
-            {nextLabel && (
+            {nextLabel && status !== "READY" && (
                 <form action={advanceAction}>
                     <Button type="submit" disabled={advancePending}>
                         {advancePending ? "Updating..." : nextLabel}
                     </Button>
                 </form>
+            )}
+
+            {status === "READY" && (
+                <AlertDialog open={collectOpen} onOpenChange={setCollectOpen}>
+                    <AlertDialogTrigger render={<Button>{nextLabel}</Button>} />
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Mark as collected?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Confirm the customer has paid the full balance and taken the
+                                cake. The order will be locked and can&apos;t be edited or
+                                cancelled afterwards.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <form action={advanceAction}>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel type="button">Back</AlertDialogCancel>
+                                <Button type="submit" disabled={advancePending}>
+                                    {advancePending ? "Updating..." : "Confirm Collected"}
+                                </Button>
+                            </AlertDialogFooter>
+                        </form>
+                    </AlertDialogContent>
+                </AlertDialog>
             )}
             {advanceState.error && <p className="text-sm text-destructive">{advanceState.error}</p>}
 

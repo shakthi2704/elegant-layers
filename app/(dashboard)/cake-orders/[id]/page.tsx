@@ -265,7 +265,7 @@ export default async function CakeOrderDetailPage({
                             {formatDateTime(order.createdAt)}
                         </p>
 
-                        <div className="flex w-full items-center justify-start gap-2">
+                        <div className="flex w-full flex-wrap items-center justify-start gap-2">
                             {!isLocked && (
                                 <Button
                                     variant="outline"
@@ -287,6 +287,18 @@ export default async function CakeOrderDetailPage({
                             >
                                 Print KOT
                             </Button>
+
+                            {order.status !== "CANCELLED" && (
+                                <Button
+                                    variant="outline"
+                                    nativeButton={false}
+                                    render={
+                                        <Link href={`/cake-orders/${order.id}/bill`} />
+                                    }
+                                >
+                                    Customer Bill
+                                </Button>
+                            )}
 
                             <CakeOrderStatusActions
                                 orderId={order.id}
