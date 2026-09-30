@@ -4,6 +4,14 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { updateSupplier } from "@/app/(dashboard)/suppliers/actions";
 import { SupplierForm } from "@/components/suppliers/supplier-form";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
 
 export default async function EditSupplierPage({
     params,
@@ -22,9 +30,11 @@ export default async function EditSupplierPage({
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Edit Supplier</h1>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Edit supplier</CardTitle>
+                </CardHeader>
+            </Card>
             <SupplierForm
                 action={boundUpdate}
                 submitLabel="Save Changes"

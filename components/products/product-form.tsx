@@ -16,18 +16,6 @@ import {
 
 type Category = { id: string; name: string };
 
-type ProductFormValues = {
-  name: string;
-  sku: string;
-  categoryId: string;
-  sellingPrice: number | string;
-  unit: string;
-  isFinishedProduct: boolean;
-  minimumStock: number | string;
-};
-
-const UNITS = ["PCS", "KG", "G", "L", "ML"];
-
 export function ProductForm({
   action,
   categories,
@@ -36,7 +24,14 @@ export function ProductForm({
 }: {
   action: (prevState: ActionState, formData: FormData) => Promise<ActionState>;
   categories: Category[];
-  defaultValues?: Partial<ProductFormValues>;
+  defaultValues?: {
+    name?: string;
+    sku?: string;
+    categoryId?: string;
+    sellingPrice?: number | string;
+    unit?: string;
+    minimumStock?: number | string;
+  };
   submitLabel: string;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
@@ -55,96 +50,81 @@ export function ProductForm({
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="sku">SKU</Label>
-          <Input id="sku" name="sku" defaultValue={defaultValues?.sku} required />
-          {state.fieldErrors?.sku && (
-            <p className="text-sm text-destructive">{state.fieldErrors.sku[0]}</p>
-          )}
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="categoryId">Category</Label>
-          <Select name="categoryId" defaultValue={defaultValues?.categoryId}>
-            <SelectTrigger id="categoryId">
-              <SelectValue placeholder="Select category">
-                {(value: string | null) =>
-                  categories.find((c) => c.id === value)?.name ?? "Select category"
-                }
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((c) => (
-                <SelectItem key={c.id} value={c.id}>
-                  {c.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {state.fieldErrors?.categoryId && (
-            <p className="text-sm text-destructive">{state.fieldErrors.categoryId[0]}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="sellingPrice">Selling Price</Label>
-          <Input
-            id="sellingPrice"
-            name="sellingPrice"
-            type="number"
-            step="0.01"
-            min="0"
-            defaultValue={defaultValues?.sellingPrice}
-            required
-          />
-          {state.fieldErrors?.sellingPrice && (
-            <p className="text-sm text-destructive">{state.fieldErrors.sellingPrice[0]}</p>
-          )}
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="unit">Unit</Label>
-          <Select name="unit" defaultValue={defaultValues?.unit ?? "PCS"}>
-            <SelectTrigger id="unit">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {UNITS.map((u) => (
-                <SelectItem key={u} value={u}>
-                  {u}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-1.5">
+        <Label htmlFor="sku">SKU</Label>
+        <Input id="sku" name="sku" defaultValue={defaultValues?.sku} required />
+        {state.fieldErrors?.sku && (
+          <p className="text-sm text-destructive">{state.fieldErrors.sku[0]}</p>
+        )}
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="minimumStock">Minimum Stock (low-stock alert threshold)</Label>
+        <Label htmlFor="categoryId">Category</Label>
+        <Select name="categoryId" defaultValue={defaultValues?.categoryId}>
+          <SelectTrigger id="categoryId" className="w-full">
+            <SelectValue placeholder="Select category">
+              {(value: string | null) =>
+                categories.find((c) => c.id === value)?.name ?? "Select category"
+              }
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((c) => (
+              <SelectItem key={c.id} value={c.id}>
+                {c.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {state.fieldErrors?.categoryId && (
+          <p className="text-sm text-destructive">{state.fieldErrors.categoryId[0]}</p>
+        )}
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="sellingPrice">Selling Price</Label>
+        <Input
+          id="sellingPrice"
+          name="sellingPrice"
+          type="number"
+          step="0.01"
+          min="0"
+          defaultValue={defaultValues?.sellingPrice}
+          required
+        />
+        {state.fieldErrors?.sellingPrice && (
+          <p className="text-sm text-destructive">{state.fieldErrors.sellingPrice[0]}</p>
+        )}
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="unit">Unit</Label>
+        <Select name="unit" defaultValue={defaultValues?.unit ?? "PCS"}>
+          <SelectTrigger id="unit" className="w-full">
+            <SelectValue placeholder="Select unit">
+              {(value: string | null) => value ?? "Select unit"}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="KG">KG</SelectItem>
+            <SelectItem value="G">G</SelectItem>
+            <SelectItem value="L">L</SelectItem>
+            <SelectItem value="ML">ML</SelectItem>
+            <SelectItem value="PCS">PCS</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label htmlFor="minimumStock">Minimum Stock</Label>
         <Input
           id="minimumStock"
           name="minimumStock"
           type="number"
           step="0.001"
           min="0"
-          defaultValue={defaultValues?.minimumStock ?? 0}
+          defaultValue={defaultValues?.minimumStock}
         />
-      </div>
-
-      <div className="flex items-center gap-2">
-        <input
-          id="isFinishedProduct"
-          name="isFinishedProduct"
-          type="checkbox"
-          defaultChecked={defaultValues?.isFinishedProduct ?? true}
-          className="size-4 rounded border-input"
-        />
-        <Label htmlFor="isFinishedProduct" className="font-normal">
-          Tracked via Production (uses a Recipe to consume ingredients)
-        </Label>
       </div>
 
       {state.error && <p className="text-sm text-destructive">{state.error}</p>}

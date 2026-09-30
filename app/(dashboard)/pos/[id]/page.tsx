@@ -116,17 +116,29 @@ export default async function SaleDetailPage({
                     <tbody className="divide-y divide-border print:divide-black">
                         {sale.items.map((item) => (
                             <tr key={item.id} className="print:text-black">
-                                <td className="px-4 py-2 print:px-1 print:py-1">{item.product.name}</td>
+                                <td className="px-4 py-2 print:px-1 print:py-1">
+                                    {item.product.name}
+                                </td>
+
                                 <td className="px-4 py-2 text-right print:px-1 print:py-1">
                                     {item.quantity.toString()}
                                 </td>
+
                                 <td className="px-4 py-2 text-right print:px-1 print:py-1">
-                                    {item.unitPrice.toString()}
+                                    {Number(item.unitPrice).toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
                                 </td>
+
                                 <td className="px-4 py-2 text-right print:px-1 print:py-1">
-                                    {item.subtotal.toString()}
+                                    {Number(item.subtotal).toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
                                 </td>
                             </tr>
+
                         ))}
                     </tbody>
                 </table>
@@ -134,26 +146,56 @@ export default async function SaleDetailPage({
 
             <div className="space-y-1 text-sm print:text-[11px]">
                 <div className="flex justify-between">
-                    <span className="text-muted-foreground print:text-black">Subtotal</span>
-                    <span className="print:text-black">Rs. {sale.subtotal.toString()}</span>
+                    <span className="text-muted-foreground print:text-black">
+                        Subtotal
+                    </span>
+                    <span className="print:text-black">
+                        Rs.{" "}
+                        {Number(sale.subtotal).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        })}
+                    </span>
                 </div>
+
                 <div className="flex justify-between text-lg font-semibold print:text-sm">
                     <span className="print:text-black">Total</span>
-                    <span className="print:text-black">Rs. {sale.total.toString()}</span>
+                    <span className="print:text-black">
+                        Rs.{" "}
+                        {Number(sale.total).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        })}
+                    </span>
                 </div>
+
                 {sale.cashReceived && (
                     <>
                         <div className="flex justify-between text-muted-foreground print:text-black">
                             <span>Cash received</span>
-                            <span>Rs. {sale.cashReceived.toString()}</span>
+                            <span>
+                                Rs.{" "}
+                                {Number(sale.cashReceived).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </span>
                         </div>
+
                         <div className="flex justify-between text-muted-foreground print:text-black">
                             <span>Change</span>
-                            <span>Rs. {sale.changeGiven?.toString()}</span>
+                            <span>
+                                Rs.{" "}
+                                {Number(sale.changeGiven ?? 0).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </span>
                         </div>
                     </>
                 )}
             </div>
+
             <div className="flex gap-2 print:hidden">
                 <PrintBillButton />
                 {sale.status === "COMPLETED" && user.role === "ADMIN" && (

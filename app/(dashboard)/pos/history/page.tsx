@@ -21,6 +21,16 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
+
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
+
 const RESULT_CAP = 100;
 
 // Sri Lanka has a fixed UTC+5:30 offset (no DST), so a calendar day picked in
@@ -74,102 +84,174 @@ export default async function SalesHistoryPage({
     ]);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
             <div>
-                <h1 className="text-xl font-semibold">Sales History</h1>
+                <h1 className="text-3xl font-semibold">Sales History</h1>
                 <p className="text-sm text-muted-foreground">
                     Completed and voided bills.
                 </p>
             </div>
+            <Card className="max-w-full p-4">
+                <form method="get">
+                    <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                        {/* Status */}
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="status">Status</Label>
+                            <StatusFilterSelect defaultValue={status ?? "ALL"} />
+                        </div>
 
-            <form
-                method="get"
-                className="flex flex-wrap items-end gap-4 rounded-lg border border-border p-4"
-            >
-                <StatusFilterSelect defaultValue={status ?? "ALL"} />
+                        {/* Cashier */}
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="cashier">Cashier</Label>
+                            <CashierFilterSelect
+                                defaultValue={cashierId ?? "ALL"}
+                                cashiers={cashiers.map((c) => ({
+                                    id: c.id,
+                                    name: c.name,
+                                }))}
+                            />
+                        </div>
 
-                <CashierFilterSelect
-                    defaultValue={cashierId ?? "ALL"}
-                    cashiers={cashiers.map((c) => ({ id: c.id, name: c.name }))}
-                />
+                        {/* From */}
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="from">From</Label>
+                            <Input
+                                id="from"
+                                type="date"
+                                name="from"
+                                defaultValue={from}
+                                className="h-9 w-full"
+                            />
+                        </div>
 
-                <div className="space-y-1.5">
-                    <Label htmlFor="from">From</Label>
-                    <Input id="from" type="date" name="from" defaultValue={from} />
-                </div>
+                        {/* To */}
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="to">To</Label>
+                            <Input
+                                id="to"
+                                type="date"
+                                name="to"
+                                defaultValue={to}
+                                className="h-9 w-full"
+                            />
+                        </div>
 
-                <div className="space-y-1.5">
-                    <Label htmlFor="to">To</Label>
-                    <Input id="to" type="date" name="to" defaultValue={to} />
-                </div>
+                        {/* Actions */}
+                        <div className="flex h-9 items-center gap-2">
+                            <Button type="submit" size="sm">
+                                Filter
+                            </Button>
 
-                <div className="flex gap-2">
-                    <Button type="submit" size="sm">
-                        Filter
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        nativeButton={false}
-                        render={<Link href="/pos/history" />}
-                    >
-                        Clear
-                    </Button>
-                </div>
-            </form>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                nativeButton={false}
+                                render={<Link href="/pos/history" />}
+                            >
+                                Clear
+                            </Button>
+                        </div>
+                    </div>
+                </form>
+            </Card>
 
-            <div className="overflow-hidden rounded-lg border border-border">
-                <Table>
-                    <TableHeader>
+
+
+
+
+            <div className="overflow-hidden rounded-md">
+                <Table className="w-full text-sm border border-border">
+                    <TableHeader className="bg-muted">
                         <TableRow>
-                            <TableHead>Sale #</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Cashier</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead className="text-right">Total</TableHead>
-                            <TableHead className="text-right">Action</TableHead>
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Sale #
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Date
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Type
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Cashier
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 font-medium">
+                                Status
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 text-right font-medium">
+                                Total
+                            </TableHead>
+
+                            <TableHead className="px-4 py-2.5 text-right font-medium">
+                                Action
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
+
+                    <TableBody className="divide-y divide-border bg-muted/20">
                         {sales.map((sale) => (
                             <TableRow key={sale.id}>
                                 <TableCell className="font-medium">
                                     {sale.saleNumber}
                                 </TableCell>
-                                <TableCell className="text-muted-foreground">
+
+                                <TableCell className="text-foreground">
                                     {formatDateTime(sale.createdAt)}
                                 </TableCell>
-                                <TableCell className="text-muted-foreground">
-                                    {sale.type === "DINE_IN" ? "Dine-in" : "Takeaway"}
+
+                                <TableCell className="text-foreground">
+                                    {sale.type === "DINE_IN"
+                                        ? "Dine-in"
+                                        : "Takeaway"}
                                 </TableCell>
-                                <TableCell className="text-muted-foreground">
+
+                                <TableCell className="text-foreground">
                                     {sale.cashier.name}
                                 </TableCell>
+
                                 <TableCell>
                                     <Badge
                                         variant={
-                                            sale.status === "VOID" ? "destructive" : "secondary"
+                                            sale.status === "VOID"
+                                                ? "destructive"
+                                                : "secondary"
                                         }
                                     >
-                                        {sale.status === "VOID" ? "Void" : "Completed"}
+                                        {sale.status === "VOID"
+                                            ? "Void"
+                                            : "Completed"}
                                     </Badge>
                                 </TableCell>
+
                                 <TableCell className="text-right">
-                                    Rs. {sale.total.toString()}
+                                    Rs.{" "}
+                                    {Number(sale.total).toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
                                 </TableCell>
+
+
                                 <TableCell className="text-right">
                                     <Button
                                         variant="ghost"
                                         size="sm"
                                         nativeButton={false}
-                                        render={<Link href={`/pos/${sale.id}`} />}
+                                        render={
+                                            <Link href={`/pos/${sale.id}`} />
+                                        }
                                     >
                                         View
                                     </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
+
                         {sales.length === 0 && (
                             <TableRow>
                                 <TableCell
@@ -183,6 +265,7 @@ export default async function SalesHistoryPage({
                     </TableBody>
                 </Table>
             </div>
+
 
             {sales.length === RESULT_CAP && (
                 <p className="text-sm text-muted-foreground">

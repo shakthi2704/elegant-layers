@@ -46,10 +46,10 @@ export default async function CakeOrdersPage({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">Cake Orders</h1>
+          <h1 className="text-3xl font-semibold">Cake Orders</h1>
           <p className="text-sm text-muted-foreground">
             Custom cake orders, sorted by soonest pickup.
           </p>
@@ -79,53 +79,97 @@ export default async function CakeOrdersPage({
         </div>
       </form>
 
-      <div className="overflow-hidden rounded-lg border border-border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Customer</TableHead>
-              <TableHead>Cake</TableHead>
-              <TableHead>Pickup</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead />
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="font-medium">{order.customer.name}</TableCell>
-                <TableCell>{order.cakeName}</TableCell>
-                <TableCell className="text-muted-foreground">
-                  {formatDate(order.pickupDate)} at {order.pickupTime}
-                </TableCell>
-                <TableCell>
-                  <Badge variant={STATUS_VARIANT[order.status] ?? "secondary"}>
-                    {order.status.replace("_", " ")}
-                  </Badge>
-                </TableCell>
-                <TableCell>{order.price ? `Rs. ${order.price.toString()}` : "—"}</TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    nativeButton={false}
-                    render={<Link href={`/cake-orders/${order.id}`} />}
-                  >
-                    View
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-            {orders.length === 0 && (
+      <div className="overflow-hidden rounded-md">
+        <div className="overflow-hidden rounded-md">
+          <Table className="w-full text-sm border border-border">
+            <TableHeader className="bg-muted">
               <TableRow>
-                <TableCell colSpan={6} className="py-10 text-center text-muted-foreground">
-                  No cake orders found.
-                </TableCell>
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Customer
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Cake
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Pickup
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Status
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Price
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 text-right font-medium">
+                  Action
+                </TableHead>
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
+            </TableHeader>
+
+            <TableBody className="divide-y divide-border bg-muted/20">
+              {orders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell className="font-medium">
+                    {order.customer.name}
+                  </TableCell>
+
+                  <TableCell className="text-foreground">
+                    {order.cakeName}
+                  </TableCell>
+
+                  <TableCell className="text-muted-foreground">
+                    {formatDate(order.pickupDate)} at {order.pickupTime}
+                  </TableCell>
+
+                  <TableCell>
+                    <Badge
+                      variant={
+                        STATUS_VARIANT[order.status] ?? "secondary"
+                      }
+                    >
+                      {order.status.replace("_", " ")}
+                    </Badge>
+                  </TableCell>
+
+                  <TableCell>
+                    {order.price
+                      ? `Rs. ${Number(order.price).toLocaleString("en-LK")}`
+                      : "—"}
+                  </TableCell>
+
+                  <TableCell className="text-right">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      nativeButton={false}
+                      render={
+                        <Link href={`/cake-orders/${order.id}`} />
+                      }
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+
+              {orders.length === 0 && (
+                <TableRow>
+                  <TableCell
+                    colSpan={6}
+                    className="py-10 text-center text-muted-foreground"
+                  >
+                    No cake orders found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
       </div>
     </div>
   );

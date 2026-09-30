@@ -4,6 +4,15 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { updateFixedAsset } from "@/app/(dashboard)/fixed-assets/actions";
 import { FixedAssetForm } from "@/components/fixed-assets/fixed-asset-form";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
+
 
 export default async function EditFixedAssetPage({
     params,

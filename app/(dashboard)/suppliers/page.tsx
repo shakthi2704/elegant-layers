@@ -15,10 +15,12 @@ import {
 export default async function SuppliersPage() {
   await requireRole(["ADMIN"]);
 
-  const suppliers = await prisma.supplier.findMany({ orderBy: { name: "asc" } });
+  const suppliers = await prisma.supplier.findMany({
+    orderBy: { name: "asc" },
+  });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Suppliers</h1>
@@ -26,46 +28,75 @@ export default async function SuppliersPage() {
             Vendors you buy ingredients from.
           </p>
         </div>
-        <Button nativeButton={false} render={<Link href="/suppliers/new" />}>
+
+        <Button
+          nativeButton={false}
+          render={<Link href="/suppliers/new" />}
+        >
           Add Supplier
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-lg border border-border">
-        <Table>
-          <TableHeader>
+      <div className="overflow-hidden rounded-md">
+        <Table className="w-full border border-border text-sm">
+          <TableHeader className="bg-muted">
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Contact</TableHead>
-              <TableHead>Address</TableHead>
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">
+                Name
+              </TableHead>
+
+              <TableHead className="px-4 py-2.5 font-medium">
+                Contact
+              </TableHead>
+
+              <TableHead className="px-4 py-2.5 font-medium">
+                Address
+              </TableHead>
+
+              <TableHead className="px-4 py-2.5 text-right font-medium">
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+
+          <TableBody className="divide-y divide-border bg-muted/20">
             {suppliers.map((supplier) => (
               <TableRow key={supplier.id}>
-                <TableCell className="font-medium">{supplier.name}</TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="px-4 py-2.5 font-medium">
+                  {supplier.name}
+                </TableCell>
+
+                <TableCell className="px-4 py-2.5 text-muted-foreground">
                   {supplier.contact ?? "—"}
                 </TableCell>
-                <TableCell className="text-muted-foreground">
+
+                <TableCell className="px-4 py-2.5 text-muted-foreground">
                   {supplier.address ?? "—"}
                 </TableCell>
-                <TableCell className="text-right">
+
+                <TableCell className="px-4 py-2.5 text-right">
                   <Button
                     variant="ghost"
                     size="sm"
                     nativeButton={false}
-                    render={<Link href={`/suppliers/${supplier.id}/edit`} />}
+                    render={
+                      <Link
+                        href={`/suppliers/${supplier.id}/edit`}
+                      />
+                    }
                   >
                     Edit
                   </Button>
                 </TableCell>
               </TableRow>
             ))}
+
             {suppliers.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="py-10 text-center text-muted-foreground">
+                <TableCell
+                  colSpan={4}
+                  className="px-4 py-10 text-center text-muted-foreground"
+                >
                   No suppliers yet. Add your first one to get started.
                 </TableCell>
               </TableRow>

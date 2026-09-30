@@ -3,6 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { createAdjustment } from "@/app/(dashboard)/inventory/actions";
 import { AdjustmentForm } from "@/components/inventory/adjustment-form";
 
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
+
 export default async function NewAdjustmentPage() {
     await requireRole(["ADMIN"]);
 
@@ -13,14 +22,17 @@ export default async function NewAdjustmentPage() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Stock Adjustment</h1>
-                <p className="text-sm text-muted-foreground">
-                    Correct a stock number directly — use this for recounts or fixing a mistake
-                    from an earlier Purchase or Production entry. Every adjustment is logged with
-                    a reason and can&apos;t be edited or deleted afterward.
-                </p>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Inventory adjustment</CardTitle>
+                    <CardDescription>
+                        Correct a stock number directly — use this for recounts or fixing a mistake
+                        from an earlier Purchase or Production entry. Every adjustment is logged with
+                        a reason and can&apos;t be edited or deleted afterward.
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+
             <AdjustmentForm
                 action={createAdjustment}
                 ingredients={ingredients.map((i) => ({
@@ -36,6 +48,6 @@ export default async function NewAdjustmentPage() {
                     currentStock: p.currentStock.toNumber(),
                 }))}
             />
-        </div>
+        </div >
     );
 }

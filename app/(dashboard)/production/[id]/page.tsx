@@ -3,6 +3,13 @@ import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import {
     Table,
     TableBody,
     TableCell,
@@ -40,108 +47,194 @@ export default async function ProductionDetailPage({
         include: { ingredient: true, product: true },
     });
 
-    const ingredientsConsumed = consumed.filter((txn) => txn.itemType === "INGREDIENT");
-    const componentsConsumed = consumed.filter((txn) => txn.itemType === "PRODUCT");
+    const ingredientsConsumed = consumed.filter(
+        (txn) => txn.itemType === "INGREDIENT"
+    );
+
+    const componentsConsumed = consumed.filter(
+        (txn) => txn.itemType === "PRODUCT"
+    );
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Production Details</h1>
-                <p className="text-sm text-muted-foreground">
-                    Recorded by {production.producedBy.name} on{" "}
-                    {production.createdAt.toLocaleDateString()}
-                </p>
-            </div>
+            {/* Production Details */}
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">
+                        Production Details
+                    </CardTitle>
 
-            <div className="grid max-w-2xl grid-cols-2 gap-4 rounded-lg border border-border p-4">
-                <div>
-                    <p className="text-sm text-muted-foreground">Production Date</p>
-                    <p className="font-medium">{production.productionDate.toLocaleDateString()}</p>
-                </div>
-                {production.notes && (
-                    <div>
-                        <p className="text-sm text-muted-foreground">Notes</p>
-                        <p className="font-medium">{production.notes}</p>
+                    <CardDescription>
+                        Recorded by {production.producedBy.name} on{" "}
+                        {production.createdAt.toLocaleDateString()}
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+                        <div className="space-y-1.5">
+                            <p className="text-sm text-muted-foreground">
+                                Production Date
+                            </p>
+
+                            <p className="font-medium">
+                                {production.productionDate.toLocaleDateString()}
+                            </p>
+                        </div>
+
+                        {production.notes && (
+                            <div className="space-y-1.5">
+                                <p className="text-sm text-muted-foreground">
+                                    Notes
+                                </p>
+
+                                <p className="font-medium">
+                                    {production.notes}
+                                </p>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+                </CardContent>
+            </Card>
 
-            <div className="max-w-2xl space-y-2">
-                <h2 className="text-sm font-medium text-muted-foreground">Produced</h2>
-                <div className="overflow-hidden rounded-lg border border-border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Product</TableHead>
-                                <TableHead className="text-right">Quantity</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {production.items.map((item) => (
-                                <TableRow key={item.id}>
-                                    <TableCell className="font-medium">{item.product.name}</TableCell>
-                                    <TableCell className="text-right">
-                                        {item.quantityProduced.toString()} {item.product.unit}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            </div>
+            {/* Produced */}
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-base">
+                        Produced
+                    </CardTitle>
 
-            <div className="max-w-2xl space-y-2">
-                <h2 className="text-sm font-medium text-muted-foreground">
-                    Ingredients Consumed
-                </h2>
-                <div className="overflow-hidden rounded-lg border border-border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Ingredient</TableHead>
-                                <TableHead className="text-right">Quantity</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {ingredientsConsumed.map((txn) => (
-                                <TableRow key={txn.id}>
-                                    <TableCell className="font-medium">{txn.ingredient?.name}</TableCell>
-                                    <TableCell className="text-right">
-                                        {txn.quantity.abs().toString()} {txn.ingredient?.unit}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            </div>
+                    <CardDescription>
+                        Products created during this production run.
+                    </CardDescription>
+                </CardHeader>
 
-            {componentsConsumed.length > 0 && (
-                <div className="max-w-2xl space-y-2">
-                    <h2 className="text-sm font-medium text-muted-foreground">
-                        Base Components Consumed
-                    </h2>
-                    <div className="overflow-hidden rounded-lg border border-border">
-                        <Table>
-                            <TableHeader>
+                <CardContent className="p-0">
+                    <div className="overflow-hidden">
+                        <Table className="w-full text-sm">
+                            <TableHeader className="bg-muted">
                                 <TableRow>
-                                    <TableHead>Base Product</TableHead>
-                                    <TableHead className="text-right">Quantity</TableHead>
+                                    <TableHead className="px-4 py-2.5 font-medium">
+                                        Product
+                                    </TableHead>
+
+                                    <TableHead className="px-4 py-2.5 text-right font-medium">
+                                        Quantity
+                                    </TableHead>
                                 </TableRow>
                             </TableHeader>
-                            <TableBody>
-                                {componentsConsumed.map((txn) => (
-                                    <TableRow key={txn.id}>
-                                        <TableCell className="font-medium">{txn.product?.name}</TableCell>
-                                        <TableCell className="text-right">
-                                            {txn.quantity.abs().toString()} {txn.product?.unit}
+
+                            <TableBody className="divide-y divide-border bg-muted/20">
+                                {production.items.map((item) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell className="px-4 py-2.5 font-medium">
+                                            {item.product.name}
+                                        </TableCell>
+
+                                        <TableCell className="px-4 py-2.5 text-right">
+                                            {item.quantityProduced.toString()}{" "}
+                                            {item.product.unit}
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </div>
-                </div>
+                </CardContent>
+            </Card>
+
+            {/* Ingredients Consumed */}
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-base">
+                        Ingredients Consumed
+                    </CardTitle>
+
+                    <CardDescription>
+                        Ingredients used during this production run.
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent className="p-0">
+                    <div className="overflow-hidden">
+                        <Table className="w-full text-sm">
+                            <TableHeader className="bg-muted">
+                                <TableRow>
+                                    <TableHead className="px-4 py-2.5 font-medium">
+                                        Ingredient
+                                    </TableHead>
+
+                                    <TableHead className="px-4 py-2.5 text-right font-medium">
+                                        Quantity
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+
+                            <TableBody className="divide-y divide-border bg-muted/20">
+                                {ingredientsConsumed.map((txn) => (
+                                    <TableRow key={txn.id}>
+                                        <TableCell className="px-4 py-2.5 font-medium">
+                                            {txn.ingredient?.name}
+                                        </TableCell>
+
+                                        <TableCell className="px-4 py-2.5 text-right">
+                                            {txn.quantity.abs().toString()}{" "}
+                                            {txn.ingredient?.unit}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Base Components Consumed */}
+            {componentsConsumed.length > 0 && (
+                <Card className="max-w-2xl">
+                    <CardHeader>
+                        <CardTitle className="text-base">
+                            Base Components Consumed
+                        </CardTitle>
+
+                        <CardDescription>
+                            Base products consumed during this production run.
+                        </CardDescription>
+                    </CardHeader>
+
+                    <CardContent className="p-0">
+                        <div className="overflow-hidden">
+                            <Table className="w-full text-sm">
+                                <TableHeader className="bg-muted">
+                                    <TableRow>
+                                        <TableHead className="px-4 py-2.5 font-medium">
+                                            Base Product
+                                        </TableHead>
+
+                                        <TableHead className="px-4 py-2.5 text-right font-medium">
+                                            Quantity
+                                        </TableHead>
+                                    </TableRow>
+                                </TableHeader>
+
+                                <TableBody className="divide-y divide-border bg-muted/20">
+                                    {componentsConsumed.map((txn) => (
+                                        <TableRow key={txn.id}>
+                                            <TableCell className="px-4 py-2.5 font-medium">
+                                                {txn.product?.name}
+                                            </TableCell>
+
+                                            <TableCell className="px-4 py-2.5 text-right">
+                                                {txn.quantity.abs().toString()}{" "}
+                                                {txn.product?.unit}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </CardContent>
+                </Card>
             )}
         </div>
     );

@@ -21,52 +21,69 @@ export default async function ProductionPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Production</h1>
           <p className="text-sm text-muted-foreground">
-            Records that consume ingredients per recipe and increase product stock.
+            Records that consume ingredients per recipe and increase
+            product stock.
           </p>
         </div>
-        <Button nativeButton={false} render={<Link href="/production/new" />}>
+
+        <Button
+          nativeButton={false}
+          render={<Link href="/production/new" />}
+        >
           Record Production
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-lg border border-border">
-        <Table>
-          <TableHeader>
+      <div className="overflow-hidden rounded-md">
+        <Table className="w-full border border-border text-sm">
+          <TableHeader className="bg-muted">
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Products</TableHead>
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">
+                Date
+              </TableHead>
+
+              <TableHead className="px-4 py-2.5 font-medium">
+                Products
+              </TableHead>
+
+              <TableHead className="px-4 py-2.5 text-right font-medium">
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+
+          <TableBody className="divide-y divide-border bg-muted/20">
             {productions.map((production) => {
               const summary = production.items
-                .map((item) => `${item.product.name} (${item.quantityProduced.toString()})`)
-                .join(" , "); // Renders as a line break in HTML
-
-              // const summary = production.items.map((item, index) => (
-              //   <div key={index}>
-              //     {item.product.name} ({item.quantityProduced.toString()})
-              //   </div>
-              // ));
+                .map(
+                  (item) =>
+                    `${item.product.name} (${item.quantityProduced.toString()})`
+                )
+                .join(" , ");
 
               return (
                 <TableRow key={production.id}>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="px-4 py-2.5 text-muted-foreground">
                     {production.productionDate.toLocaleDateString()}
                   </TableCell>
-                  <TableCell className="font-medium">{summary}</TableCell>
-                  <TableCell className="text-right">
+
+                  <TableCell className="px-4 py-2.5 font-medium">
+                    {summary}
+                  </TableCell>
+
+                  <TableCell className="px-4 py-2.5 text-right">
                     <Button
                       variant="ghost"
                       size="sm"
                       nativeButton={false}
-                      render={<Link href={`/production/${production.id}`} />}
+                      render={
+                        <Link href={`/production/${production.id}`} />
+                      }
                     >
                       View
                     </Button>
@@ -74,9 +91,13 @@ export default async function ProductionPage() {
                 </TableRow>
               );
             })}
+
             {productions.length === 0 && (
               <TableRow>
-                <TableCell colSpan={3} className="py-10 text-center text-muted-foreground">
+                <TableCell
+                  colSpan={3}
+                  className="px-4 py-10 text-center text-muted-foreground"
+                >
                   No production recorded yet.
                 </TableCell>
               </TableRow>

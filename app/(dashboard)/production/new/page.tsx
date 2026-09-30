@@ -3,6 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { createProduction } from "@/app/(dashboard)/production/actions";
 import { ProductionForm } from "@/components/production/production-form";
 
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
 export default async function NewProductionPage() {
     await requireRole(["ADMIN"]);
 
@@ -17,13 +25,15 @@ export default async function NewProductionPage() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Record Production</h1>
-                <p className="text-sm text-muted-foreground">
-                    Consumes ingredients per recipe and/or base products per component, and
-                    increases this product&apos;s stock immediately.
-                </p>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Record Production</CardTitle>
+                    <CardDescription>
+                        Consumes ingredients per recipe and/or base products per component, and
+                        increases this product&apos;s stock immediately.
+                    </CardDescription>
+                </CardHeader>
+            </Card>
 
             {products.length === 0 ? (
                 <p className="text-sm text-muted-foreground">

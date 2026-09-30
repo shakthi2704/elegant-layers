@@ -8,7 +8,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CakeOrderStatusActions } from "@/components/cake-orders/cake-order-status-actions";
 
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive"> = {
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+
+const STATUS_VARIANT: Record<
+    string,
+    "default" | "secondary" | "destructive"
+> = {
     PENDING: "secondary",
     IN_PROGRESS: "default",
     READY: "default",
@@ -45,22 +56,33 @@ export default async function CakeOrderDetailPage({
                 ? order.price.toNumber()
                 : null;
 
-    const isLocked = order.status === "COLLECTED" || order.status === "CANCELLED";
+    const isLocked =
+        order.status === "COLLECTED" || order.status === "CANCELLED";
 
     return (
-        <div className="max-w-2xl space-y-6">
+        <div className="max-w-2xl space-y-6 px-6">
+            {/* Header */}
             <div className="flex items-start justify-between">
                 <div>
-                    <h1 className="text-xl font-semibold">{order.cakeName}</h1>
+                    <h1 className="text-xl font-semibold">
+                        {order.cakeName}
+                    </h1>
+
                     <p className="text-sm text-muted-foreground">
                         {order.customer.name} · {order.customer.phone}
                     </p>
                 </div>
-                <Badge variant={STATUS_VARIANT[order.status] ?? "secondary"}>
+
+                <Badge
+                    variant={
+                        STATUS_VARIANT[order.status] ?? "secondary"
+                    }
+                >
                     {order.status.replace("_", " ")}
                 </Badge>
             </div>
 
+            {/* Reference Image */}
             {order.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -70,115 +92,213 @@ export default async function CakeOrderDetailPage({
                 />
             ) : (
                 <div className="flex h-48 w-48 items-center justify-center rounded-lg border border-dashed border-border bg-muted/30">
-                    <p className="text-sm text-muted-foreground">No image</p>
+                    <p className="text-sm text-muted-foreground">
+                        No image
+                    </p>
                 </div>
             )}
 
-            <div className="rounded-lg border border-border p-4">
-                <h2 className="mb-3 text-sm font-medium text-muted-foreground">Order Details</h2>
-                <dl className="grid grid-cols-2 gap-y-2 text-sm">
-                    {order.product && (
-                        <>
-                            <dt className="text-muted-foreground">Product</dt>
-                            <dd className="text-right">{order.product.name}</dd>
-                        </>
+            {/* Order Information */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-xl">
+                        Order Details
+                    </CardTitle>
+
+                    <CardDescription>
+                        Details about the cake, pickup, and payment.
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent className="space-y-8">
+                    {/* Order Details */}
+                    <section>
+                        <h2 className="mb-3 text-sm font-medium text-muted-foreground">
+                            Cake Details
+                        </h2>
+
+                        <dl className="grid grid-cols-2 gap-y-2 text-sm">
+                            {order.product && (
+                                <>
+                                    <dt className="text-muted-foreground">
+                                        Product
+                                    </dt>
+
+                                    <dd className="text-right">
+                                        {order.product.name}
+                                    </dd>
+                                </>
+                            )}
+
+                            {order.shape && (
+                                <>
+                                    <dt className="text-muted-foreground">
+                                        Shape
+                                    </dt>
+
+                                    <dd className="text-right">
+                                        {order.shape}
+                                    </dd>
+                                </>
+                            )}
+
+                            {order.weight && (
+                                <>
+                                    <dt className="text-muted-foreground">
+                                        Weight
+                                    </dt>
+
+                                    <dd className="text-right">
+                                        {order.weight}
+                                    </dd>
+                                </>
+                            )}
+
+                            {order.message && (
+                                <>
+                                    <dt className="text-muted-foreground">
+                                        Message
+                                    </dt>
+
+                                    <dd className="text-right">
+                                        {order.message}
+                                    </dd>
+                                </>
+                            )}
+
+                            <dt className="text-muted-foreground">
+                                Pickup
+                            </dt>
+
+                            <dd className="text-right">
+                                {formatDate(order.pickupDate)} at{" "}
+                                {order.pickupTime}
+                            </dd>
+                        </dl>
+                    </section>
+
+                    {/* Payment */}
+                    {(order.price || order.advancePaid) && (
+                        <section className="border-t pt-6">
+                            <h2 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Payment
+                            </h2>
+
+                            <dl className="grid grid-cols-2 gap-y-2 text-sm">
+                                {order.price && (
+                                    <>
+                                        <dt className="text-muted-foreground">
+                                            Price
+                                        </dt>
+
+                                        <dd className="text-right">
+                                            Rs.{" "}
+                                            {Number(
+                                                order.price
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            })}
+                                        </dd>
+                                    </>
+                                )}
+
+                                {order.advancePaid && (
+                                    <>
+                                        <dt className="text-muted-foreground">
+                                            Advance Paid
+                                            {order.paymentMethod &&
+                                                ` (${PAYMENT_METHOD_LABEL[order.paymentMethod]})`}
+                                        </dt>
+
+                                        <dd className="text-right">
+                                            Rs.{" "}
+                                            {Number(
+                                                order.advancePaid
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            })}
+                                        </dd>
+                                    </>
+                                )}
+
+                                {balanceDue !== null && (
+                                    <>
+                                        <dt className="font-medium">
+                                            Balance Due
+                                        </dt>
+
+                                        <dd className="text-right text-base font-semibold">
+                                            Rs.{" "}
+                                            {balanceDue.toLocaleString(
+                                                "en-LK",
+                                                {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }
+                                            )}
+                                        </dd>
+                                    </>
+                                )}
+                            </dl>
+                        </section>
                     )}
 
-                    {order.shape && (
-                        <>
-                            <dt className="text-muted-foreground">Shape</dt>
-                            <dd className="text-right">{order.shape}</dd>
-                        </>
+                    {/* Notes */}
+                    {order.notes && (
+                        <section className="border-t pt-6">
+                            <h2 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Notes
+                            </h2>
+
+                            <p className="whitespace-pre-wrap text-sm">
+                                {order.notes}
+                            </p>
+                        </section>
                     )}
 
-                    {order.weight && (
-                        <>
-                            <dt className="text-muted-foreground">Weight</dt>
-                            <dd className="text-right">{order.weight}</dd>
-                        </>
-                    )}
+                    {/* Footer */}
+                    <div className="border-t pt-6">
+                        <p className="mb-4 text-xs text-muted-foreground">
+                            Created by {order.createdBy.name} on{" "}
+                            {formatDateTime(order.createdAt)}
+                        </p>
 
-                    {order.message && (
-                        <>
-                            <dt className="text-muted-foreground">Message</dt>
-                            <dd className="text-right">{order.message}</dd>
-                        </>
-                    )}
+                        <div className="flex w-full items-center justify-start gap-2">
+                            {!isLocked && (
+                                <Button
+                                    variant="outline"
+                                    nativeButton={false}
+                                    render={
+                                        <Link href={`/cake-orders/${order.id}/edit`} />
+                                    }
+                                >
+                                    Edit
+                                </Button>
+                            )}
 
-                    <dt className="text-muted-foreground">Pickup</dt>
-                    <dd className="text-right">
-                        {formatDate(order.pickupDate)} at {order.pickupTime}
-                    </dd>
-                </dl>
-            </div>
+                            <Button
+                                variant="outline"
+                                nativeButton={false}
+                                render={
+                                    <Link href={`/cake-orders/${order.id}/kot`} />
+                                }
+                            >
+                                Print KOT
+                            </Button>
 
-            {(order.price || order.advancePaid) && (
-                <div className="rounded-lg border border-border p-4">
-                    <h2 className="mb-3 text-sm font-medium text-muted-foreground">Payment</h2>
-                    <dl className="grid grid-cols-2 gap-y-2 text-sm">
-                        {order.price && (
-                            <>
-                                <dt className="text-muted-foreground">Price</dt>
-                                <dd className="text-right">Rs. {order.price.toString()}</dd>
-                            </>
-                        )}
+                            <CakeOrderStatusActions
+                                orderId={order.id}
+                                status={order.status}
+                                canCancel={user.role === "ADMIN"}
+                            />
+                        </div>
+                    </div>
 
-                        {order.advancePaid && (
-                            <>
-                                <dt className="text-muted-foreground">Advance Paid</dt>
-                                <dd className="text-right">
-                                    Rs. {order.advancePaid.toString()}
-                                    {order.paymentMethod &&
-                                        ` (${PAYMENT_METHOD_LABEL[order.paymentMethod]})`}
-                                </dd>
-                            </>
-                        )}
 
-                        {balanceDue !== null && (
-                            <>
-                                <dt className="font-medium">Balance Due</dt>
-                                <dd className="text-right text-base font-semibold">
-                                    Rs. {balanceDue.toFixed(2)}
-                                </dd>
-                            </>
-                        )}
-                    </dl>
-                </div>
-            )}
-
-            {order.notes && (
-                <div className="rounded-lg border border-border p-4">
-                    <h2 className="mb-1 text-sm font-medium text-muted-foreground">Notes</h2>
-                    <p className="whitespace-pre-wrap text-sm">{order.notes}</p>
-                </div>
-            )}
-
-            <p className="text-xs text-muted-foreground">
-                Created by {order.createdBy.name} on {formatDateTime(order.createdAt)}
-            </p>
-            <div className="flex flex-wrap items-center gap-2">
-                {!isLocked && (
-                    <Button
-                        variant="outline"
-                        nativeButton={false}
-                        render={<Link href={`/cake-orders/${order.id}/edit`} />}
-                    >
-                        Edit
-                    </Button>
-                )}
-                <Button
-                    variant="outline"
-                    nativeButton={false}
-                    render={<Link href={`/cake-orders/${order.id}/kot`} />}
-                >
-                    Print KOT
-                </Button>
-                <CakeOrderStatusActions
-                    orderId={order.id}
-                    status={order.status}
-                    canCancel={user.role === "ADMIN"}
-                />
-            </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }

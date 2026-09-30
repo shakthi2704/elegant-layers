@@ -3,6 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { createPurchase } from "@/app/(dashboard)/purchases/actions";
 import { PurchaseForm } from "@/components/purchases/purchase-form";
 
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
+
 export default async function NewPurchasePage() {
     await requireRole(["ADMIN"]);
 
@@ -17,12 +26,15 @@ export default async function NewPurchasePage() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Record Purchase</h1>
-                <p className="text-sm text-muted-foreground">
-                    Recording a purchase increases ingredient or product stock immediately.
-                </p>
-            </div>
+            <Card className="max-w-6xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Record Purchase</CardTitle>
+                    <CardDescription>
+                        Recording a purchase increases ingredient or product stock immediately.
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+
 
             {suppliers.length === 0 ? (
                 <p className="text-sm text-muted-foreground">

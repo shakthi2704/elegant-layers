@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { POSTerminal } from "@/components/pos/pos-terminal";
 
+
+
 export default async function POSPage() {
   await requireRole(["ADMIN", "CASHIER"]);
 
@@ -22,7 +24,7 @@ export default async function POSPage() {
   ]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-semibold">POS Billing</h1>
@@ -30,7 +32,7 @@ export default async function POSPage() {
         </div>
         <Button
           variant="secondary"
-          size="sm"
+          size="lg"
           nativeButton={false}
           render={<Link href="/pos/history" />}
         >

@@ -3,6 +3,14 @@ import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 
+
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
 export default async function AdjustmentDetailPage({
     params,
 }: {
@@ -26,50 +34,89 @@ export default async function AdjustmentDetailPage({
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Adjustment Details</h1>
-                <p className="text-sm text-muted-foreground">
-                    Recorded by {adjustment.createdBy.name} on{" "}
-                    {adjustment.createdAt.toLocaleDateString()}
-                </p>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Stock Details</CardTitle>
+                    <CardDescription>
+                        Recorded by {adjustment.createdBy.name} on{" "}
+                        {adjustment.createdAt.toLocaleDateString()}
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+            <Card className="max-w-2xl">
+                <CardContent>
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+                        <div className="space-y-1.5">
+                            <p className="text-sm text-muted-foreground">
+                                Item
+                            </p>
+                            <p className="font-medium">{item?.name}</p>
+                        </div>
 
-            <div className="grid max-w-2xl grid-cols-2 gap-4 rounded-lg border border-border p-4">
-                <div>
-                    <p className="text-sm text-muted-foreground">Item</p>
-                    <p className="font-medium">{item?.name}</p>
-                </div>
-                <div>
-                    <p className="text-sm text-muted-foreground">Type</p>
-                    <p className="font-medium">
-                        {adjustment.itemType === "INGREDIENT" ? "Ingredient" : "Product"}
-                    </p>
-                </div>
-                <div>
-                    <p className="text-sm text-muted-foreground">Previous Stock</p>
-                    <p className="font-medium">
-                        {previousBalance} {item?.unit}
-                    </p>
-                </div>
-                <div>
-                    <p className="text-sm text-muted-foreground">Change</p>
-                    <p className={`font-medium ${quantity >= 0 ? "text-emerald-500" : "text-destructive"}`}>
-                        {quantity >= 0 ? "+" : ""}
-                        {adjustment.quantity.toString()} {item?.unit}
-                    </p>
-                </div>
-                <div>
-                    <p className="text-sm text-muted-foreground">New Stock</p>
-                    <p className="font-medium">
-                        {adjustment.balanceAfter.toString()} {item?.unit}
-                    </p>
-                </div>
-            </div>
+                        <div className="space-y-1.5">
+                            <p className="text-sm text-muted-foreground">
+                                Type
+                            </p>
+                            <p className="font-medium">
+                                {adjustment.itemType === "INGREDIENT"
+                                    ? "Ingredient"
+                                    : "Product"}
+                            </p>
+                        </div>
 
-            <div className="max-w-2xl space-y-1.5">
-                <p className="text-sm text-muted-foreground">Reason</p>
-                <p className="rounded-lg border border-border p-4">{adjustment.note}</p>
-            </div>
+                        <div className="space-y-1.5">
+                            <p className="text-sm text-muted-foreground">
+                                Previous Stock
+                            </p>
+                            <p className="font-medium">
+                                {previousBalance} {item?.unit}
+                            </p>
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <p className="text-sm text-muted-foreground">
+                                Change
+                            </p>
+                            <p
+                                className={`font-medium ${quantity >= 0
+                                    ? "text-emerald-500"
+                                    : "text-destructive"
+                                    }`}
+                            >
+                                {quantity >= 0 ? "+" : ""}
+                                {adjustment.quantity.toString()}{" "}
+                                {item?.unit}
+                            </p>
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <p className="text-sm text-muted-foreground">
+                                New Stock
+                            </p>
+                            <p className="font-medium">
+                                {adjustment.balanceAfter.toString()}{" "}
+                                {item?.unit}
+                            </p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-base">Reason</CardTitle>
+                    <CardDescription>
+                        The reason provided for this adjustment.
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                    <p className="whitespace-pre-wrap text-sm">
+                        {adjustment.note}
+                    </p>
+                </CardContent>
+            </Card>
         </div>
+
     );
 }

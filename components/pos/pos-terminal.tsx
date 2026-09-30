@@ -7,6 +7,14 @@ import { completeSale, holdSale } from "@/app/(dashboard)/pos/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
 
 type ProductOption = {
     id: string;
@@ -125,29 +133,30 @@ export function POSTerminal({
 
     return (
         <div className="grid grid-cols-[1fr_360px] gap-6">
-            {/* Product picker */}
             <div className="space-y-4">
-                <div className="flex flex-wrap gap-2">
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant={activeCategory === "ALL" ? "default" : "secondary"}
-                        onClick={() => setActiveCategory("ALL")}
-                    >
-                        All
-                    </Button>
-                    {categories.map((c) => (
+                <Card>
+                    <div className="flex flex-wrap gap-2">
                         <Button
-                            key={c.id}
                             type="button"
                             size="sm"
-                            variant={activeCategory === c.id ? "default" : "secondary"}
-                            onClick={() => setActiveCategory(c.id)}
+                            variant={activeCategory === "ALL" ? "default" : "secondary"}
+                            onClick={() => setActiveCategory("ALL")}
                         >
-                            {c.name}
+                            All
                         </Button>
-                    ))}
-                </div>
+                        {categories.map((c) => (
+                            <Button
+                                key={c.id}
+                                type="button"
+                                size="sm"
+                                variant={activeCategory === c.id ? "default" : "secondary"}
+                                onClick={() => setActiveCategory(c.id)}
+                            >
+                                {c.name}
+                            </Button>
+                        ))}
+                    </div>
+                </Card>
 
                 <div className="grid grid-cols-3 gap-3 ">
                     {visibleProducts.map((p) => (
@@ -159,8 +168,12 @@ export function POSTerminal({
                         >
                             <p className="font-semibold text-base">{p.name}</p>
                             <p className="text-sm text-muted-foreground">
-                                Rs. {p.sellingPrice.toFixed(2)} /<span className="text-xs"> {p.unit}</span>
+                                Rs. {p.sellingPrice.toLocaleString('en-US', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })} /<span className="text-[10px]"> {p.unit}</span>
                             </p>
+
                         </button>
                     ))}
                     {visibleProducts.length === 0 && (
@@ -172,135 +185,137 @@ export function POSTerminal({
             </div>
 
             {/* Cart + checkout */}
-            <div className="space-y-4 rounded-lg border border-border p-4 border-muted">
-                <div className="flex gap-2">
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant={saleType === "TAKEAWAY" ? "default" : "outline"}
-                        onClick={() => setSaleType("TAKEAWAY")}
-                    >
-                        Takeaway
-                    </Button>
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant={saleType === "DINE_IN" ? "default" : "secondary"}
-                        onClick={() => setSaleType("DINE_IN")}
-                    >
-                        Dine-in
-                    </Button>
-                </div>
+            <Card>
+                <div className="space-y-4 rounded-lg border border-border p-4 border-muted">
+                    <div className="flex gap-2">
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant={saleType === "TAKEAWAY" ? "default" : "outline"}
+                            onClick={() => setSaleType("TAKEAWAY")}
+                        >
+                            Takeaway
+                        </Button>
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant={saleType === "DINE_IN" ? "default" : "secondary"}
+                            onClick={() => setSaleType("DINE_IN")}
+                        >
+                            Dine-in
+                        </Button>
+                    </div>
 
-                <div className="max-h-[40vh] space-y-2 overflow-y-auto">
-                    {cart.map((line) => (
-                        <div key={line.productId} className="flex items-center justify-between gap-2 text-sm">
-                            <div className="flex-1">
-                                <p className="font-medium">{line.name}</p>
-                                <p className="text-muted-foreground text-xs">
-                                    Rs. {line.unitPrice.toFixed(2)} / {line.unit}
+                    <div className="max-h-[40vh] space-y-2 overflow-y-auto">
+                        {cart.map((line) => (
+                            <div key={line.productId} className="flex items-center justify-between gap-2 text-sm">
+                                <div className="flex-1">
+                                    <p className="font-medium">{line.name}</p>
+                                    <p className="text-muted-foreground text-xs">
+                                        Rs. {line.unitPrice.toFixed(2)} / {line.unit}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <Button
+                                        type="button"
+                                        size="icon"
+                                        variant="outline"
+                                        className="size-6"
+                                        onClick={() => updateQuantity(line.productId, line.quantity - 1)}
+                                    >
+                                        -
+                                    </Button>
+                                    <span className="w-8 text-center">{line.quantity}</span>
+                                    <Button
+                                        type="button"
+                                        size="icon"
+                                        variant="outline"
+                                        className="size-6"
+                                        onClick={() => updateQuantity(line.productId, line.quantity + 1)}
+                                    >
+                                        +
+                                    </Button>
+                                </div>
+                                <p className="w-16 text-right font-medium">
+                                    {(line.quantity * line.unitPrice).toFixed(2)}
                                 </p>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <Button
+                                <button
                                     type="button"
-                                    size="icon"
-                                    variant="outline"
-                                    className="size-6"
-                                    onClick={() => updateQuantity(line.productId, line.quantity - 1)}
+                                    onClick={() => removeLine(line.productId)}
+                                    className="text-destructive"
                                 >
-                                    -
-                                </Button>
-                                <span className="w-8 text-center">{line.quantity}</span>
-                                <Button
-                                    type="button"
-                                    size="icon"
-                                    variant="outline"
-                                    className="size-6"
-                                    onClick={() => updateQuantity(line.productId, line.quantity + 1)}
-                                >
-                                    +
-                                </Button>
+                                    &times;
+                                </button>
                             </div>
-                            <p className="w-16 text-right font-medium">
-                                {(line.quantity * line.unitPrice).toFixed(2)}
+                        ))}
+                        {cart.length === 0 && (
+                            <p className="py-6 text-center text-sm text-muted-foreground">
+                                Tap a product to add it to the bill.
                             </p>
-                            <button
-                                type="button"
-                                onClick={() => removeLine(line.productId)}
-                                className="text-destructive"
-                            >
-                                &times;
-                            </button>
+                        )}
+                    </div>
+
+                    <div className="flex justify-between border-t border-border pt-3 text-lg font-semibold">
+                        <span>Total</span>
+                        <span className="text-primary">
+                            Rs. {total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                    </div>
+
+                    {/* Hold form */}
+                    <form action={holdFormAction} className="space-y-2">
+                        <CartHiddenInputs />
+                        <div className="space-y-1">
+                            <Label htmlFor="holdLabel">Hold label</Label>
+                            <Input
+                                id="holdLabel"
+                                name="holdLabel"
+                                value={holdLabel}
+                                onChange={(e) => setHoldLabel(e.target.value)}
+                                placeholder="e.g. Window table"
+                            />
                         </div>
-                    ))}
-                    {cart.length === 0 && (
-                        <p className="py-6 text-center text-sm text-muted-foreground">
-                            Tap a product to add it to the bill.
-                        </p>
-                    )}
+                        {holdState.error && <p className="text-sm text-destructive">{holdState.error}</p>}
+                        <Button
+                            type="submit"
+                            variant="secondary"
+                            className="w-full"
+                            disabled={cart.length === 0 || holdPending}
+                        >
+                            {holdPending ? "Holding..." : "Hold Bill"}
+                        </Button>
+                    </form>
+
+                    {/* Complete form */}
+                    <form action={completeFormAction} className="space-y-2 border-t border-border pt-3">
+                        <CartHiddenInputs />
+                        <div className="space-y-1">
+                            <Label htmlFor="cashReceived">Cash received</Label>
+                            <Input
+                                id="cashReceived"
+                                name="cashReceived"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                value={cashReceived}
+                                onChange={(e) => setCashReceived(e.target.value)}
+                                placeholder="0.00"
+                            />
+                        </div>
+                        {cashReceivedNum > 0 && (
+                            <p className="text-sm text-muted-foreground">
+                                Change: Rs. {changeGiven >= 0 ? changeGiven.toFixed(2) : "0.00"}
+                            </p>
+                        )}
+                        {completeState.error && (
+                            <p className="text-sm text-destructive">{completeState.error}</p>
+                        )}
+                        <Button type="submit" className="w-full" disabled={cart.length === 0 || completePending}>
+                            {completePending ? "Completing..." : "Charge & Complete"}
+                        </Button>
+                    </form>
                 </div>
-
-                <div className="flex justify-between border-t border-border pt-3 text-lg font-semibold">
-                    <span>Total</span>
-                    <span className="text-primary">
-                        Rs. {total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
-                </div>
-
-                {/* Hold form */}
-                <form action={holdFormAction} className="space-y-2">
-                    <CartHiddenInputs />
-                    <div className="space-y-1">
-                        <Label htmlFor="holdLabel">Hold label</Label>
-                        <Input
-                            id="holdLabel"
-                            name="holdLabel"
-                            value={holdLabel}
-                            onChange={(e) => setHoldLabel(e.target.value)}
-                            placeholder="e.g. Window table"
-                        />
-                    </div>
-                    {holdState.error && <p className="text-sm text-destructive">{holdState.error}</p>}
-                    <Button
-                        type="submit"
-                        variant="secondary"
-                        className="w-full"
-                        disabled={cart.length === 0 || holdPending}
-                    >
-                        {holdPending ? "Holding..." : "Hold Bill"}
-                    </Button>
-                </form>
-
-                {/* Complete form */}
-                <form action={completeFormAction} className="space-y-2 border-t border-border pt-3">
-                    <CartHiddenInputs />
-                    <div className="space-y-1">
-                        <Label htmlFor="cashReceived">Cash received</Label>
-                        <Input
-                            id="cashReceived"
-                            name="cashReceived"
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            value={cashReceived}
-                            onChange={(e) => setCashReceived(e.target.value)}
-                            placeholder="0.00"
-                        />
-                    </div>
-                    {cashReceivedNum > 0 && (
-                        <p className="text-sm text-muted-foreground">
-                            Change: Rs. {changeGiven >= 0 ? changeGiven.toFixed(2) : "0.00"}
-                        </p>
-                    )}
-                    {completeState.error && (
-                        <p className="text-sm text-destructive">{completeState.error}</p>
-                    )}
-                    <Button type="submit" className="w-full" disabled={cart.length === 0 || completePending}>
-                        {completePending ? "Completing..." : "Charge & Complete"}
-                    </Button>
-                </form>
-            </div>
+            </Card>
         </div>
     );
 }
