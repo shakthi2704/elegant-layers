@@ -4,7 +4,10 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { POSTerminal } from "@/components/pos/pos-terminal";
-
+import {
+  Card,
+} from "@/components/ui/card";
+import { CurrentTime } from "@/components/layout/current-time";
 
 
 export default async function POSPage() {
@@ -25,20 +28,31 @@ export default async function POSPage() {
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold">POS Billing</h1>
-          <p className="text-base text-muted-foreground">Ring up a sale.</p>
+      <Card className="p-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-semibold tracking-tight">
+              POS Billing
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Ring up a sale.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start gap-3 sm:items-end">
+            <CurrentTime />
+
+            <Button
+              variant="link"
+              size="sm"
+              nativeButton={false}
+              render={<Link href="/pos/history" />}
+            >
+              Sales History
+            </Button>
+          </div>
         </div>
-        <Button
-          variant="secondary"
-          size="lg"
-          nativeButton={false}
-          render={<Link href="/pos/history" />}
-        >
-          Sales History
-        </Button>
-      </div>
+      </Card>
 
       {heldSales.length > 0 && (
         <div className="space-y-2">

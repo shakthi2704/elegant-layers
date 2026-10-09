@@ -2,6 +2,14 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { createProduct } from "@/app/(dashboard)/products/actions";
 import { ProductForm } from "@/components/products/product-form";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+
 
 export default async function NewProductPage() {
   await requireRole(["ADMIN"]);
@@ -10,12 +18,11 @@ export default async function NewProductPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold">Add Product</h1>
-        <p className="text-sm text-muted-foreground">
-          New products start Active with 0 stock — stock comes in through Production.
-        </p>
-      </div>
+      <Card className="max-w-2xl">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">Add Product</CardTitle>
+        </CardHeader>
+      </Card>
       <ProductForm action={createProduct} categories={categories} submitLabel="Create Product" />
     </div>
   );

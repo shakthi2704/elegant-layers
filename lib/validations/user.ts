@@ -11,3 +11,16 @@ export const updateUserSchema = z.object({
     name: z.string().trim().min(1, "Name is required").max(200),
     role: z.enum(["ADMIN", "CASHIER"]),
 });
+
+export const resetPasswordSchema = z
+    .object({
+        newPassword: z
+            .string()
+            .min(8, "Password must be at least 8 characters")
+            .max(128, "Password is too long"),
+        confirmPassword: z.string(),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: "The two passwords don't match",
+        path: ["confirmPassword"],
+    });

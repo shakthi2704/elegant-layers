@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Separator } from "@/components/ui/separator";
+
 import {
   SidebarInset,
   SidebarProvider,
@@ -43,6 +44,7 @@ export default async function DashboardLayout({
             <SidebarTrigger />
             <Separator orientation="vertical" className="h-4" />
           </div>
+
           <ThemeToggle />
         </header>
         <main className="flex-1 overflow-y-auto bg-background p-6 print:overflow-visible print:bg-white print:p-0">

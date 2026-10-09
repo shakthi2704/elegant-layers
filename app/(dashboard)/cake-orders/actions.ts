@@ -5,7 +5,11 @@ import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/require-role";
-import { cakeOrderSchema, cancelCakeOrderSchema } from "@/lib/validations/cake-order";
+import {
+    advanceOutcomeSchema,
+    cakeOrderSchema,
+    cancelCakeOrderSchema,
+} from "@/lib/validations/cake-order";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 
 const FORWARD_TRANSITIONS: Record<string, "IN_PROGRESS" | "READY" | "COLLECTED"> = {
@@ -172,9 +176,24 @@ export async function cancelCakeOrder(
         };
     }
 
-    const parsed = cancelCakeOrderSchema.safeParse({ reason: formData.get("reason") });
+    const parsed = cancelCakeOrderSchema.safeParse({
+        reason: formData.get("reason"),
+        // A missing field arrives as null, which the schema would reject.
+        advanceOutcome: formData.get("advanceOutcome") || undefined,
+    });
     if (!parsed.success) {
         return { fieldErrors: parsed.error.flatten().fieldErrors };
+    }
+
+    const hasAdvance = (existing.advancePaid?.toNumber() ?? 0) > 0;
+    if (hasAdvance && !parsed.data.advanceOutcome) {
+        return {
+            fieldErrors: {
+                advanceOutcome: [
+                    "Choose whether the advance was kept or refunded.",
+                ],
+            },
+        };
     }
 
     await prisma.cakeOrder.update({
@@ -182,10 +201,57 @@ export async function cancelCakeOrder(
         data: {
             status: "CANCELLED",
             notes: `${existing.notes ? existing.notes + "\n\n" : ""}Cancelled: ${parsed.data.reason}`,
+            advanceOutcome: hasAdvance ? parsed.data.advanceOutcome : null,
+            advanceOutcomeAt: hasAdvance ? new Date() : null,
         },
     });
 
     revalidatePath("/cake-orders");
     revalidatePath(`/cake-orders/${orderId}`);
+    return { success: true };
+}
+
+export async function setAdvanceOutcome(
+    orderId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    await requireRole(["ADMIN"]);
+
+    const parsed = advanceOutcomeSchema.safeParse({
+        advanceOutcome: formData.get("advanceOutcome") || undefined,
+    });
+    if (!parsed.success) {
+        return { fieldErrors: parsed.error.flatten().fieldErrors };
+    }
+
+    const existing = await prisma.cakeOrder.findUnique({ where: { id: orderId } });
+    if (!existing) {
+        return { error: "Order not found." };
+    }
+    if (existing.status !== "CANCELLED") {
+        return { error: "Only a cancelled order can have an advance outcome." };
+    }
+    if ((existing.advancePaid?.toNumber() ?? 0) <= 0) {
+        return { error: "This order has no advance." };
+    }
+
+    // The advanceOutcome: null condition stops a second owner (or a double
+    // click) from overwriting an outcome that has already been recorded.
+    const result = await prisma.cakeOrder.updateMany({
+        where: { id: orderId, status: "CANCELLED", advanceOutcome: null },
+        data: {
+            advanceOutcome: parsed.data.advanceOutcome,
+            advanceOutcomeAt: new Date(),
+        },
+    });
+    if (result.count === 0) {
+        return { error: "An outcome has already been recorded for this order." };
+    }
+
+    revalidatePath("/cake-orders");
+    revalidatePath(`/cake-orders/${orderId}`);
+    revalidatePath("/income");
+    revalidatePath("/reports");
     return { success: true };
 }

@@ -32,6 +32,9 @@ export type UserMinAggregateOutputType = {
   image: string | null
   role: $Enums.Role | null
   isActive: boolean | null
+  banned: boolean | null
+  banReason: string | null
+  banExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +47,9 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   role: $Enums.Role | null
   isActive: boolean | null
+  banned: boolean | null
+  banReason: string | null
+  banExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +62,9 @@ export type UserCountAggregateOutputType = {
   image: number
   role: number
   isActive: number
+  banned: number
+  banReason: number
+  banExpires: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,6 +79,9 @@ export type UserMinAggregateInputType = {
   image?: true
   role?: true
   isActive?: true
+  banned?: true
+  banReason?: true
+  banExpires?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +94,9 @@ export type UserMaxAggregateInputType = {
   image?: true
   role?: true
   isActive?: true
+  banned?: true
+  banReason?: true
+  banExpires?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +109,9 @@ export type UserCountAggregateInputType = {
   image?: true
   role?: true
   isActive?: true
+  banned?: true
+  banReason?: true
+  banExpires?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -179,6 +197,9 @@ export type UserGroupByOutputType = {
   image: string | null
   role: $Enums.Role
   isActive: boolean
+  banned: boolean
+  banReason: string | null
+  banExpires: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -212,6 +233,9 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolFilter<"User"> | boolean
+  banned?: Prisma.BoolFilter<"User"> | boolean
+  banReason?: Prisma.StringNullableFilter<"User"> | string | null
+  banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -223,6 +247,7 @@ export type UserWhereInput = {
   inventoryTxns?: Prisma.InventoryTransactionListRelationFilter
   cakeOrdersCreated?: Prisma.CakeOrderListRelationFilter
   expensesRecorded?: Prisma.ExpenseListRelationFilter
+  expensesVoided?: Prisma.ExpenseListRelationFilter
   fixedAssetsRecorded?: Prisma.FixedAssetListRelationFilter
 }
 
@@ -234,6 +259,9 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  banned?: Prisma.SortOrder
+  banReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  banExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -245,6 +273,7 @@ export type UserOrderByWithRelationInput = {
   inventoryTxns?: Prisma.InventoryTransactionOrderByRelationAggregateInput
   cakeOrdersCreated?: Prisma.CakeOrderOrderByRelationAggregateInput
   expensesRecorded?: Prisma.ExpenseOrderByRelationAggregateInput
+  expensesVoided?: Prisma.ExpenseOrderByRelationAggregateInput
   fixedAssetsRecorded?: Prisma.FixedAssetOrderByRelationAggregateInput
 }
 
@@ -259,6 +288,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolFilter<"User"> | boolean
+  banned?: Prisma.BoolFilter<"User"> | boolean
+  banReason?: Prisma.StringNullableFilter<"User"> | string | null
+  banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -270,6 +302,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   inventoryTxns?: Prisma.InventoryTransactionListRelationFilter
   cakeOrdersCreated?: Prisma.CakeOrderListRelationFilter
   expensesRecorded?: Prisma.ExpenseListRelationFilter
+  expensesVoided?: Prisma.ExpenseListRelationFilter
   fixedAssetsRecorded?: Prisma.FixedAssetListRelationFilter
 }, "id" | "email">
 
@@ -281,6 +314,9 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  banned?: Prisma.SortOrder
+  banReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  banExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -299,6 +335,9 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  banned?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  banReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  banExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -311,6 +350,9 @@ export type UserCreateInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -322,6 +364,7 @@ export type UserCreateInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -333,6 +376,9 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -344,6 +390,7 @@ export type UserUncheckedCreateInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -355,6 +402,9 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -366,6 +416,7 @@ export type UserUpdateInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -377,6 +428,9 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -388,6 +442,7 @@ export type UserUncheckedUpdateInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -399,6 +454,9 @@ export type UserCreateManyInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -411,6 +469,9 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -423,6 +484,9 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -435,6 +499,9 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  banned?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
+  banExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -447,6 +514,9 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  banned?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
+  banExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -459,6 +529,9 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  banned?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
+  banExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -487,6 +560,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -607,10 +684,26 @@ export type UserUpdateOneRequiredWithoutCakeOrdersCreatedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCakeOrdersCreatedInput, Prisma.UserUpdateWithoutCakeOrdersCreatedInput>, Prisma.UserUncheckedUpdateWithoutCakeOrdersCreatedInput>
 }
 
+export type UserCreateNestedOneWithoutExpensesVoidedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesVoidedInput, Prisma.UserUncheckedCreateWithoutExpensesVoidedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesVoidedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserCreateNestedOneWithoutExpensesRecordedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesRecordedInput, Prisma.UserUncheckedCreateWithoutExpensesRecordedInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesRecordedInput
   connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutExpensesVoidedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpensesVoidedInput, Prisma.UserUncheckedCreateWithoutExpensesVoidedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpensesVoidedInput
+  upsert?: Prisma.UserUpsertWithoutExpensesVoidedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpensesVoidedInput, Prisma.UserUpdateWithoutExpensesVoidedInput>, Prisma.UserUncheckedUpdateWithoutExpensesVoidedInput>
 }
 
 export type UserUpdateOneRequiredWithoutExpensesRecordedNestedInput = {
@@ -643,6 +736,9 @@ export type UserCreateWithoutSessionsInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -653,6 +749,7 @@ export type UserCreateWithoutSessionsInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -664,6 +761,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -674,6 +774,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -701,6 +802,9 @@ export type UserUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -711,6 +815,7 @@ export type UserUpdateWithoutSessionsInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -722,6 +827,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -732,6 +840,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -743,6 +852,9 @@ export type UserCreateWithoutAccountsInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -753,6 +865,7 @@ export type UserCreateWithoutAccountsInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -764,6 +877,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -774,6 +890,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -801,6 +918,9 @@ export type UserUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -811,6 +931,7 @@ export type UserUpdateWithoutAccountsInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -822,6 +943,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -832,6 +956,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -843,6 +968,9 @@ export type UserCreateWithoutPurchasesCreatedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -853,6 +981,7 @@ export type UserCreateWithoutPurchasesCreatedInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -864,6 +993,9 @@ export type UserUncheckedCreateWithoutPurchasesCreatedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -874,6 +1006,7 @@ export type UserUncheckedCreateWithoutPurchasesCreatedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -901,6 +1034,9 @@ export type UserUpdateWithoutPurchasesCreatedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -911,6 +1047,7 @@ export type UserUpdateWithoutPurchasesCreatedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -922,6 +1059,9 @@ export type UserUncheckedUpdateWithoutPurchasesCreatedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -932,6 +1072,7 @@ export type UserUncheckedUpdateWithoutPurchasesCreatedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -943,6 +1084,9 @@ export type UserCreateWithoutProductionsRecordedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -953,6 +1097,7 @@ export type UserCreateWithoutProductionsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -964,6 +1109,9 @@ export type UserUncheckedCreateWithoutProductionsRecordedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -974,6 +1122,7 @@ export type UserUncheckedCreateWithoutProductionsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1001,6 +1150,9 @@ export type UserUpdateWithoutProductionsRecordedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1011,6 +1163,7 @@ export type UserUpdateWithoutProductionsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1022,6 +1175,9 @@ export type UserUncheckedUpdateWithoutProductionsRecordedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1032,6 +1188,7 @@ export type UserUncheckedUpdateWithoutProductionsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1043,6 +1200,9 @@ export type UserCreateWithoutInventoryTxnsInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1053,6 +1213,7 @@ export type UserCreateWithoutInventoryTxnsInput = {
   voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1064,6 +1225,9 @@ export type UserUncheckedCreateWithoutInventoryTxnsInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1074,6 +1238,7 @@ export type UserUncheckedCreateWithoutInventoryTxnsInput = {
   voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1101,6 +1266,9 @@ export type UserUpdateWithoutInventoryTxnsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1111,6 +1279,7 @@ export type UserUpdateWithoutInventoryTxnsInput = {
   voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1122,6 +1291,9 @@ export type UserUncheckedUpdateWithoutInventoryTxnsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1132,6 +1304,7 @@ export type UserUncheckedUpdateWithoutInventoryTxnsInput = {
   voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1143,6 +1316,9 @@ export type UserCreateWithoutSalesInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1153,6 +1329,7 @@ export type UserCreateWithoutSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1164,6 +1341,9 @@ export type UserUncheckedCreateWithoutSalesInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1174,6 +1354,7 @@ export type UserUncheckedCreateWithoutSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1190,6 +1371,9 @@ export type UserCreateWithoutVoidedSalesInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1200,6 +1384,7 @@ export type UserCreateWithoutVoidedSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1211,6 +1396,9 @@ export type UserUncheckedCreateWithoutVoidedSalesInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1221,6 +1409,7 @@ export type UserUncheckedCreateWithoutVoidedSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1248,6 +1437,9 @@ export type UserUpdateWithoutSalesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1258,6 +1450,7 @@ export type UserUpdateWithoutSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1269,6 +1462,9 @@ export type UserUncheckedUpdateWithoutSalesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1279,6 +1475,7 @@ export type UserUncheckedUpdateWithoutSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1301,6 +1498,9 @@ export type UserUpdateWithoutVoidedSalesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1311,6 +1511,7 @@ export type UserUpdateWithoutVoidedSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1322,6 +1523,9 @@ export type UserUncheckedUpdateWithoutVoidedSalesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1332,6 +1536,7 @@ export type UserUncheckedUpdateWithoutVoidedSalesInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1343,6 +1548,9 @@ export type UserCreateWithoutCakeOrdersCreatedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1353,6 +1561,7 @@ export type UserCreateWithoutCakeOrdersCreatedInput = {
   voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1364,6 +1573,9 @@ export type UserUncheckedCreateWithoutCakeOrdersCreatedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1374,6 +1586,7 @@ export type UserUncheckedCreateWithoutCakeOrdersCreatedInput = {
   voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1401,6 +1614,9 @@ export type UserUpdateWithoutCakeOrdersCreatedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1411,6 +1627,7 @@ export type UserUpdateWithoutCakeOrdersCreatedInput = {
   voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1422,6 +1639,9 @@ export type UserUncheckedUpdateWithoutCakeOrdersCreatedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1432,10 +1652,11 @@ export type UserUncheckedUpdateWithoutCakeOrdersCreatedInput = {
   voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
-export type UserCreateWithoutExpensesRecordedInput = {
+export type UserCreateWithoutExpensesVoidedInput = {
   id?: string
   name: string
   email: string
@@ -1443,6 +1664,9 @@ export type UserCreateWithoutExpensesRecordedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1453,6 +1677,62 @@ export type UserCreateWithoutExpensesRecordedInput = {
   voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
+  expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutExpensesVoidedInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.Role
+  isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  purchasesCreated?: Prisma.PurchaseUncheckedCreateNestedManyWithoutCreatedByInput
+  productionsRecorded?: Prisma.ProductionUncheckedCreateNestedManyWithoutProducedByInput
+  sales?: Prisma.SaleUncheckedCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
+  inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
+  expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutExpensesVoidedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpensesVoidedInput, Prisma.UserUncheckedCreateWithoutExpensesVoidedInput>
+}
+
+export type UserCreateWithoutExpensesRecordedInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  role?: $Enums.Role
+  isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  purchasesCreated?: Prisma.PurchaseCreateNestedManyWithoutCreatedByInput
+  productionsRecorded?: Prisma.ProductionCreateNestedManyWithoutProducedByInput
+  sales?: Prisma.SaleCreateNestedManyWithoutCashierInput
+  voidedSales?: Prisma.SaleCreateNestedManyWithoutVoidedByInput
+  inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
+  cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetCreateNestedManyWithoutCreatedByInput
 }
 
@@ -1464,6 +1744,9 @@ export type UserUncheckedCreateWithoutExpensesRecordedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1474,12 +1757,74 @@ export type UserUncheckedCreateWithoutExpensesRecordedInput = {
   voidedSales?: Prisma.SaleUncheckedCreateNestedManyWithoutVoidedByInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutExpensesRecordedInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutExpensesRecordedInput, Prisma.UserUncheckedCreateWithoutExpensesRecordedInput>
+}
+
+export type UserUpsertWithoutExpensesVoidedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExpensesVoidedInput, Prisma.UserUncheckedUpdateWithoutExpensesVoidedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpensesVoidedInput, Prisma.UserUncheckedCreateWithoutExpensesVoidedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExpensesVoidedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExpensesVoidedInput, Prisma.UserUncheckedUpdateWithoutExpensesVoidedInput>
+}
+
+export type UserUpdateWithoutExpensesVoidedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  purchasesCreated?: Prisma.PurchaseUpdateManyWithoutCreatedByNestedInput
+  productionsRecorded?: Prisma.ProductionUpdateManyWithoutProducedByNestedInput
+  sales?: Prisma.SaleUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
+  inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
+  cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
+  expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExpensesVoidedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  purchasesCreated?: Prisma.PurchaseUncheckedUpdateManyWithoutCreatedByNestedInput
+  productionsRecorded?: Prisma.ProductionUncheckedUpdateManyWithoutProducedByNestedInput
+  sales?: Prisma.SaleUncheckedUpdateManyWithoutCashierNestedInput
+  voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
+  inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+  expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUpsertWithoutExpensesRecordedInput = {
@@ -1501,6 +1846,9 @@ export type UserUpdateWithoutExpensesRecordedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1511,6 +1859,7 @@ export type UserUpdateWithoutExpensesRecordedInput = {
   voidedSales?: Prisma.SaleUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1522,6 +1871,9 @@ export type UserUncheckedUpdateWithoutExpensesRecordedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1532,6 +1884,7 @@ export type UserUncheckedUpdateWithoutExpensesRecordedInput = {
   voidedSales?: Prisma.SaleUncheckedUpdateManyWithoutVoidedByNestedInput
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
   fixedAssetsRecorded?: Prisma.FixedAssetUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1543,6 +1896,9 @@ export type UserCreateWithoutFixedAssetsRecordedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1554,6 +1910,7 @@ export type UserCreateWithoutFixedAssetsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseCreateNestedManyWithoutVoidedByInput
 }
 
 export type UserUncheckedCreateWithoutFixedAssetsRecordedInput = {
@@ -1564,6 +1921,9 @@ export type UserUncheckedCreateWithoutFixedAssetsRecordedInput = {
   image?: string | null
   role?: $Enums.Role
   isActive?: boolean
+  banned?: boolean
+  banReason?: string | null
+  banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1575,6 +1935,7 @@ export type UserUncheckedCreateWithoutFixedAssetsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedCreateNestedManyWithoutCreatedByInput
   expensesRecorded?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecordedByInput
+  expensesVoided?: Prisma.ExpenseUncheckedCreateNestedManyWithoutVoidedByInput
 }
 
 export type UserCreateOrConnectWithoutFixedAssetsRecordedInput = {
@@ -1601,6 +1962,9 @@ export type UserUpdateWithoutFixedAssetsRecordedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1612,6 +1976,7 @@ export type UserUpdateWithoutFixedAssetsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUpdateManyWithoutVoidedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFixedAssetsRecordedInput = {
@@ -1622,6 +1987,9 @@ export type UserUncheckedUpdateWithoutFixedAssetsRecordedInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1633,6 +2001,7 @@ export type UserUncheckedUpdateWithoutFixedAssetsRecordedInput = {
   inventoryTxns?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   cakeOrdersCreated?: Prisma.CakeOrderUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesRecorded?: Prisma.ExpenseUncheckedUpdateManyWithoutRecordedByNestedInput
+  expensesVoided?: Prisma.ExpenseUncheckedUpdateManyWithoutVoidedByNestedInput
 }
 
 
@@ -1650,6 +2019,7 @@ export type UserCountOutputType = {
   inventoryTxns: number
   cakeOrdersCreated: number
   expensesRecorded: number
+  expensesVoided: number
   fixedAssetsRecorded: number
 }
 
@@ -1663,6 +2033,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   inventoryTxns?: boolean | UserCountOutputTypeCountInventoryTxnsArgs
   cakeOrdersCreated?: boolean | UserCountOutputTypeCountCakeOrdersCreatedArgs
   expensesRecorded?: boolean | UserCountOutputTypeCountExpensesRecordedArgs
+  expensesVoided?: boolean | UserCountOutputTypeCountExpensesVoidedArgs
   fixedAssetsRecorded?: boolean | UserCountOutputTypeCountFixedAssetsRecordedArgs
 }
 
@@ -1742,6 +2113,13 @@ export type UserCountOutputTypeCountExpensesRecordedArgs<ExtArgs extends runtime
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountExpensesVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountFixedAssetsRecordedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FixedAssetWhereInput
 }
@@ -1755,6 +2133,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   role?: boolean
   isActive?: boolean
+  banned?: boolean
+  banReason?: boolean
+  banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -1766,6 +2147,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   inventoryTxns?: boolean | Prisma.User$inventoryTxnsArgs<ExtArgs>
   cakeOrdersCreated?: boolean | Prisma.User$cakeOrdersCreatedArgs<ExtArgs>
   expensesRecorded?: boolean | Prisma.User$expensesRecordedArgs<ExtArgs>
+  expensesVoided?: boolean | Prisma.User$expensesVoidedArgs<ExtArgs>
   fixedAssetsRecorded?: boolean | Prisma.User$fixedAssetsRecordedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1778,6 +2160,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   role?: boolean
   isActive?: boolean
+  banned?: boolean
+  banReason?: boolean
+  banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1790,6 +2175,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   role?: boolean
   isActive?: boolean
+  banned?: boolean
+  banReason?: boolean
+  banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1802,11 +2190,14 @@ export type UserSelectScalar = {
   image?: boolean
   role?: boolean
   isActive?: boolean
+  banned?: boolean
+  banReason?: boolean
+  banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "isActive" | "banned" | "banReason" | "banExpires" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -1817,6 +2208,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   inventoryTxns?: boolean | Prisma.User$inventoryTxnsArgs<ExtArgs>
   cakeOrdersCreated?: boolean | Prisma.User$cakeOrdersCreatedArgs<ExtArgs>
   expensesRecorded?: boolean | Prisma.User$expensesRecordedArgs<ExtArgs>
+  expensesVoided?: boolean | Prisma.User$expensesVoidedArgs<ExtArgs>
   fixedAssetsRecorded?: boolean | Prisma.User$fixedAssetsRecordedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1835,6 +2227,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     inventoryTxns: Prisma.$InventoryTransactionPayload<ExtArgs>[]
     cakeOrdersCreated: Prisma.$CakeOrderPayload<ExtArgs>[]
     expensesRecorded: Prisma.$ExpensePayload<ExtArgs>[]
+    expensesVoided: Prisma.$ExpensePayload<ExtArgs>[]
     fixedAssetsRecorded: Prisma.$FixedAssetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1845,6 +2238,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     role: $Enums.Role
     isActive: boolean
+    banned: boolean
+    banReason: string | null
+    banExpires: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2250,6 +2646,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   inventoryTxns<T extends Prisma.User$inventoryTxnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$inventoryTxnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cakeOrdersCreated<T extends Prisma.User$cakeOrdersCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cakeOrdersCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CakeOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expensesRecorded<T extends Prisma.User$expensesRecordedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expensesVoided<T extends Prisma.User$expensesVoidedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesVoidedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fixedAssetsRecorded<T extends Prisma.User$fixedAssetsRecordedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fixedAssetsRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FixedAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2287,6 +2684,9 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
+  readonly banned: Prisma.FieldRef<"User", 'Boolean'>
+  readonly banReason: Prisma.FieldRef<"User", 'String'>
+  readonly banExpires: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -2877,6 +3277,30 @@ export type User$cakeOrdersCreatedArgs<ExtArgs extends runtime.Types.Extensions.
  * User.expensesRecorded
  */
 export type User$expensesRecordedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Expense
+   */
+  select?: Prisma.ExpenseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Expense
+   */
+  omit?: Prisma.ExpenseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseInclude<ExtArgs> | null
+  where?: Prisma.ExpenseWhereInput
+  orderBy?: Prisma.ExpenseOrderByWithRelationInput | Prisma.ExpenseOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
+}
+
+/**
+ * User.expensesVoided
+ */
+export type User$expensesVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Expense
    */

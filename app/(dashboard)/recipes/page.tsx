@@ -26,7 +26,7 @@ export default async function RecipesPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Recipe Components</h1>

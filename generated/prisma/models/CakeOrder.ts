@@ -53,6 +53,8 @@ export type CakeOrderMinAggregateOutputType = {
   paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string | null
+  advanceOutcome: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -74,6 +76,8 @@ export type CakeOrderMaxAggregateOutputType = {
   paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string | null
+  advanceOutcome: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -95,6 +99,8 @@ export type CakeOrderCountAggregateOutputType = {
   paymentMethod: number
   notes: number
   createdById: number
+  advanceOutcome: number
+  advanceOutcomeAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -128,6 +134,8 @@ export type CakeOrderMinAggregateInputType = {
   paymentMethod?: true
   notes?: true
   createdById?: true
+  advanceOutcome?: true
+  advanceOutcomeAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -149,6 +157,8 @@ export type CakeOrderMaxAggregateInputType = {
   paymentMethod?: true
   notes?: true
   createdById?: true
+  advanceOutcome?: true
+  advanceOutcomeAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -170,6 +180,8 @@ export type CakeOrderCountAggregateInputType = {
   paymentMethod?: true
   notes?: true
   createdById?: true
+  advanceOutcome?: true
+  advanceOutcomeAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -278,6 +290,8 @@ export type CakeOrderGroupByOutputType = {
   paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string
+  advanceOutcome: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: CakeOrderCountAggregateOutputType | null
@@ -322,6 +336,8 @@ export type CakeOrderWhereInput = {
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
+  advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
@@ -346,6 +362,8 @@ export type CakeOrderOrderByWithRelationInput = {
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
+  advanceOutcome?: Prisma.SortOrderInput | Prisma.SortOrder
+  advanceOutcomeAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
@@ -373,6 +391,8 @@ export type CakeOrderWhereUniqueInput = Prisma.AtLeast<{
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
+  advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
@@ -397,6 +417,8 @@ export type CakeOrderOrderByWithAggregationInput = {
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
+  advanceOutcome?: Prisma.SortOrderInput | Prisma.SortOrder
+  advanceOutcomeAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CakeOrderCountOrderByAggregateInput
@@ -426,6 +448,8 @@ export type CakeOrderScalarWhereWithAggregatesInput = {
   paymentMethod?: Prisma.EnumPaymentMethodNullableWithAggregatesFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
+  advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableWithAggregatesFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CakeOrder"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CakeOrder"> | Date | string
 }
@@ -444,6 +468,8 @@ export type CakeOrderCreateInput = {
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutCakeOrdersInput
@@ -468,6 +494,8 @@ export type CakeOrderUncheckedCreateInput = {
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -486,6 +514,8 @@ export type CakeOrderUpdateInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCakeOrdersNestedInput
@@ -510,6 +540,8 @@ export type CakeOrderUncheckedUpdateInput = {
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -531,6 +563,8 @@ export type CakeOrderCreateManyInput = {
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -549,6 +583,8 @@ export type CakeOrderUpdateManyMutationInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -570,6 +606,8 @@ export type CakeOrderUncheckedUpdateManyInput = {
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -601,6 +639,8 @@ export type CakeOrderCountOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
+  advanceOutcome?: Prisma.SortOrder
+  advanceOutcomeAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -627,6 +667,8 @@ export type CakeOrderMaxOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
+  advanceOutcome?: Prisma.SortOrder
+  advanceOutcomeAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -648,6 +690,8 @@ export type CakeOrderMinOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
+  advanceOutcome?: Prisma.SortOrder
+  advanceOutcomeAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -791,6 +835,10 @@ export type NullableEnumPaymentMethodFieldUpdateOperationsInput = {
   set?: $Enums.PaymentMethod | null
 }
 
+export type NullableEnumAdvanceOutcomeFieldUpdateOperationsInput = {
+  set?: $Enums.AdvanceOutcome | null
+}
+
 export type CakeOrderCreateWithoutCreatedByInput = {
   id?: string
   cakeName: string
@@ -805,6 +853,8 @@ export type CakeOrderCreateWithoutCreatedByInput = {
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutCakeOrdersInput
@@ -827,6 +877,8 @@ export type CakeOrderUncheckedCreateWithoutCreatedByInput = {
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -877,6 +929,8 @@ export type CakeOrderScalarWhereInput = {
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
+  advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
 }
@@ -895,6 +949,8 @@ export type CakeOrderCreateWithoutProductInput = {
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutCakeOrdersInput
@@ -917,6 +973,8 @@ export type CakeOrderUncheckedCreateWithoutProductInput = {
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -961,6 +1019,8 @@ export type CakeOrderCreateWithoutCustomerInput = {
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   product?: Prisma.ProductCreateNestedOneWithoutCakeOrdersInput
@@ -983,6 +1043,8 @@ export type CakeOrderUncheckedCreateWithoutCustomerInput = {
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1029,6 +1091,8 @@ export type CakeOrderCreateManyCreatedByInput = {
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1047,6 +1111,8 @@ export type CakeOrderUpdateWithoutCreatedByInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCakeOrdersNestedInput
@@ -1069,6 +1135,8 @@ export type CakeOrderUncheckedUpdateWithoutCreatedByInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1089,6 +1157,8 @@ export type CakeOrderUncheckedUpdateManyWithoutCreatedByInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1109,6 +1179,8 @@ export type CakeOrderCreateManyProductInput = {
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1127,6 +1199,8 @@ export type CakeOrderUpdateWithoutProductInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCakeOrdersNestedInput
@@ -1149,6 +1223,8 @@ export type CakeOrderUncheckedUpdateWithoutProductInput = {
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1169,6 +1245,8 @@ export type CakeOrderUncheckedUpdateManyWithoutProductInput = {
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1189,6 +1267,8 @@ export type CakeOrderCreateManyCustomerInput = {
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
+  advanceOutcome?: $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1207,6 +1287,8 @@ export type CakeOrderUpdateWithoutCustomerInput = {
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneWithoutCakeOrdersNestedInput
@@ -1229,6 +1311,8 @@ export type CakeOrderUncheckedUpdateWithoutCustomerInput = {
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1249,6 +1333,8 @@ export type CakeOrderUncheckedUpdateManyWithoutCustomerInput = {
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
+  advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1272,6 +1358,8 @@ export type CakeOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
+  advanceOutcome?: boolean
+  advanceOutcomeAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1296,6 +1384,8 @@ export type CakeOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
+  advanceOutcome?: boolean
+  advanceOutcomeAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1320,6 +1410,8 @@ export type CakeOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
+  advanceOutcome?: boolean
+  advanceOutcomeAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1344,11 +1436,13 @@ export type CakeOrderSelectScalar = {
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
+  advanceOutcome?: boolean
+  advanceOutcomeAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "paymentMethod" | "notes" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
+export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
 export type CakeOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   product?: boolean | Prisma.CakeOrder$productArgs<ExtArgs>
@@ -1389,6 +1483,8 @@ export type $CakeOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     paymentMethod: $Enums.PaymentMethod | null
     notes: string | null
     createdById: string
+    advanceOutcome: $Enums.AdvanceOutcome | null
+    advanceOutcomeAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["cakeOrder"]>
@@ -1833,6 +1929,8 @@ export interface CakeOrderFieldRefs {
   readonly paymentMethod: Prisma.FieldRef<"CakeOrder", 'PaymentMethod'>
   readonly notes: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly createdById: Prisma.FieldRef<"CakeOrder", 'String'>
+  readonly advanceOutcome: Prisma.FieldRef<"CakeOrder", 'AdvanceOutcome'>
+  readonly advanceOutcomeAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
 }

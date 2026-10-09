@@ -22,3 +22,19 @@ export function isPickupOverdue(
     const pickupAt = new Date(`${dateStr}T${pickupTime}:00+05:30`);
     return pickupAt.getTime() < now.getTime();
 }
+
+
+/** Today's calendar date in Colombo as "YYYY-MM-DD". */
+export function colomboToday(now: Date = new Date()) {
+    return now.toLocaleDateString("en-CA", { timeZone: TIMEZONE });
+}
+
+/** UTC instant for the start of a Colombo calendar day ("YYYY-MM-DD"). */
+export function colomboDayStart(dateStr: string) {
+    return new Date(`${dateStr}T00:00:00+05:30`);
+}
+
+/** UTC instant for the very end of a Colombo calendar day ("YYYY-MM-DD"). */
+export function colomboDayEnd(dateStr: string) {
+    return new Date(`${dateStr}T23:59:59.999+05:30`);
+}

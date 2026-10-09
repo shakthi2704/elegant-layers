@@ -38,4 +38,12 @@ export type CakeOrderInput = z.infer<typeof cakeOrderSchema>;
 
 export const cancelCakeOrderSchema = z.object({
     reason: z.string().trim().min(1, "A reason is required").max(500),
+    // Required by the action only when the order has an advance.
+    advanceOutcome: z.enum(["KEPT", "REFUNDED"]).optional(),
+});
+
+export const advanceOutcomeSchema = z.object({
+    advanceOutcome: z.enum(["KEPT", "REFUNDED"], {
+        message: "Choose whether the advance was kept or refunded.",
+    }),
 });

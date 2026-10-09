@@ -26,6 +26,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import {
+  Card,
+} from "@/components/ui/card";
 export default async function ProductsPage({
   searchParams,
 }: {
@@ -43,7 +46,7 @@ export default async function ProductsPage({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Products</h1>
@@ -53,34 +56,36 @@ export default async function ProductsPage({
           Add Product
         </Button>
       </div>
-
-      <div className="flex flex-wrap gap-1 border-b border-border pb-2">
-        <Link
-          href="/products"
-          className={cn(
-            "rounded-md px-3 py-1.5 text-sm font-medium",
-            !categoryId
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-          )}
-        >
-          All
-        </Link>
-        {categories.map((c) => (
+      <Card className="flex flex-wrap gap-2 p-4">
+        <div >
           <Link
-            key={c.id}
-            href={`/products?category=${c.id}`}
+            href="/products"
             className={cn(
               "rounded-md px-3 py-1.5 text-sm font-medium",
-              categoryId === c.id
+              !categoryId
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
-            {c.name}
+            All
           </Link>
-        ))}
-      </div>
+          {categories.map((c) => (
+            <Link
+              key={c.id}
+              href={`/products?category=${c.id}`}
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm font-medium",
+                categoryId === c.id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+
+      </Card>
 
       <div className="overflow-hidden rounded-md">
         <Table className="w-full text-sm border border-border">
@@ -108,15 +113,19 @@ export default async function ProductsPage({
                 </TableCell>
 
                 <TableCell>
-                  <span
-                    className={
-                      Number(p.currentStock) <= Number(p.minimumStock)
-                        ? "font-medium text-destructive"
-                        : ""
-                    }
-                  >
-                    {p.currentStock.toString()} {p.unit}
-                  </span>
+                  {p.isFinishedProduct ? (
+                    <span
+                      className={
+                        Number(p.currentStock) <= Number(p.minimumStock)
+                          ? "font-medium text-destructive"
+                          : ""
+                      }
+                    >
+                      {p.currentStock.toString()} {p.unit}
+                    </span>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
                 </TableCell>
                 <TableCell>
                   <Badge variant={p.status === "ACTIVE" ? "default" : "secondary"}>

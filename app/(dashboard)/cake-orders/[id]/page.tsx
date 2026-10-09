@@ -7,6 +7,7 @@ import { formatDate, formatDateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CakeOrderStatusActions } from "@/components/cake-orders/cake-order-status-actions";
+import { SetAdvanceOutcomeButton } from "@/components/cake-orders/set-advance-outcome-button";
 
 import {
     Card,
@@ -223,24 +224,45 @@ export default async function CakeOrderDetailPage({
                                     </>
                                 )}
 
-                                {balanceDue !== null && (
-                                    <>
-                                        <dt className="font-medium">
-                                            Balance Due
-                                        </dt>
+                                {order.status === "CANCELLED" &&
+                                    order.advancePaid && (
+                                        <>
+                                            <dt className="text-muted-foreground">
+                                                Advance outcome
+                                            </dt>
 
-                                        <dd className="text-right text-base font-semibold">
-                                            Rs.{" "}
-                                            {balanceDue.toLocaleString(
-                                                "en-LK",
-                                                {
+                                            <dd className="text-right">
+                                                {order.advanceOutcome === "KEPT" &&
+                                                    "Kept by the shop"}
+                                                {order.advanceOutcome === "REFUNDED" &&
+                                                    "Refunded to the customer"}
+                                                {!order.advanceOutcome && (
+                                                    <span className="text-amber-600 dark:text-amber-400">
+                                                        Not recorded yet
+                                                    </span>
+                                                )}
+                                                {order.advanceOutcomeAt &&
+                                                    ` (${formatDate(order.advanceOutcomeAt)})`}
+                                            </dd>
+                                        </>
+                                    )}
+
+                                {balanceDue !== null &&
+                                    order.status !== "CANCELLED" && (
+                                        <>
+                                            <dt className="font-medium">
+                                                Balance Due
+                                            </dt>
+
+                                            <dd className="text-right text-base font-semibold">
+                                                Rs.{" "}
+                                                {balanceDue.toLocaleString("en-LK", {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2,
-                                                }
-                                            )}
-                                        </dd>
-                                    </>
-                                )}
+                                                })}
+                                            </dd>
+                                        </>
+                                    )}
                             </dl>
                         </section>
                     )}
@@ -304,7 +326,18 @@ export default async function CakeOrderDetailPage({
                                 orderId={order.id}
                                 status={order.status}
                                 canCancel={user.role === "ADMIN"}
+                                advancePaid={order.advancePaid?.toNumber() ?? 0}
                             />
+                            {order.status === "CANCELLED" &&
+                                user.role === "ADMIN" &&
+                                order.advancePaid &&
+                                order.advancePaid.toNumber() > 0 &&
+                                !order.advanceOutcome && (
+                                    <SetAdvanceOutcomeButton
+                                        orderId={order.id}
+                                        advancePaid={order.advancePaid.toNumber()}
+                                    />
+                                )}
                         </div>
                     </div>
 

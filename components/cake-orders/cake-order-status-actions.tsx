@@ -27,10 +27,12 @@ export function CakeOrderStatusActions({
     orderId,
     status,
     canCancel,
+    advancePaid,
 }: {
     orderId: string;
     status: string;
     canCancel: boolean;
+    advancePaid: number;
 }) {
     const [advanceState, advanceAction, advancePending] = useActionState(
         advanceCakeOrderStatus.bind(null, orderId),
@@ -117,6 +119,49 @@ export function CakeOrderStatusActions({
                                     </p>
                                 )}
                             </div>
+
+                            {advancePaid > 0 && (
+                                <fieldset className="space-y-2">
+                                    <legend className="text-sm font-medium">
+                                        What happens to the advance of Rs.{" "}
+                                        {advancePaid.toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })}
+                                        ?
+                                    </legend>
+                                    <label className="flex items-start gap-2 text-sm">
+                                        <input
+                                            type="radio"
+                                            name="advanceOutcome"
+                                            value="REFUNDED"
+                                            className="mt-1"
+                                        />
+                                        <span>
+                                            <span className="font-medium">Refunded</span>{" "}
+                                            — the money was given back to the customer.
+                                        </span>
+                                    </label>
+                                    <label className="flex items-start gap-2 text-sm">
+                                        <input
+                                            type="radio"
+                                            name="advanceOutcome"
+                                            value="KEPT"
+                                            className="mt-1"
+                                        />
+                                        <span>
+                                            <span className="font-medium">Kept</span> — the
+                                            shop keeps the money, and it counts as income.
+                                        </span>
+                                    </label>
+                                    {cancelState.fieldErrors?.advanceOutcome && (
+                                        <p className="text-sm text-destructive">
+                                            {cancelState.fieldErrors.advanceOutcome[0]}
+                                        </p>
+                                    )}
+                                </fieldset>
+                            )}
+
                             {cancelState.error && (
                                 <p className="text-sm text-destructive">{cancelState.error}</p>
                             )}

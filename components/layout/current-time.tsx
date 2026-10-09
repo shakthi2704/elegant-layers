@@ -1,33 +1,61 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+
+const TIMEZONE = "Asia/Colombo";
+
+const dateFormat = new Intl.DateTimeFormat("en-LK", {
+    timeZone: TIMEZONE,
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+});
+
+const timeFormat = new Intl.DateTimeFormat("en-LK", {
+    timeZone: TIMEZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+});
 
 export function CurrentTime() {
-    const [time, setTime] = useState("");
+    const [now, setNow] = useState<Date | null>(null);
 
     useEffect(() => {
-        const updateTime = () => {
-            setTime(
-                new Intl.DateTimeFormat("en-LK", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: false,
-                }).format(new Date())
-            );
-        };
+        const tick = () => setNow(new Date());
 
-        updateTime();
+        tick();
 
-        const interval = setInterval(updateTime, 1000);
+        const interval = setInterval(tick, 1000);
 
         return () => clearInterval(interval);
     }, []);
 
+    // Render nothing until mounted so server and browser output can't mismatch.
+    if (!now) {
+        return <div className="h-10" />;
+    }
+
     return (
-        <div className="flex items-center gap-1.5 text-sm">
-            <span className="text-muted-foreground">The time is</span>
-            <time className="font-medium tabular-nums">{time}</time>
-        </div>
+        <Card className="bg-primary/ text-primary">
+            <CardContent>
+                <div className="text-right">
+                    <p className="text-base font-medium tabular-nums">
+                        {timeFormat.format(now)}
+                    </p>
+
+                    <span className="text-xs text-muted-foreground">
+                        {dateFormat.format(now)}
+                    </span>
+                </div>
+            </CardContent>
+        </Card>
     );
 }

@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
-
+// import "./globals-copy.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -44,6 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange
         >
           {children}
+
         </ThemeProvider>
       </body>
     </html>

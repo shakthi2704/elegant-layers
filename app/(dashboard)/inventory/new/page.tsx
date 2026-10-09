@@ -17,7 +17,10 @@ export default async function NewAdjustmentPage() {
 
     const [ingredients, products] = await Promise.all([
         prisma.ingredient.findMany({ orderBy: { name: "asc" } }),
-        prisma.product.findMany({ orderBy: { name: "asc" } }),
+        prisma.product.findMany({
+            where: { isFinishedProduct: true },
+            orderBy: { name: "asc" },
+        }),
     ]);
 
     return (

@@ -4,6 +4,7 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { updateUser } from "@/app/(dashboard)/users/actions";
 import { UserForm } from "@/components/users/user-form";
+import { ResetPasswordButton } from "@/components/users/reset-password-button";
 import {
     Card,
     CardContent,
@@ -52,6 +53,23 @@ export default async function EditUserPage({
                 }}
                 submitLabel="Save Changes"
             />
+
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-xl">Password</CardTitle>
+                    <CardDescription>
+                        If {user.name} has forgotten their password, set a new
+                        one here and tell them in person. They will be signed
+                        out everywhere and must sign in again.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ResetPasswordButton
+                        userId={user.id}
+                        userName={user.name}
+                    />
+                </CardContent>
+            </Card>
         </div>
 
     );

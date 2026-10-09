@@ -3,7 +3,7 @@ import type { Prisma } from "@/generated/prisma/client";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime, colomboDayStart, colomboDayEnd } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,10 +24,6 @@ import {
 
 import {
     Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-    CardDescription,
 } from "@/components/ui/card";
 
 
@@ -37,13 +33,6 @@ const RESULT_CAP = 100;
 // the date inputs can be converted to a precise UTC instant without needing
 // a timezone library — this must stay in sync with the Asia/Colombo constant
 // in lib/format.ts.
-function colomboDayStart(dateStr: string) {
-    return new Date(`${dateStr}T00:00:00+05:30`);
-}
-
-function colomboDayEnd(dateStr: string) {
-    return new Date(`${dateStr}T23:59:59.999+05:30`);
-}
 
 export default async function SalesHistoryPage({
     searchParams,

@@ -2,6 +2,10 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createAuthMiddleware, APIError } from "better-auth/api";
 import { prisma } from "@/lib/prisma";
+import { admin } from "better-auth/plugins";
+import { adminAc, userAc } from "better-auth/plugins/admin/access";
+
+
 export const auth = betterAuth({
     baseURL: process.env.BETTER_AUTH_URL,
     trustedOrigins: process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : undefined,
@@ -31,6 +35,17 @@ export const auth = betterAuth({
             }
         }),
     },
+
+    plugins: [
+        admin({
+            // Our roles are ADMIN / CASHIER (a Prisma enum), not the plugin's
+            // default "admin" / "user". Both must be registered here or the
+            // plugin refuses every admin call and new users get an invalid role.
+            defaultRole: "CASHIER",
+            adminRoles: ["ADMIN"],
+            roles: { ADMIN: adminAc, CASHIER: userAc },
+        }),
+    ],
     user: {
         additionalFields: {
             role: {

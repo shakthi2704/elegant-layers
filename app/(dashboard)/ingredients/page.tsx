@@ -12,7 +12,7 @@ export default async function IngredientsPage() {
   const ingredients = await prisma.ingredient.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Ingredients</h1>

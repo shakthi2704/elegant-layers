@@ -98,3 +98,19 @@ export const PaymentMethod = {
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const ExpenseStatus = {
+  ACTIVE: 'ACTIVE',
+  VOID: 'VOID'
+} as const
+
+export type ExpenseStatus = (typeof ExpenseStatus)[keyof typeof ExpenseStatus]
+
+
+export const AdvanceOutcome = {
+  KEPT: 'KEPT',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type AdvanceOutcome = (typeof AdvanceOutcome)[keyof typeof AdvanceOutcome]

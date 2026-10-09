@@ -76,7 +76,7 @@ export function AppSidebar({
                             <CollapsibleTrigger
                                 nativeButton={false}
                                 render={
-                                    <SidebarGroupLabel className="group flex w-full items-center hover:bg-sidebar-accent hover:text-white" />
+                                    <SidebarGroupLabel className="group flex w-full items-center hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" />
                                 }
                             >
                                 {group.title}

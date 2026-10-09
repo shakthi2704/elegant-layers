@@ -2,11 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
+import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/require-role";
-import { createUserSchema, updateUserSchema } from "@/lib/validations/user";
+import {
+    createUserSchema,
+    resetPasswordSchema,
+    updateUserSchema,
+} from "@/lib/validations/user";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 
 export async function createUser(
@@ -103,6 +107,47 @@ export async function toggleUserActive(userId: string): Promise<ActionState> {
         where: { id: userId },
         data: { isActive: !target.isActive },
     });
+
+    revalidatePath("/users");
+    return { success: true };
+}
+
+export async function resetUserPassword(
+    userId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    const currentUser = await requireRole(["ADMIN"]);
+
+    const parsed = resetPasswordSchema.safeParse({
+        newPassword: formData.get("newPassword"),
+        confirmPassword: formData.get("confirmPassword"),
+    });
+    if (!parsed.success) {
+        return { fieldErrors: parsed.error.flatten().fieldErrors };
+    }
+
+    const target = await prisma.user.findUnique({ where: { id: userId } });
+    if (!target) {
+        return { error: "User not found." };
+    }
+
+    try {
+        // The admin plugin re-checks that the signed-in user is allowed to
+        // set passwords, using the session from the request headers.
+        await auth.api.setUserPassword({
+            body: { newPassword: parsed.data.newPassword, userId },
+            headers: await headers(),
+        });
+    } catch {
+        return { error: "Couldn't reset the password. Please try again." };
+    }
+
+    // Sign the user out everywhere so the old password stops working at once.
+    // Keep the current session when an owner resets their own password.
+    if (userId !== currentUser.id) {
+        await prisma.session.deleteMany({ where: { userId } });
+    }
 
     revalidatePath("/users");
     return { success: true };

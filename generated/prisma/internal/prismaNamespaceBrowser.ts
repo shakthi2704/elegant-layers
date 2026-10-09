@@ -101,6 +101,9 @@ export const UserScalarFieldEnum = {
   image: 'image',
   role: 'role',
   isActive: 'isActive',
+  banned: 'banned',
+  banReason: 'banReason',
+  banExpires: 'banExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -116,7 +119,8 @@ export const SessionScalarFieldEnum = {
   userAgent: 'userAgent',
   userId: 'userId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  impersonatedBy: 'impersonatedBy'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -374,6 +378,8 @@ export const CakeOrderScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   notes: 'notes',
   createdById: 'createdById',
+  advanceOutcome: 'advanceOutcome',
+  advanceOutcomeAt: 'advanceOutcomeAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -387,6 +393,11 @@ export const ExpenseScalarFieldEnum = {
   category: 'category',
   description: 'description',
   amount: 'amount',
+  paymentMethod: 'paymentMethod',
+  status: 'status',
+  voidReason: 'voidReason',
+  voidedAt: 'voidedAt',
+  voidedById: 'voidedById',
   recordedById: 'recordedById',
   createdAt: 'createdAt'
 } as const

@@ -73,6 +73,18 @@ enum PaymentMethod {
   BANK_DEPOSIT
 }
 
+
+enum ExpenseStatus {
+  ACTIVE
+  VOID
+}
+
+enum AdvanceOutcome {
+  KEPT
+  REFUNDED
+}
+
+
 model User {
   id            String   @id @default(cuid())
   name          String
@@ -81,6 +93,9 @@ model User {
   image         String?                    // NEW
   role          Role     @default(CASHIER)
   isActive      Boolean  @default(true)
+  banned        Boolean  @default(false)
+  banReason     String?
+  banExpires    DateTime?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt         // NEW
 
@@ -93,7 +108,8 @@ model User {
     voidedSales          Sale[]  @relation("VoidedSales")
   inventoryTxns        InventoryTransaction[]
   cakeOrdersCreated    CakeOrder[]
-  expensesRecorded     Expense[]
+ expensesRecorded     Expense[] @relation("RecordedExpenses")
+  expensesVoided       Expense[] @relation("VoidedExpenses")
   fixedAssetsRecorded  FixedAsset[]
 }
 
@@ -107,6 +123,7 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  impersonatedBy String?
 }
 
 model Account {
@@ -408,6 +425,8 @@ model CakeOrder {
   paymentMethod PaymentMethod?  // NEW — how the advance (if any) was paid
   notes         String?
   createdById   String
+  advanceOutcome   AdvanceOutcome?   // set when the order is cancelled; null = not decided yet
+  advanceOutcomeAt DateTime?         // when the outcome was recorded (a kept advance counts as income on this day)
   createdBy     User            @relation(fields: [createdById], references: [id])
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -418,16 +437,21 @@ model CakeOrder {
 // ============================================================
 
 model Expense {
-  id          String   @id @default(cuid())
-  date        DateTime @default(now())
-  category    String
-  description String?
-  amount      Decimal  @db.Decimal(10, 2)
-  recordedById String
-  recordedBy  User     @relation(fields: [recordedById], references: [id])
-  createdAt   DateTime @default(now())
+  id            String         @id @default(cuid())
+  date          DateTime       @default(now())
+  category      String
+  description   String?
+  amount        Decimal        @db.Decimal(10, 2)
+  paymentMethod PaymentMethod  @default(CASH)
+  status        ExpenseStatus  @default(ACTIVE)
+  voidReason    String?
+  voidedAt      DateTime?
+  voidedById    String?
+  voidedBy      User?          @relation("VoidedExpenses", fields: [voidedById], references: [id])
+  recordedById  String
+  recordedBy    User           @relation("RecordedExpenses", fields: [recordedById], references: [id])
+  createdAt     DateTime       @default(now())
 }
-
 
 
 // ============================================================
