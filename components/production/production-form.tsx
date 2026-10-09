@@ -5,6 +5,7 @@ import { X, Plus } from "lucide-react";
 
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { Button } from "@/components/ui/button";
+import { colomboToday } from "@/lib/format";
 import {
     Card,
     CardContent,
@@ -51,7 +52,7 @@ function newRowKey() {
 }
 
 function todayIsoDate() {
-    return new Date().toISOString().slice(0, 10);
+    return colomboToday();
 }
 
 export function ProductionForm({

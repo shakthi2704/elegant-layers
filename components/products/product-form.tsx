@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+
 type Category = { id: string; name: string };
 
 export function ProductForm({

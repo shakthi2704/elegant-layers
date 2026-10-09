@@ -18,8 +18,10 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+import { colomboToday } from "@/lib/format";
+
 function todayIsoDate() {
-    return new Date().toISOString().slice(0, 10);
+    return colomboToday();
 }
 
 export function DisposeAssetButton({ assetId, assetName }: { assetId: string; assetName: string }) {

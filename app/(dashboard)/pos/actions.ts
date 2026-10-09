@@ -45,8 +45,14 @@ function calculateTotals(
 }
 
 async function generateSaleNumber(tx: Prisma.TransactionClient) {
-    const count = await tx.sale.count();
-    return `S${String(count + 1).padStart(5, "0")}`;
+    // Use the highest existing number, not a row count: discarding a held
+    // bill deletes its row, so count + 1 can land on a number already taken.
+    const last = await tx.sale.findFirst({
+        orderBy: { saleNumber: "desc" },
+        select: { saleNumber: true },
+    });
+    const lastNumber = last ? parseInt(last.saleNumber.slice(1), 10) || 0 : 0;
+    return `S${String(lastNumber + 1).padStart(5, "0")}`;
 }
 
 /**

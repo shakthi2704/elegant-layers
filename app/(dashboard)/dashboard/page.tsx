@@ -8,6 +8,7 @@ import { UpcomingPickupsCard } from "@/components/dashboard/upcoming-pickups-car
 import { QuickActions } from "@/components/dashboard/quick-actions";
 import { SalesTrendCard } from "@/components/dashboard/sales-trend-card";
 import { CakeBalanceCard } from "@/components/dashboard/cake-balance-card";
+import { MonthSummaryCard } from "@/components/dashboard/month-summary-card";
 import {
   Card,
 } from "@/components/ui/card";
@@ -38,6 +39,7 @@ export default async function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {isAdmin && <TodaysSalesCard />}
+        {isAdmin && <MonthSummaryCard />}
         <CakeOrdersCard />
         {isAdmin && <CakeBalanceCard />}
         {isAdmin && <StockAlertsCard />}

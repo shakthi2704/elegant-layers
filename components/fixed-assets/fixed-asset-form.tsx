@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-
+import { colomboToday } from "@/lib/format";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 function todayIsoDate() {
-    return new Date().toISOString().slice(0, 10);
+    return colomboToday();
 }
 
 export function FixedAssetForm({

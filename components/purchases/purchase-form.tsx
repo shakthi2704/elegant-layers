@@ -2,7 +2,7 @@
 
 import { useActionState, useMemo, useState } from "react";
 import { X, Plus } from "lucide-react";
-
+import { colomboToday } from "@/lib/format";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,7 @@ function newRowKey() {
 }
 
 function todayIsoDate() {
-    return new Date().toISOString().slice(0, 10);
+    return colomboToday();
 }
 
 function money(n: number) {

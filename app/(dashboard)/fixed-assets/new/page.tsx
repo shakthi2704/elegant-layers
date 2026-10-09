@@ -17,7 +17,7 @@ export default async function NewFixedAssetPage() {
         <div className="space-y-6">
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Edit Fixed Asset</CardTitle>
+                    <CardTitle className="text-xl">New Fixed Asset</CardTitle>
 
                     <p className="pt-1 text-sm text-muted-foreground">
                         This fixed asset is recorded in the system for tracking and
