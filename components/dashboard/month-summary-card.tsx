@@ -127,7 +127,7 @@ export async function MonthSummaryCard() {
                 <Button variant="ghost" className="w-full">
                     <Link href="/reports" className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted">
                         See the full report
-                        <ArrowRight className="ml-2 size-4" />
+                        <ArrowRight className="size-4" />
                     </Link>
                 </Button>
             </CardFooter>
