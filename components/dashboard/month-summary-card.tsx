@@ -124,7 +124,7 @@ export async function MonthSummaryCard() {
 
                 <Link
                     href="/reports"
-                    className="block text-sm text-muted-foreground hover:text-foreground hover:underline"
+                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
                 >
                     See the full report
                 </Link>

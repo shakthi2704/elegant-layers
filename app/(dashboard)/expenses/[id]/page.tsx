@@ -47,7 +47,7 @@ export default async function ExpenseDetailPage({
                 <CardHeader>
                     <div className="flex items-start justify-between gap-4">
                         <div>
-                            <CardTitle className="text-xl">
+                            <CardTitle className="text-3xl">
                                 {expense.category} expense
                             </CardTitle>
                             <CardDescription>

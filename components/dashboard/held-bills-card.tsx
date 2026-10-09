@@ -69,8 +69,8 @@ export async function HeldBillsCard() {
 
                     <div
                         className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${heldCount > 0
-                                ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                                : "bg-muted text-muted-foreground"
+                            ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                            : "bg-muted text-muted-foreground"
                             }`}
                     >
                         <PauseCircle className="size-5" />
@@ -169,7 +169,7 @@ export async function HeldBillsCard() {
                 {/* Always stays at the bottom */}
                 <Link
                     href="/pos"
-                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-primary transition-colors hover:bg-muted"
+                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
                 >
                     <span>Open POS</span>
                     <ArrowRight className="size-4" />

@@ -15,6 +15,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    Card,
+} from "@/components/ui/card";
+
 
 
 export default async function FixedAssetsPage() {
@@ -26,17 +30,19 @@ export default async function FixedAssetsPage() {
 
     return (
         <div className="space-y-6 px-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-xl font-semibold">Fixed Assets</h1>
-                    <p className="text-sm text-muted-foreground">
-                        Equipment, furniture, and other assets, depreciated straight-line.
-                    </p>
+            <Card className="p-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-semibold">Fixed Assets</h1>
+                        <p className="text-sm text-muted-foreground">
+                            Equipment, furniture, and other assets, depreciated straight-line.
+                        </p>
+                    </div>
+                    <Button nativeButton={false} render={<Link href="/fixed-assets/new" />}>
+                        Add Asset
+                    </Button>
                 </div>
-                <Button nativeButton={false} render={<Link href="/fixed-assets/new" />}>
-                    Add Asset
-                </Button>
-            </div>
+            </Card>
             <div className="overflow-hidden rounded-md">
                 <Table className="w-full text-sm  border border-border ">
                     <TableHeader className="bg-muted ">

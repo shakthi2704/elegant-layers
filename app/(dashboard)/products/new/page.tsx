@@ -20,7 +20,7 @@ export default async function NewProductPage() {
     <div className="space-y-6">
       <Card className="max-w-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold">Add Product</CardTitle>
+          <CardTitle className="text-3xl font-semibold">Add Product</CardTitle>
         </CardHeader>
       </Card>
       <ProductForm action={createProduct} categories={categories} submitLabel="Create Product" />

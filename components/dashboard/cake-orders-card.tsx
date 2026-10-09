@@ -118,7 +118,7 @@ export async function CakeOrdersCard() {
                 <Button variant="ghost" className="w-full">
                     <Link
                         href="/cake-orders"
-                        className="flex items-center justify-center gap-2"
+                        className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
                     >
                         <span>View all cake orders</span>
                         <ArrowRight className="size-4" />

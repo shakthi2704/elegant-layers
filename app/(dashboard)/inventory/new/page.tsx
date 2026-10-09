@@ -27,7 +27,7 @@ export default async function NewAdjustmentPage() {
         <div className="space-y-6">
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Inventory adjustment</CardTitle>
+                    <CardTitle className="text-3xl font-semibold">Inventory adjustment</CardTitle>
                     <CardDescription>
                         Correct a stock number directly — use this for recounts or fixing a mistake
                         from an earlier Purchase or Production entry. Every adjustment is logged with

@@ -61,7 +61,7 @@ export default async function ProductionDetailPage({
             {/* Production Details */}
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">
+                    <CardTitle className="text-3xl font-semibold">
                         Production Details
                     </CardTitle>
 

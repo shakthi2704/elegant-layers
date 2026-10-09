@@ -11,6 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Card,
+} from "@/components/ui/card";
 
 export default async function SuppliersPage() {
   await requireRole(["ADMIN"]);
@@ -21,22 +24,23 @@ export default async function SuppliersPage() {
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Suppliers</h1>
-          <p className="text-sm text-muted-foreground">
-            Vendors you buy ingredients from.
-          </p>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Suppliers</h1>
+            <p className="text-sm text-muted-foreground">
+              Vendors you buy ingredients from.
+            </p>
+          </div>
+
+          <Button
+            nativeButton={false}
+            render={<Link href="/suppliers/new" />}
+          >
+            Add Supplier
+          </Button>
         </div>
-
-        <Button
-          nativeButton={false}
-          render={<Link href="/suppliers/new" />}
-        >
-          Add Supplier
-        </Button>
-      </div>
-
+      </Card>
       <div className="overflow-hidden rounded-md">
         <Table className="w-full border border-border text-sm">
           <TableHeader className="bg-muted">

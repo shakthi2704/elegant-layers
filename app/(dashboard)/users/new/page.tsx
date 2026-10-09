@@ -16,7 +16,7 @@ export default async function NewUserPage() {
         <div className="space-y-6">
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Add User</CardTitle>
+                    <CardTitle className="text-3xl font-semibold">Add User</CardTitle>
                     <CardDescription>
                         Create an account for a new admin or cashier.
                     </CardDescription>

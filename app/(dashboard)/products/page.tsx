@@ -47,15 +47,18 @@ export default async function ProductsPage({
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Products</h1>
-          <p className="text-sm text-muted-foreground">Everything sellable through the POS.</p>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Products</h1>
+            <p className="text-sm text-muted-foreground">Everything sellable through the POS.</p>
+          </div>
+          <Button nativeButton={false} render={<Link href="/products/new" />}>
+            Add Product
+          </Button>
         </div>
-        <Button nativeButton={false} render={<Link href="/products/new" />}>
-          Add Product
-        </Button>
-      </div>
+      </Card>
+
       <Card className="flex flex-wrap gap-2 p-4">
         <div >
           <Link
@@ -121,7 +124,7 @@ export default async function ProductsPage({
                           : ""
                       }
                     >
-                      {p.currentStock.toString()} {p.unit}
+                      {p.currentStock.toString()}   <span className="text-[10px]">{p.unit}</span>
                     </span>
                   ) : (
                     <span className="text-muted-foreground">—</span>
@@ -129,7 +132,7 @@ export default async function ProductsPage({
                 </TableCell>
                 <TableCell>
                   <Badge variant={p.status === "ACTIVE" ? "default" : "secondary"}>
-                    {p.status}
+                    <span className="text-[10px]">{p.status}</span>
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">

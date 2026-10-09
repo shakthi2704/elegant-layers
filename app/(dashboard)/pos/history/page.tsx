@@ -74,12 +74,15 @@ export default async function SalesHistoryPage({
 
     return (
         <div className="space-y-6 px-6">
-            <div>
-                <h1 className="text-3xl font-semibold">Sales History</h1>
-                <p className="text-sm text-muted-foreground">
-                    Completed and voided bills.
-                </p>
-            </div>
+            <Card className="p-4">
+                <div>
+                    <h1 className="text-3xl font-semibold">Sales History</h1>
+                    <p className="text-sm text-muted-foreground">
+                        Completed and voided bills.
+                    </p>
+                </div>
+            </Card>
+
             <Card className="max-w-full p-4">
                 <form method="get">
                     <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5">

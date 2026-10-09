@@ -64,22 +64,23 @@ export default async function IncomePage({
 
     return (
         <div className="space-y-6 px-6">
-            <div>
-                <h1 className="text-3xl font-semibold">Income</h1>
-                <p className="text-sm text-muted-foreground">
-                    Money received from POS bills and cake orders. This page is
-                    read-only: every row comes from a bill or an order.
-                </p>
-            </div>
-
-            <IncomeFilterBar defaults={{ source, from, to }} />
-
+            <Card className="p-4">
+                <div>
+                    <h1 className="text-3xl font-semibold">Income</h1>
+                    <p className="text-sm text-muted-foreground">
+                        Money received from POS bills and cake orders. This page is
+                        read-only: every row comes from a bill or an order.
+                    </p>
+                </div>
+            </Card>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <TotalCard title="Total income" value={income.totals.total} strong />
                 <TotalCard title="POS bills" value={income.totals.pos} />
                 <TotalCard title="Cake order advances" value={income.totals.cakeAdvance} />
                 <TotalCard title="Cake order balances" value={income.totals.cakeBalance} />
             </div>
+            <IncomeFilterBar defaults={{ source, from, to }} />
+
 
             {showHeldNote && (
                 <div className="rounded-md border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">

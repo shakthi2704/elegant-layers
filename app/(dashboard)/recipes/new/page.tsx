@@ -2,6 +2,8 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { createRecipe } from "@/app/(dashboard)/recipes/actions";
 import { RecipeForm } from "@/components/recipes/recipe-form";
+import { Card, CardHeader, CardTitle, } from "@/components/ui/card";
+
 
 export default async function NewRecipePage() {
     await requireRole(["ADMIN"]);
@@ -10,9 +12,11 @@ export default async function NewRecipePage() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Add Recipe Component</h1>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-3xl font-semibold">Add Recipe Component</CardTitle>
+                </CardHeader>
+            </Card>
             <RecipeForm
                 action={createRecipe}
                 ingredients={ingredients.map((i) => ({ id: i.id, name: i.name, unit: i.unit }))}

@@ -28,7 +28,7 @@ export default async function NewPurchasePage() {
         <div className="space-y-6">
             <Card className="max-w-6xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Record Purchase</CardTitle>
+                    <CardTitle className="text-3xl font-semibold">Record Purchase</CardTitle>
                     <CardDescription>
                         Recording a purchase increases ingredient or product stock immediately.
                     </CardDescription>

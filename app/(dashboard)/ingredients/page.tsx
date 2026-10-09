@@ -22,6 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Card,
+} from "@/components/ui/card";
 
 export default async function IngredientsPage() {
   await requireRole(["ADMIN"]);
@@ -30,22 +33,25 @@ export default async function IngredientsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Ingredients</h1>
-          <p className="text-sm text-muted-foreground">
-            Raw materials used in recipes and consumed by Production.
-          </p>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Ingredients</h1>
+            <p className="text-sm text-muted-foreground">
+              Raw materials used in recipes and consumed by Production.
+            </p>
+          </div>
+          <Button
+            variant="default"
+            size="lg"
+            nativeButton={false}
+            render={<Link href="/ingredients/new" />}
+          >
+            Add Ingredient
+          </Button>
         </div>
-        <Button
-          variant="default"
-          size="lg"
-          nativeButton={false}
-          render={<Link href="/ingredients/new" />}
-        >
-          Add Ingredient
-        </Button>
-      </div>
+      </Card>
+
 
       <div className="overflow-hidden rounded-md">
         <Table className="w-full text-sm border border-border">

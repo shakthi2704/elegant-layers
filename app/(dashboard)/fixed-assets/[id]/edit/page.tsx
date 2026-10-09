@@ -11,8 +11,7 @@ import {
     CardTitle,
     CardDescription,
 } from "@/components/ui/card";
-
-
+import { Badge } from "@/components/ui/badge";
 
 export default async function EditFixedAssetPage({
     params,
@@ -28,17 +27,41 @@ export default async function EditFixedAssetPage({
     }
 
     return (
+
         <div className="space-y-6">
-            <div>
-                <h1 className="text-xl font-semibold">Edit Fixed Asset</h1>
-                <p className="text-sm text-muted-foreground">{asset.name}</p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                    This fixed asset is recorded in the system for tracking and depreciation purposes.
-                </p>
-            </div>
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <div className="flex items-start justify-between gap-4">
+                        <div>
+                            <CardTitle className="text-3xl font-semibold">
+                                Edit Fixed Asset
+                            </CardTitle>
+
+                            <CardDescription>
+                                {asset.name}
+                            </CardDescription>
+
+                            <p className="pt-2 text-sm text-muted-foreground">
+                                This fixed asset is recorded in the system for
+                                tracking and depreciation purposes.
+                            </p>
+                        </div>
+
+                        <Badge
+                            variant={
+                                asset.status === "ACTIVE"
+                                    ? "link"
+                                    : "secondary"
+                            }
+                        >
+                            {asset.status}
+                        </Badge>
+                    </div>
+                </CardHeader>
+            </Card>
 
             {asset.status === "DISPOSED" ? (
-                <p className="text-sm text-muted-foreground">
+                <p className="max-w-2xl text-sm text-muted-foreground">
                     This asset has been disposed and can no longer be edited.
                 </p>
             ) : (
@@ -57,5 +80,6 @@ export default async function EditFixedAssetPage({
                 />
             )}
         </div>
+
     );
 }

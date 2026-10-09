@@ -54,113 +54,115 @@ export default async function InventoryPage({
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Inventory</h1>
-          <p className="text-sm text-muted-foreground">
-            Current stock, every stock movement, and manual corrections.
-          </p>
-        </div>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Inventory</h1>
+            <p className="text-sm text-muted-foreground">
+              Current stock, every stock movement, and manual corrections.
+            </p>
+          </div>
 
-        <Button
-          nativeButton={false}
-          render={<Link href="/inventory/new" />}
-        >
-          New Adjustment
-        </Button>
-      </div>
-      <Card className="flex flex-wrap gap-2 p-4">
-        <InventoryTabs active={view} />
+          <Button
+            nativeButton={false}
+            render={<Link href="/inventory/new" />}
+          >
+            New Adjustment
+          </Button>
+        </div>
       </Card>
 
+      <Card className="flex flex-wrap gap-6 p-4">
+        <InventoryTabs active={view} />
 
-      {view === "stock" && (
-        <>
-          <StockFilterBar defaults={{ type, low, q }} />
-          <StockTable filters={{ type, low, q }} />
-        </>
-      )}
-      {view === "movements" && (
-        <>
-          <MovementFilterBar defaults={{ type, from, to, q }} />
-          <MovementsTable filters={{ type, from, to, q }} />
-        </>
-      )}
-      {view === "adjustments" && (
-        <div className="overflow-hidden rounded-md">
-          <Table className="w-full border border-border text-sm">
-            <TableHeader className="bg-muted">
-              <TableRow>
-                <TableHead className="px-4 py-2.5 font-medium">Date</TableHead>
-                <TableHead className="px-4 py-2.5 font-medium">Item</TableHead>
-                <TableHead className="px-4 py-2.5 font-medium">Change</TableHead>
-                <TableHead className="px-4 py-2.5 font-medium">New Stock</TableHead>
-                <TableHead className="px-4 py-2.5 font-medium">By</TableHead>
-                <TableHead className="px-4 py-2.5 text-right font-medium">
-                  Action
-                </TableHead>
-              </TableRow>
-            </TableHeader>
+        {view === "stock" && (
+          <>
+            <StockFilterBar defaults={{ type, low, q }} />
+            <StockTable filters={{ type, low, q }} />
+          </>
+        )}
+        {view === "movements" && (
+          <>
+            <MovementFilterBar defaults={{ type, from, to, q }} />
+            <MovementsTable filters={{ type, from, to, q }} />
+          </>
+        )}
+        {view === "adjustments" && (
+          <div className="overflow-hidden rounded-md">
+            <Table className="w-full border border-border text-sm">
+              <TableHeader className="bg-muted">
+                <TableRow>
+                  <TableHead className="px-4 py-2.5 font-medium">Date</TableHead>
+                  <TableHead className="px-4 py-2.5 font-medium">Item</TableHead>
+                  <TableHead className="px-4 py-2.5 font-medium">Change</TableHead>
+                  <TableHead className="px-4 py-2.5 font-medium">New Stock</TableHead>
+                  <TableHead className="px-4 py-2.5 font-medium">By</TableHead>
+                  <TableHead className="px-4 py-2.5 text-right font-medium">
+                    Action
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
 
-            <TableBody className="divide-y divide-border bg-muted/20">
-              {adjustments.map((txn) => {
-                const item = txn.ingredient ?? txn.product;
-                const quantity = txn.quantity.toNumber();
+              <TableBody className="divide-y divide-border bg-muted/20">
+                {adjustments.map((txn) => {
+                  const item = txn.ingredient ?? txn.product;
+                  const quantity = txn.quantity.toNumber();
 
-                return (
-                  <TableRow key={txn.id}>
-                    <TableCell className="px-4 py-2.5 text-muted-foreground">
-                      {formatDate(txn.createdAt)}
-                    </TableCell>
+                  return (
+                    <TableRow key={txn.id}>
+                      <TableCell className="px-4 py-2.5 text-muted-foreground">
+                        {formatDate(txn.createdAt)}
+                      </TableCell>
 
-                    <TableCell className="px-4 py-2.5 font-medium">
-                      {item?.name}
-                    </TableCell>
+                      <TableCell className="px-4 py-2.5 font-medium">
+                        {item?.name}
+                      </TableCell>
 
-                    <TableCell
-                      className={`px-4 py-2.5 ${quantity >= 0 ? "text-emerald-500" : "text-destructive"
-                        }`}
-                    >
-                      {quantity >= 0 ? "+" : ""}
-                      {txn.quantity.toString()} {item?.unit}
-                    </TableCell>
-
-                    <TableCell className="px-4 py-2.5">
-                      {txn.balanceAfter.toString()} {item?.unit}
-                    </TableCell>
-
-                    <TableCell className="px-4 py-2.5 text-muted-foreground">
-                      {txn.createdBy.name}
-                    </TableCell>
-
-                    <TableCell className="px-4 py-2.5 text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        nativeButton={false}
-                        render={<Link href={`/inventory/${txn.id}`} />}
+                      <TableCell
+                        className={`px-4 py-2.5 ${quantity >= 0 ? "text-emerald-500" : "text-destructive"
+                          }`}
                       >
-                        View
-                      </Button>
+                        {quantity >= 0 ? "+" : ""}
+                        {txn.quantity.toString()} {item?.unit}
+                      </TableCell>
+
+                      <TableCell className="px-4 py-2.5">
+                        {txn.balanceAfter.toString()} {item?.unit}
+                      </TableCell>
+
+                      <TableCell className="px-4 py-2.5 text-muted-foreground">
+                        {txn.createdBy.name}
+                      </TableCell>
+
+                      <TableCell className="px-4 py-2.5 text-right">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          nativeButton={false}
+                          render={<Link href={`/inventory/${txn.id}`} />}
+                        >
+                          View
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+
+                {adjustments.length === 0 && (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      className="px-4 py-10 text-center text-muted-foreground"
+                    >
+                      No adjustments recorded yet.
                     </TableCell>
                   </TableRow>
-                );
-              })}
-
-              {adjustments.length === 0 && (
-                <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    className="px-4 py-10 text-center text-muted-foreground"
-                  >
-                    No adjustments recorded yet.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </Card>
     </div>
   );
 }

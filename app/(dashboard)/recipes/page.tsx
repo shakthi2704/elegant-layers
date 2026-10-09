@@ -6,6 +6,9 @@ import { prisma } from "@/lib/prisma";
 import { deleteRecipe } from "@/app/(dashboard)/recipes/actions";
 import { Button } from "@/components/ui/button";
 import { DeleteRecipeMenuItem } from "@/components/recipes/delete-recipe-menu-item";
+import {
+  Card,
+} from "@/components/ui/card";
 
 import {
   DropdownMenu,
@@ -36,19 +39,22 @@ export default async function RecipesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Recipe Components</h1>
-          <p className="text-sm text-muted-foreground">
-            Reusable building blocks (e.g. &quot;Butter Cake Base&quot;,
-            &quot;Vanilla Icing&quot;). Attach one or more to a product to
-            define what it&apos;s made of.
-          </p>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Recipe Components</h1>
+            <p className="text-sm text-muted-foreground">
+              Reusable building blocks (e.g. &quot;Butter Cake Base&quot;,
+              &quot;Vanilla Icing&quot;). Attach one or more to a product to
+              define what it&apos;s made of.
+            </p>
+          </div>
+          <Button nativeButton={false} render={<Link href="/recipes/new" />}>
+            Add Recipe Component
+          </Button>
         </div>
-        <Button nativeButton={false} render={<Link href="/recipes/new" />}>
-          Add Recipe Component
-        </Button>
-      </div>
+      </Card>
+
 
       <div className="overflow-hidden rounded-md">
         <Table className="w-full text-sm border border-border">

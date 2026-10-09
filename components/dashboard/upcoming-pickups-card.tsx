@@ -157,16 +157,18 @@ export async function UpcomingPickupsCard() {
                                                     variant={
                                                         overdue
                                                             ? "destructive"
-                                                            : "secondary"
+                                                            : order.status === "READY"
+                                                                ? "default"
+                                                                : "secondary"
                                                     }
-                                                    className="hidden shrink-0 sm:inline-flex"
+                                                    className={`hidden shrink-0 sm:inline-flex ${!overdue && order.status === "READY"
+                                                        ? "bg-emerald-800 text-white hover:bg-emerald-800"
+                                                        : ""
+                                                        }`}
                                                 >
                                                     {overdue
                                                         ? "Overdue"
-                                                        : STATUS_LABEL[
-                                                        order.status
-                                                        ] ??
-                                                        order.status}
+                                                        : STATUS_LABEL[order.status] ?? order.status}
                                                 </Badge>
                                             </div>
                                         </Link>
@@ -177,7 +179,7 @@ export async function UpcomingPickupsCard() {
 
                         <Link
                             href="/cake-orders"
-                            className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-primary transition-colors hover:bg-muted"
+                            className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
                         >
                             <span>View all orders</span>
                             <ArrowRight className="size-4" />

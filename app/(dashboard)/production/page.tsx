@@ -12,6 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Card,
+} from "@/components/ui/card";
 
 export default async function ProductionPage() {
   await requireRole(["ADMIN"]);
@@ -23,22 +26,24 @@ export default async function ProductionPage() {
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Production</h1>
-          <p className="text-sm text-muted-foreground">
-            Records that consume ingredients per recipe and increase
-            product stock.
-          </p>
-        </div>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Production</h1>
+            <p className="text-sm text-muted-foreground">
+              Records that consume ingredients per recipe and increase
+              product stock.
+            </p>
+          </div>
 
-        <Button
-          nativeButton={false}
-          render={<Link href="/production/new" />}
-        >
-          Record Production
-        </Button>
-      </div>
+          <Button
+            nativeButton={false}
+            render={<Link href="/production/new" />}
+          >
+            Record Production
+          </Button>
+        </div>
+      </Card>
 
       <div className="overflow-hidden rounded-md">
         <Table className="w-full border border-border text-sm">

@@ -27,7 +27,7 @@ export default async function NewProductionPage() {
         <div className="space-y-6">
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Record Production</CardTitle>
+                    <CardTitle className="text-3xl font-semibold">Record Production</CardTitle>
                     <CardDescription>
                         Consumes ingredients per recipe and/or base products per component, and
                         increases this product&apos;s stock immediately.

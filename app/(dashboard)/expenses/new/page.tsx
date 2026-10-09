@@ -10,7 +10,7 @@ export default async function NewExpensePage() {
         <div className="space-y-6 px-6">
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Record Expense</CardTitle>
+                    <CardTitle className="text-3xl font-semibold">Record Expense</CardTitle>
 
                     <p className="pt-1 text-sm text-muted-foreground">
                         Record money spent on running the shop, such as rent,

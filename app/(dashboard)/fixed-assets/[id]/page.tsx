@@ -46,7 +46,7 @@ export default async function FixedAssetDetailPage({
                 <CardHeader>
                     <div className="flex items-start justify-between gap-4">
                         <div>
-                            <CardTitle className="text-xl">
+                            <CardTitle className="text-3xl font-semibold">
                                 {asset.name}
                             </CardTitle>
 

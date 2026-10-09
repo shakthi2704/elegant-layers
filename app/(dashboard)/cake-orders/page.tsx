@@ -16,6 +16,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import {
+  Card,
+} from "@/components/ui/card";
+
 const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive"> = {
   PENDING: "secondary",
   IN_PROGRESS: "default",
@@ -53,43 +57,51 @@ export default async function CakeOrdersPage({
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold">Cake Orders</h1>
-          <p className="text-sm text-muted-foreground">
-            Custom cake orders, sorted by soonest pickup.
-          </p>
-          {overdueCount > 0 && (
-            <p className="mt-1 text-sm font-medium text-destructive">
-              {overdueCount} order{overdueCount === 1 ? "" : "s"} past pickup
-              time and not collected.
+      <Card className="p-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Cake Orders
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Custom cake orders, sorted by soonest pickup.
             </p>
-          )}
+            {overdueCount > 0 && (
+              <p className="mt-1 text-sm font-medium text-destructive">
+                {overdueCount} order{overdueCount === 1 ? "" : "s"} past pickup
+                time and not collected.
+              </p>
+            )}
+          </div>
+          <Button nativeButton={false} render={<Link href="/cake-orders/new" />}>
+            New Order
+          </Button>
         </div>
-        <Button nativeButton={false} render={<Link href="/cake-orders/new" />}>
-          New Order
-        </Button>
-      </div>
+      </Card>
+      <Card className="p-4">
+        <form
+          method="get"
+          className="flex flex-wrap items-end gap-4"
+        >
+          <CakeOrderStatusFilterSelect defaultValue={status ?? "ACTIVE"} />
 
-      <form
-        method="get"
-        className="flex flex-wrap items-end gap-4 rounded-lg border border-border p-4"
-      >
-        <CakeOrderStatusFilterSelect defaultValue={status ?? "ACTIVE"} />
-        <div className="flex gap-2">
-          <Button type="submit" size="sm">
-            Filter
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            nativeButton={false}
-            render={<Link href="/cake-orders" />}
-          >
-            Clear
-          </Button>
-        </div>
-      </form>
+          <div className="flex items-end gap-2">
+            <Button type="submit" size="sm">
+              Filter
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              nativeButton={false}
+              render={<Link href="/cake-orders" />}
+            >
+              Clear
+            </Button>
+          </div>
+        </form>
+      </Card>
+
 
       <div className="overflow-hidden rounded-md">
         <div className="overflow-hidden rounded-md">

@@ -98,8 +98,8 @@ export async function StockAlertsCard() {
 
                     <div
                         className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${alerts.length > 0
-                                ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                                : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                            : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                             }`}
                     >
                         {alerts.length > 0 ? (
@@ -126,8 +126,8 @@ export async function StockAlertsCard() {
                                 </p>
                                 <p
                                     className={`text-lg font-semibold tabular-nums ${outCount > 0
-                                            ? "text-destructive"
-                                            : ""
+                                        ? "text-destructive"
+                                        : ""
                                         }`}
                                 >
                                     {outCount}
@@ -180,8 +180,8 @@ export async function StockAlertsCard() {
                                     <div className="flex min-w-0 items-center gap-2.5">
                                         <span
                                             className={`size-2 shrink-0 rounded-full ${a.status === "OUT"
-                                                    ? "bg-destructive"
-                                                    : "bg-amber-500"
+                                                ? "bg-destructive"
+                                                : "bg-amber-500"
                                                 }`}
                                         />
 
@@ -225,7 +225,7 @@ export async function StockAlertsCard() {
 
                 <Link
                     href="/inventory?view=stock&low=1"
-                    className="flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-primary transition-colors hover:bg-muted"
+                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
                 >
                     <span>
                         {alerts.length > LIST_LIMIT

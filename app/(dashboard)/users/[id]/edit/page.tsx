@@ -31,7 +31,7 @@ export default async function EditUserPage({
         <div className="space-y-6">
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Edit User</CardTitle>
+                    <CardTitle className="text-3xl font-semibold">Edit User</CardTitle>
                     <CardDescription>
                         Update the user’s account details and permissions.
                     </CardDescription>
@@ -56,7 +56,7 @@ export default async function EditUserPage({
 
             <Card className="max-w-2xl">
                 <CardHeader>
-                    <CardTitle className="text-xl">Password</CardTitle>
+                    <CardTitle className="text-xl font-semibold">Password</CardTitle>
                     <CardDescription>
                         If {user.name} has forgotten their password, set a new
                         one here and tell them in person. They will be signed

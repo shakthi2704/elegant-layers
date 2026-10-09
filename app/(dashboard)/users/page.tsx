@@ -22,6 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Card,
+} from "@/components/ui/card";
 
 
 export default async function UsersPage() {
@@ -33,21 +36,24 @@ export default async function UsersPage() {
 
   return (
     <div className="space-y-6 px-6 ">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Users</h1>
-          <p className="text-sm text-muted-foreground">
-            Admin and cashier accounts for this shop.
-          </p>
-        </div>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Users</h1>
+            <p className="text-sm text-muted-foreground">
+              Admin and cashier accounts for this shop.
+            </p>
+          </div>
 
-        <Button
-          nativeButton={false}
-          render={<Link href="/users/new" />}
-        >
-          Add User
-        </Button>
-      </div>
+          <Button
+            nativeButton={false}
+            render={<Link href="/users/new" />}
+          >
+            Add User
+          </Button>
+        </div>
+      </Card>
+
 
       <div className="overflow-hidden rounded-md">
         <Table className="w-full text-sm  border border-border ">

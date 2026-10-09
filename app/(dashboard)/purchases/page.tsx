@@ -67,29 +67,27 @@ export default async function PurchasesPage({
 
   return (
     <div className="space-y-6 px-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Purchases</h1>
-          <p className="text-sm text-muted-foreground">
-            Ingredient and product purchases from suppliers. Each entry
-            increases stock.
-          </p>
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold">Purchases</h1>
+            <p className="text-sm text-muted-foreground">
+              Ingredient and product purchases from suppliers. Each entry
+              increases stock.
+            </p>
+          </div>
+
+          <Button
+            nativeButton={false}
+            render={<Link href="/purchases/new" />}
+          >
+            Record Purchase
+          </Button>
         </div>
 
-        <Button
-          nativeButton={false}
-          render={<Link href="/purchases/new" />}
-        >
-          Record Purchase
-        </Button>
-      </div>
-
-      <PurchaseFilterBar
-        suppliers={suppliers}
-        defaults={{ supplier, from, to }}
-      />
-
+      </Card>
       <Card className="max-w-sm p-4">
+
         <p className="text-sm text-muted-foreground">
           Total purchases ({matchCount} purchase
           {matchCount === 1 ? "" : "s"})
@@ -97,87 +95,97 @@ export default async function PurchasesPage({
         <p className="text-2xl font-semibold">Rs. {money.format(total)}</p>
       </Card>
 
-      <div className="overflow-hidden rounded-md">
-        <Table className="w-full border border-border text-sm">
-          <TableHeader className="bg-muted">
-            <TableRow>
-              <TableHead className="px-4 py-2.5 font-medium">
-                Date
-              </TableHead>
+      <Card className="p-4">
+        <PurchaseFilterBar
+          suppliers={suppliers}
+          defaults={{ supplier, from, to }}
+        />
 
-              <TableHead className="px-4 py-2.5 font-medium">
-                Supplier
-              </TableHead>
-
-              <TableHead className="px-4 py-2.5 font-medium">
-                Items
-              </TableHead>
-
-              <TableHead className="px-4 py-2.5 text-right font-medium">
-                Total
-              </TableHead>
-
-              <TableHead className="px-4 py-2.5 text-right font-medium">
-                Action
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody className="divide-y divide-border bg-muted/20">
-            {purchases.map((purchase) => (
-              <TableRow key={purchase.id}>
-                <TableCell className="px-4 py-2.5 text-muted-foreground">
-                  {formatDate(purchase.purchaseDate)}
-                </TableCell>
-
-                <TableCell className="px-4 py-2.5 font-medium">
-                  {purchase.supplier.name}
-                </TableCell>
-
-                <TableCell className="px-4 py-2.5 text-muted-foreground">
-                  {purchase.items.length} item
-                  {purchase.items.length === 1 ? "" : "s"}
-                </TableCell>
-
-                <TableCell className="px-4 py-2.5 text-right">
-                  Rs. {money.format(purchase.totalAmount.toNumber())}
-                </TableCell>
-
-                <TableCell className="px-4 py-2.5 text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    nativeButton={false}
-                    render={<Link href={`/purchases/${purchase.id}`} />}
-                  >
-                    View
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-
-            {purchases.length === 0 && (
+        <div className="overflow-hidden rounded-md">
+          <Table className="w-full border border-border text-sm">
+            <TableHeader className="bg-muted">
               <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="px-4 py-10 text-center text-muted-foreground"
-                >
-                  {matchCount === 0 && !supplier && !validFrom && !validTo
-                    ? "No purchases recorded yet."
-                    : "No purchases found."}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Date
+                </TableHead>
 
-      {matchCount > RESULT_CAP && (
-        <p className="text-sm text-muted-foreground">
-          Showing the latest {RESULT_CAP} of {matchCount} purchases. The total
-          above covers all of them. Use the filters to narrow the list.
-        </p>
-      )}
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Supplier
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 font-medium">
+                  Items
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 text-right font-medium">
+                  Total
+                </TableHead>
+
+                <TableHead className="px-4 py-2.5 text-right font-medium">
+                  Action
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody className="divide-y divide-border bg-muted/20">
+              {purchases.map((purchase) => (
+                <TableRow key={purchase.id}>
+                  <TableCell className="px-4 py-2.5 text-muted-foreground">
+                    {formatDate(purchase.purchaseDate)}
+                  </TableCell>
+
+                  <TableCell className="px-4 py-2.5 font-medium">
+                    {purchase.supplier.name}
+                  </TableCell>
+
+                  <TableCell className="px-4 py-2.5 text-muted-foreground">
+                    {purchase.items.length} item
+                    {purchase.items.length === 1 ? "" : "s"}
+                  </TableCell>
+
+                  <TableCell className="px-4 py-2.5 text-right">
+                    Rs. {money.format(purchase.totalAmount.toNumber())}
+                  </TableCell>
+
+                  <TableCell className="px-4 py-2.5 text-right">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      nativeButton={false}
+                      render={<Link href={`/purchases/${purchase.id}`} />}
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+
+              {purchases.length === 0 && (
+                <TableRow>
+                  <TableCell
+                    colSpan={5}
+                    className="px-4 py-10 text-center text-muted-foreground"
+                  >
+                    {matchCount === 0 && !supplier && !validFrom && !validTo
+                      ? "No purchases recorded yet."
+                      : "No purchases found."}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        {matchCount > RESULT_CAP && (
+          <p className="text-sm text-muted-foreground">
+            Showing the latest {RESULT_CAP} of {matchCount} purchases. The total
+            above covers all of them. Use the filters to narrow the list.
+          </p>
+        )}
+      </Card>
+
+
+
     </div>
   );
 }

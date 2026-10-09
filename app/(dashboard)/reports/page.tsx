@@ -26,13 +26,14 @@ export default async function ReportsPage({
 
   return (
     <div className="space-y-6 px-6">
-      <div>
-        <h1 className="text-xl font-semibold">Reports</h1>
-        <p className="text-sm text-muted-foreground">
-          Profit, daily income and product sales for a period. The
-          period starts as the current month.
-        </p>
-      </div>
+      <Card className="p-4">
+        <div>
+          <h1 className="text-3xl font-semibold">Reports</h1>
+          <p className="text-sm text-muted-foreground">
+            Profit, daily income and product sales for a period. The
+            period starts as the current month.
+          </p>
+        </div></Card>
 
       <Card className="flex flex-wrap gap-2 p-4">
         <ReportTabs active={view} from={period.from} to={period.to} />

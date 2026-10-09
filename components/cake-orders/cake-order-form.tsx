@@ -69,7 +69,7 @@ export function CakeOrderForm({
     return (
         <Card className="max-w-2xl">
             <CardHeader>
-                <CardTitle>Cake Order</CardTitle>
+                <CardTitle>Cake Orders Details</CardTitle>
 
                 <CardDescription>
                     Customer, cake, pickup and payment details.
