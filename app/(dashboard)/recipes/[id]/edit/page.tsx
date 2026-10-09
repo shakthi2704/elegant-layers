@@ -25,7 +25,7 @@ export default async function EditRecipePage({
     const boundUpdate = updateRecipe.bind(null, recipe.id);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
             <div>
                 <h1 className="text-xl font-semibold">Edit Recipe Component</h1>
             </div>

@@ -14,7 +14,7 @@ export default async function NewFixedAssetPage() {
     await requireRole(["ADMIN"]);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
             <Card className="max-w-2xl">
                 <CardHeader>
                     <CardTitle className="text-3xl font-semibold">New Fixed Asset</CardTitle>

@@ -29,7 +29,7 @@ export default async function EditSupplierPage({
     const boundUpdate = updateSupplier.bind(null, supplier.id);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
             <Card className="max-w-2xl">
                 <CardHeader>
                     <CardTitle className="text-xl">Edit supplier</CardTitle>

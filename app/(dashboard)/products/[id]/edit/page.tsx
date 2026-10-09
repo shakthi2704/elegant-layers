@@ -25,7 +25,7 @@ export default async function EditProductPage({
   const boundUpdate = updateProduct.bind(null, product.id);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-6">
       <div>
         <h1 className="text-xl font-semibold">Edit Product</h1>
         <p className="text-sm text-muted-foreground">{product.name}</p>

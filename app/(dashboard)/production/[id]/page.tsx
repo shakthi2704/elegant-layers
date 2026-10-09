@@ -57,7 +57,7 @@ export default async function ProductionDetailPage({
     );
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
             {/* Production Details */}
             <Card className="max-w-2xl">
                 <CardHeader>

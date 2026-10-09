@@ -27,8 +27,7 @@ export default async function EditFixedAssetPage({
     }
 
     return (
-
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
             <Card className="max-w-2xl">
                 <CardHeader>
                     <div className="flex items-start justify-between gap-4">
