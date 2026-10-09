@@ -37,7 +37,7 @@ export default async function DashboardPage() {
       </Card>
       <QuickActions isAdmin={isAdmin} />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
         {isAdmin && <TodaysSalesCard />}
         {isAdmin && <MonthSummaryCard />}
         <CakeOrdersCard />

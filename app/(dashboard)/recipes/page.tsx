@@ -1,10 +1,19 @@
 import Link from "next/link";
+import { MoreHorizontalIcon } from "lucide-react";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { deleteRecipe } from "@/app/(dashboard)/recipes/actions";
 import { Button } from "@/components/ui/button";
-import { DeleteRecipeButton } from "@/components/recipes/delete-recipe-button";
+import { DeleteRecipeMenuItem } from "@/components/recipes/delete-recipe-menu-item";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -26,7 +35,7 @@ export default async function RecipesPage() {
   });
 
   return (
-    <div className="space-y-6 px-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Recipe Components</h1>
@@ -41,47 +50,65 @@ export default async function RecipesPage() {
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-lg border border-border">
-        <Table>
-          <TableHeader>
+      <div className="overflow-hidden rounded-md">
+        <Table className="w-full text-sm border border-border">
+          <TableHeader className="bg-muted">
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Ingredients</TableHead>
-              <TableHead>Used By</TableHead>
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">Name</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">Ingredients</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">Used By</TableHead>
+              <TableHead className="px-4 py-2.5 text-right font-medium">Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+
+          <TableBody className="divide-y divide-border bg-muted/20">
             {recipes.map((recipe) => (
               <TableRow key={recipe.id}>
                 <TableCell className="font-medium">{recipe.name}</TableCell>
+
                 <TableCell className="text-muted-foreground">
-                  {recipe.items.length} ingredient{recipe.items.length === 1 ? "" : "s"}
+                  {recipe.items.length} ingredient
+                  {recipe.items.length === 1 ? "" : "s"}
                 </TableCell>
+
                 <TableCell className="text-muted-foreground">
-                  {recipe.products.length} product{recipe.products.length === 1 ? "" : "s"}
+                  {recipe.products.length} product
+                  {recipe.products.length === 1 ? "" : "s"}
                 </TableCell>
+
                 <TableCell className="text-right">
-                  <div className="flex justify-end gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      nativeButton={false}
-                      render={<Link href={`/recipes/${recipe.id}/edit`} />}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={<Button variant="ghost" size="icon" className="size-8" />}
                     >
-                      Edit
-                    </Button>
-                    <DeleteRecipeButton
-                      recipeName={recipe.name}
-                      action={deleteRecipe.bind(null, recipe.id)}
-                    />
-                  </div>
+                      <MoreHorizontalIcon />
+                      <span className="sr-only">Open menu</span>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        nativeButton={false}
+                        render={<Link href={`/recipes/${recipe.id}/edit`} />}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+
+                      <DeleteRecipeMenuItem
+                        recipeName={recipe.name}
+                        action={deleteRecipe.bind(null, recipe.id)}
+                      />
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
+
             {recipes.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="py-10 text-center text-muted-foreground">
+                <TableCell
+                  colSpan={4}
+                  className="py-10 text-center text-muted-foreground"
+                >
                   No recipe components yet. Add your first one to get started.
                 </TableCell>
               </TableRow>

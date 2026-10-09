@@ -85,13 +85,13 @@ export default async function SalesHistoryPage({
                     <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5">
                         {/* Status */}
                         <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="status">Status</Label>
+
                             <StatusFilterSelect defaultValue={status ?? "ALL"} />
                         </div>
 
                         {/* Cashier */}
                         <div className="flex flex-col gap-1.5">
-                            <Label htmlFor="cashier">Cashier</Label>
+
                             <CashierFilterSelect
                                 defaultValue={cashierId ?? "ALL"}
                                 cashiers={cashiers.map((c) => ({

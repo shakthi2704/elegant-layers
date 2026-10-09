@@ -1,10 +1,27 @@
 import Link from "next/link";
+import { MoreHorizontalIcon } from "lucide-react";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { deleteIngredient } from "@/app/(dashboard)/ingredients/actions";
-import { DeleteIngredientButton } from "@/components/ingredients/delete-ingredient-button";
+import { DeleteIngredientMenuItem } from "@/components/ingredients/delete-ingredient-menu-item";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default async function IngredientsPage() {
   await requireRole(["ADMIN"]);
@@ -12,7 +29,7 @@ export default async function IngredientsPage() {
   const ingredients = await prisma.ingredient.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <div className="space-y-6 px-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Ingredients</h1>
@@ -30,21 +47,23 @@ export default async function IngredientsPage() {
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-lg border border-border">
-        <table className="w-full text-sm">
-          <thead className="bg-muted/50 text-left text-muted-foreground">
-            <tr>
-              <th className="px-4 py-2.5 font-medium">Name</th>
-              <th className="px-4 py-2.5 font-medium">Current Stock</th>
-              <th className="px-4 py-2.5 font-medium">Minimum Stock</th>
-              <th className="px-4 py-2.5 font-medium" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
+      <div className="overflow-hidden rounded-md">
+        <Table className="w-full text-sm border border-border">
+          <TableHeader className="bg-muted">
+            <TableRow>
+              <TableHead className="px-4 py-2.5 font-medium">Name</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">Current Stock</TableHead>
+              <TableHead className="px-4 py-2.5 font-medium">Minimum Stock</TableHead>
+              <TableHead className="px-4 py-2.5 text-right font-medium">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody className="divide-y divide-border bg-muted/20">
             {ingredients.map((i) => (
-              <tr key={i.id}>
-                <td className="px-4 py-2.5 font-medium">{i.name}</td>
-                <td className="px-4 py-2.5">
+              <TableRow key={i.id}>
+                <TableCell className="font-medium">{i.name}</TableCell>
+
+                <TableCell>
                   <span
                     className={
                       Number(i.currentStock) <= Number(i.minimumStock)
@@ -54,35 +73,51 @@ export default async function IngredientsPage() {
                   >
                     {i.currentStock.toString()} {i.unit}
                   </span>
-                </td>
-                <td className="px-4 py-2.5 text-muted-foreground">
+                </TableCell>
+
+                <TableCell className="text-muted-foreground">
                   {i.minimumStock.toString()} {i.unit}
-                </td>
-                <td className="px-4 py-2.5 text-right space-x-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    nativeButton={false}
-                    render={<Link href={`/ingredients/${i.id}/edit`} />}
-                  >
-                    Edit
-                  </Button>
-                  <DeleteIngredientButton
-                    ingredientName={i.name}
-                    action={deleteIngredient.bind(null, i.id)}
-                  />
-                </td>
-              </tr>
+                </TableCell>
+
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={<Button variant="ghost" size="icon" className="size-8" />}
+                    >
+                      <MoreHorizontalIcon />
+                      <span className="sr-only">Open menu</span>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        nativeButton={false}
+                        render={<Link href={`/ingredients/${i.id}/edit`} />}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+
+                      <DeleteIngredientMenuItem
+                        ingredientName={i.name}
+                        action={deleteIngredient.bind(null, i.id)}
+                      />
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
             ))}
+
             {ingredients.length === 0 && (
-              <tr>
-                <td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  className="py-10 text-center text-muted-foreground"
+                >
                   No ingredients yet. Add your first one to get started.
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
