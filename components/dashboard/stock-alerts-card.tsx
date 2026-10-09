@@ -12,11 +12,13 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 
 const LIST_LIMIT = 5;
 
@@ -76,7 +78,7 @@ export async function StockAlertsCard() {
     const shown = alerts.slice(0, LIST_LIMIT);
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="flex h-full flex-col overflow-hidden">
             <CardHeader className="pb-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
@@ -111,7 +113,7 @@ export async function StockAlertsCard() {
                 </div>
             </CardHeader>
 
-            <CardContent className="space-y-3">
+            <CardContent className="flex-1 space-y-3">
                 {/* Summary */}
                 <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-lg border bg-muted/30 p-3.5">
@@ -223,18 +225,23 @@ export async function StockAlertsCard() {
                     </div>
                 )}
 
-                <Link
-                    href="/inventory?view=stock&low=1"
-                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
-                >
-                    <span>
-                        {alerts.length > LIST_LIMIT
-                            ? `View all ${alerts.length} alerts`
-                            : "View stock"}
-                    </span>
-                    <ArrowRight className="size-4" />
-                </Link>
+
             </CardContent>
+            <CardFooter className="mt-auto p-3 pt-0">
+                <Button variant="ghost" className="w-full">
+                    <Link
+                        href="/inventory?view=stock&low=1"
+                        className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
+                    >
+                        <span>
+                            {alerts.length > LIST_LIMIT
+                                ? `View all ${alerts.length} alerts`
+                                : "View stock"}
+                        </span>
+                        <ArrowRight className="size-4" />
+                    </Link>
+                </Button>
+            </CardFooter>
         </Card>
     );
 }

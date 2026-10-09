@@ -35,7 +35,7 @@ export function QuickActions({ isAdmin }: { isAdmin: boolean }) {
                     {actions.map((a, index) => (
                         <Button
                             key={a.href}
-                            variant={index === 0 ? "default" : "outline"}
+                            variant={index === 0 ? "default" : "secondary"}
                             nativeButton={false}
                             render={<Link href={a.href} />}
                             size="lg"

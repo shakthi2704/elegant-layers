@@ -13,10 +13,12 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 
 const LIMIT = 5;
 
@@ -70,7 +72,7 @@ export async function UpcomingPickupsCard() {
                 </div>
             </CardHeader>
 
-            <CardContent className="flex flex-1 flex-col">
+            <CardContent className="flex-1 space-y-3">
                 {orders.length === 0 ? (
                     <div className="flex flex-1 items-center justify-center">
                         <div className="flex w-full items-center gap-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3.5">
@@ -177,16 +179,18 @@ export async function UpcomingPickupsCard() {
                             </div>
                         </div>
 
-                        <Link
-                            href="/cake-orders"
-                            className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
-                        >
-                            <span>View all orders</span>
-                            <ArrowRight className="size-4" />
-                        </Link>
                     </>
                 )}
             </CardContent>
+            <CardFooter className="mt-auto p-3 pt-0">
+                <Button variant="ghost" className="w-full">
+                    <Link
+                        href="/cake-orders"
+                        className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted">
+                        <span>View all orders</span>
+                        <ArrowRight className="size-4" />
+                    </Link>
+                </Button></CardFooter>
         </Card>
     );
 }

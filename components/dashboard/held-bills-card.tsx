@@ -13,11 +13,13 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 
 const LIST_LIMIT = 3;
 
@@ -78,7 +80,7 @@ export async function HeldBillsCard() {
                 </div>
             </CardHeader>
 
-            <CardContent className="flex flex-1 flex-col space-y-3">
+            <CardContent className="flex-1 space-y-3">
                 {/* Older held bills */}
                 {earlierCount > 0 && (
                     <div className="flex items-center gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-3.5">
@@ -167,14 +169,18 @@ export async function HeldBillsCard() {
                 )}
 
                 {/* Always stays at the bottom */}
-                <Link
-                    href="/pos"
-                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
-                >
-                    <span>Open POS</span>
-                    <ArrowRight className="size-4" />
-                </Link>
+
             </CardContent>
+            <CardFooter className="mt-auto p-3 pt-0">
+                <Button variant="ghost" className="w-full">
+                    <Link
+                        href="/pos"
+                        className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted">
+                        <span>Open POS</span>
+                        <ArrowRight className="size-4" />
+                    </Link>
+                </Button>
+            </CardFooter>
         </Card>
     );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReceiptText, Wallet } from "lucide-react";
+import { ArrowRight, ReceiptText, Wallet } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
 import {
@@ -14,8 +14,10 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
+    CardFooter,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 
 const money = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
@@ -55,9 +57,9 @@ export async function TodaysSalesCard() {
     const t = incomeToday.totals;
 
     return (
-        <Card className="@container/card">
-            <CardHeader>
-                <div className="flex items-center justify-between gap-2">
+        <Card className="@container/card flex h-full flex-col overflow-hidden">
+            <CardHeader className="pb-4">
+                <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
                         <CardDescription>Income today</CardDescription>
 
@@ -77,7 +79,7 @@ export async function TodaysSalesCard() {
                 </div>
             </CardHeader>
 
-            <CardContent className="space-y-3">
+            <CardContent className="flex-1 space-y-3">
                 <div className="rounded-lg border bg-muted/30 text-sm">
                     <div className="flex items-center justify-between p-3">
                         <span className="flex items-center gap-2">
@@ -123,14 +125,15 @@ export async function TodaysSalesCard() {
                         {voidedCount === 1 ? "" : "s"} today
                     </p>
                 )}
-
-                <Link
-                    href={`/income?from=${today}&to=${today}`}
-                    className="block text-sm text-muted-foreground hover:text-foreground hover:underline"
-                >
-                    See today&apos;s income in detail
-                </Link>
             </CardContent>
+            <CardFooter className="mt-auto p-3 pt-0">
+                <Button variant="ghost" className="w-full">
+                    <Link href={`/income?from=${today}&to=${today}`} className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted">
+                        <span>See today's income in detail</span>
+                        <ArrowRight className="size-4" />
+                    </Link>
+                </Button>
+            </CardFooter>
         </Card>
     );
 }

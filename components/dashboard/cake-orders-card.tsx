@@ -58,7 +58,7 @@ export async function CakeOrdersCard() {
     }
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="flex h-full flex-col overflow-hidden">
             <CardHeader className="pb-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
@@ -83,7 +83,7 @@ export async function CakeOrdersCard() {
             </CardHeader>
 
 
-            <CardContent>
+            <CardContent className="flex-1 space-y-3">
                 <div className="grid grid-cols-3 gap-3">
                     <Badge
                         variant={overdue > 0 ? "destructive" : "default"}
@@ -114,7 +114,7 @@ export async function CakeOrdersCard() {
 
             <Separator />
 
-            <CardFooter className="p-3">
+            <CardFooter className="mt-auto p-3 pt-0">
                 <Button variant="ghost" className="w-full">
                     <Link
                         href="/cake-orders"

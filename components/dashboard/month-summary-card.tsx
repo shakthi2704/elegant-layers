@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDownLeft, ArrowUpRight, Receipt, TrendingUp } from "lucide-react";
+import { ArrowDownLeft, ArrowRight, ArrowUpRight, Receipt, TrendingUp } from "lucide-react";
 
 import { getProfitSummary, resolvePeriod } from "@/lib/reports";
 import { cn } from "@/lib/utils";
@@ -9,8 +9,10 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
+    CardFooter,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "../ui/button";
 
 const money = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
@@ -33,7 +35,7 @@ export async function MonthSummaryCard() {
     const profit = s.profitBeforeDepreciation;
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="flex h-full flex-col overflow-hidden">
             <CardHeader className="pb-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
@@ -58,13 +60,12 @@ export async function MonthSummaryCard() {
                         </p>
                     </div>
 
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <TrendingUp className="size-5" />
                     </div>
                 </div>
             </CardHeader>
-
-            <CardContent className="space-y-3">
+            <CardContent className="flex-1 space-y-3">
                 <div className="rounded-lg border bg-muted/30">
                     <div className="flex items-center justify-between p-3.5">
                         <div className="flex items-center gap-3">
@@ -121,14 +122,15 @@ export async function MonthSummaryCard() {
                         </span>
                     </div>
                 </div>
-
-                <Link
-                    href="/reports"
-                    className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
-                >
-                    See the full report
-                </Link>
             </CardContent>
+            <CardFooter className="mt-auto p-3 pt-0">
+                <Button variant="ghost" className="w-full">
+                    <Link href="/reports" className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted">
+                        See the full report
+                        <ArrowRight className="ml-2 size-4" />
+                    </Link>
+                </Button>
+            </CardFooter>
         </Card>
     );
 }
