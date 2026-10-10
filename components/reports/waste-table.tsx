@@ -57,9 +57,9 @@ export async function WasteTable({ period }: { period: ReportPeriod }) {
                             <TableHead className="px-4 py-2.5 text-right font-medium">
                                 Total
                             </TableHead>
-                            <TableHead className="px-4 py-2.5 text-right font-medium">
+                            {/* <TableHead className="px-4 py-2.5 text-right font-medium">
                                 Entries
-                            </TableHead>
+                            </TableHead> */}
                         </TableRow>
                     </TableHeader>
 
@@ -87,9 +87,9 @@ export async function WasteTable({ period }: { period: ReportPeriod }) {
                                 <TableCell className="text-right font-medium">
                                     {qty(row.total, row.unit)}
                                 </TableCell>
-                                <TableCell className="text-right text-muted-foreground">
+                                {/* <TableCell className="text-right text-muted-foreground">
                                     {row.entries}
-                                </TableCell>
+                                </TableCell> */}
                             </TableRow>
                         ))}
 
