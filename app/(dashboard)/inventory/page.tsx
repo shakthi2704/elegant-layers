@@ -63,12 +63,22 @@ export default async function InventoryPage({
             </p>
           </div>
 
-          <Button
-            nativeButton={false}
-            render={<Link href="/inventory/new" />}
-          >
-            New Adjustment
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              nativeButton={false}
+              render={<Link href="/inventory/waste/new" />}
+            >
+              Record Waste
+            </Button>
+
+            <Button
+              nativeButton={false}
+              render={<Link href="/inventory/new" />}
+            >
+              New Adjustment
+            </Button>
+          </div>
         </div>
       </Card>
 

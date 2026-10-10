@@ -84,6 +84,12 @@ enum AdvanceOutcome {
   REFUNDED
 }
 
+enum WasteReason {
+  EXPIRED
+  NOT_COLLECTED
+  DAMAGED
+  OTHER
+}
 
 model User {
   id            String   @id @default(cuid())
@@ -345,6 +351,7 @@ model InventoryTransaction {
   referenceType  String?                   // "PURCHASE" | "PRODUCTION" | "SALE" | "CAKE_ORDER" | "MANUAL"
   referenceId    String?
   note           String?
+  wasteReason    WasteReason?              // only set on WASTE movements
   createdById    String
   createdBy      User                      @relation(fields: [createdById], references: [id])
   createdAt      DateTime                  @default(now())

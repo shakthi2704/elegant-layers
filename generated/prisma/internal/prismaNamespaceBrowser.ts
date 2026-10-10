@@ -309,6 +309,7 @@ export const InventoryTransactionScalarFieldEnum = {
   referenceType: 'referenceType',
   referenceId: 'referenceId',
   note: 'note',
+  wasteReason: 'wasteReason',
   createdById: 'createdById',
   createdAt: 'createdAt'
 } as const

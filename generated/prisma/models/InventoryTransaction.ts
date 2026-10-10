@@ -47,6 +47,7 @@ export type InventoryTransactionMinAggregateOutputType = {
   referenceType: string | null
   referenceId: string | null
   note: string | null
+  wasteReason: $Enums.WasteReason | null
   createdById: string | null
   createdAt: Date | null
 }
@@ -62,6 +63,7 @@ export type InventoryTransactionMaxAggregateOutputType = {
   referenceType: string | null
   referenceId: string | null
   note: string | null
+  wasteReason: $Enums.WasteReason | null
   createdById: string | null
   createdAt: Date | null
 }
@@ -77,6 +79,7 @@ export type InventoryTransactionCountAggregateOutputType = {
   referenceType: number
   referenceId: number
   note: number
+  wasteReason: number
   createdById: number
   createdAt: number
   _all: number
@@ -104,6 +107,7 @@ export type InventoryTransactionMinAggregateInputType = {
   referenceType?: true
   referenceId?: true
   note?: true
+  wasteReason?: true
   createdById?: true
   createdAt?: true
 }
@@ -119,6 +123,7 @@ export type InventoryTransactionMaxAggregateInputType = {
   referenceType?: true
   referenceId?: true
   note?: true
+  wasteReason?: true
   createdById?: true
   createdAt?: true
 }
@@ -134,6 +139,7 @@ export type InventoryTransactionCountAggregateInputType = {
   referenceType?: true
   referenceId?: true
   note?: true
+  wasteReason?: true
   createdById?: true
   createdAt?: true
   _all?: true
@@ -236,6 +242,7 @@ export type InventoryTransactionGroupByOutputType = {
   referenceType: string | null
   referenceId: string | null
   note: string | null
+  wasteReason: $Enums.WasteReason | null
   createdById: string
   createdAt: Date
   _count: InventoryTransactionCountAggregateOutputType | null
@@ -274,6 +281,7 @@ export type InventoryTransactionWhereInput = {
   referenceType?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   referenceId?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   note?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
+  wasteReason?: Prisma.EnumWasteReasonNullableFilter<"InventoryTransaction"> | $Enums.WasteReason | null
   createdById?: Prisma.StringFilter<"InventoryTransaction"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryTransaction"> | Date | string
   ingredient?: Prisma.XOR<Prisma.IngredientNullableScalarRelationFilter, Prisma.IngredientWhereInput> | null
@@ -292,6 +300,7 @@ export type InventoryTransactionOrderByWithRelationInput = {
   referenceType?: Prisma.SortOrderInput | Prisma.SortOrder
   referenceId?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  wasteReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   ingredient?: Prisma.IngredientOrderByWithRelationInput
@@ -313,6 +322,7 @@ export type InventoryTransactionWhereUniqueInput = Prisma.AtLeast<{
   referenceType?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   referenceId?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   note?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
+  wasteReason?: Prisma.EnumWasteReasonNullableFilter<"InventoryTransaction"> | $Enums.WasteReason | null
   createdById?: Prisma.StringFilter<"InventoryTransaction"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryTransaction"> | Date | string
   ingredient?: Prisma.XOR<Prisma.IngredientNullableScalarRelationFilter, Prisma.IngredientWhereInput> | null
@@ -331,6 +341,7 @@ export type InventoryTransactionOrderByWithAggregationInput = {
   referenceType?: Prisma.SortOrderInput | Prisma.SortOrder
   referenceId?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  wasteReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.InventoryTransactionCountOrderByAggregateInput
@@ -354,6 +365,7 @@ export type InventoryTransactionScalarWhereWithAggregatesInput = {
   referenceType?: Prisma.StringNullableWithAggregatesFilter<"InventoryTransaction"> | string | null
   referenceId?: Prisma.StringNullableWithAggregatesFilter<"InventoryTransaction"> | string | null
   note?: Prisma.StringNullableWithAggregatesFilter<"InventoryTransaction"> | string | null
+  wasteReason?: Prisma.EnumWasteReasonNullableWithAggregatesFilter<"InventoryTransaction"> | $Enums.WasteReason | null
   createdById?: Prisma.StringWithAggregatesFilter<"InventoryTransaction"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InventoryTransaction"> | Date | string
 }
@@ -367,6 +379,7 @@ export type InventoryTransactionCreateInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   ingredient?: Prisma.IngredientCreateNestedOneWithoutInventoryTxnsInput
   product?: Prisma.ProductCreateNestedOneWithoutInventoryTxnsInput
@@ -384,6 +397,7 @@ export type InventoryTransactionUncheckedCreateInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdById: string
   createdAt?: Date | string
 }
@@ -397,6 +411,7 @@ export type InventoryTransactionUpdateInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ingredient?: Prisma.IngredientUpdateOneWithoutInventoryTxnsNestedInput
   product?: Prisma.ProductUpdateOneWithoutInventoryTxnsNestedInput
@@ -414,6 +429,7 @@ export type InventoryTransactionUncheckedUpdateInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -429,6 +445,7 @@ export type InventoryTransactionCreateManyInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdById: string
   createdAt?: Date | string
 }
@@ -442,6 +459,7 @@ export type InventoryTransactionUpdateManyMutationInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -456,6 +474,7 @@ export type InventoryTransactionUncheckedUpdateManyInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -481,6 +500,7 @@ export type InventoryTransactionCountOrderByAggregateInput = {
   referenceType?: Prisma.SortOrder
   referenceId?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  wasteReason?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -501,6 +521,7 @@ export type InventoryTransactionMaxOrderByAggregateInput = {
   referenceType?: Prisma.SortOrder
   referenceId?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  wasteReason?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -516,6 +537,7 @@ export type InventoryTransactionMinOrderByAggregateInput = {
   referenceType?: Prisma.SortOrder
   referenceId?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  wasteReason?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -655,6 +677,10 @@ export type EnumInventoryTransactionTypeFieldUpdateOperationsInput = {
   set?: $Enums.InventoryTransactionType
 }
 
+export type NullableEnumWasteReasonFieldUpdateOperationsInput = {
+  set?: $Enums.WasteReason | null
+}
+
 export type InventoryTransactionCreateWithoutCreatedByInput = {
   id?: string
   itemType: $Enums.InventoryItemType
@@ -664,6 +690,7 @@ export type InventoryTransactionCreateWithoutCreatedByInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   ingredient?: Prisma.IngredientCreateNestedOneWithoutInventoryTxnsInput
   product?: Prisma.ProductCreateNestedOneWithoutInventoryTxnsInput
@@ -680,6 +707,7 @@ export type InventoryTransactionUncheckedCreateWithoutCreatedByInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdAt?: Date | string
 }
 
@@ -723,6 +751,7 @@ export type InventoryTransactionScalarWhereInput = {
   referenceType?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   referenceId?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   note?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
+  wasteReason?: Prisma.EnumWasteReasonNullableFilter<"InventoryTransaction"> | $Enums.WasteReason | null
   createdById?: Prisma.StringFilter<"InventoryTransaction"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryTransaction"> | Date | string
 }
@@ -736,6 +765,7 @@ export type InventoryTransactionCreateWithoutProductInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   ingredient?: Prisma.IngredientCreateNestedOneWithoutInventoryTxnsInput
   createdBy: Prisma.UserCreateNestedOneWithoutInventoryTxnsInput
@@ -751,6 +781,7 @@ export type InventoryTransactionUncheckedCreateWithoutProductInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdById: string
   createdAt?: Date | string
 }
@@ -790,6 +821,7 @@ export type InventoryTransactionCreateWithoutIngredientInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   product?: Prisma.ProductCreateNestedOneWithoutInventoryTxnsInput
   createdBy: Prisma.UserCreateNestedOneWithoutInventoryTxnsInput
@@ -805,6 +837,7 @@ export type InventoryTransactionUncheckedCreateWithoutIngredientInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdById: string
   createdAt?: Date | string
 }
@@ -846,6 +879,7 @@ export type InventoryTransactionCreateManyCreatedByInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdAt?: Date | string
 }
 
@@ -858,6 +892,7 @@ export type InventoryTransactionUpdateWithoutCreatedByInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ingredient?: Prisma.IngredientUpdateOneWithoutInventoryTxnsNestedInput
   product?: Prisma.ProductUpdateOneWithoutInventoryTxnsNestedInput
@@ -874,6 +909,7 @@ export type InventoryTransactionUncheckedUpdateWithoutCreatedByInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -888,6 +924,7 @@ export type InventoryTransactionUncheckedUpdateManyWithoutCreatedByInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -901,6 +938,7 @@ export type InventoryTransactionCreateManyProductInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdById: string
   createdAt?: Date | string
 }
@@ -914,6 +952,7 @@ export type InventoryTransactionUpdateWithoutProductInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ingredient?: Prisma.IngredientUpdateOneWithoutInventoryTxnsNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutInventoryTxnsNestedInput
@@ -929,6 +968,7 @@ export type InventoryTransactionUncheckedUpdateWithoutProductInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -943,6 +983,7 @@ export type InventoryTransactionUncheckedUpdateManyWithoutProductInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -957,6 +998,7 @@ export type InventoryTransactionCreateManyIngredientInput = {
   referenceType?: string | null
   referenceId?: string | null
   note?: string | null
+  wasteReason?: $Enums.WasteReason | null
   createdById: string
   createdAt?: Date | string
 }
@@ -970,6 +1012,7 @@ export type InventoryTransactionUpdateWithoutIngredientInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneWithoutInventoryTxnsNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutInventoryTxnsNestedInput
@@ -985,6 +1028,7 @@ export type InventoryTransactionUncheckedUpdateWithoutIngredientInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -999,6 +1043,7 @@ export type InventoryTransactionUncheckedUpdateManyWithoutIngredientInput = {
   referenceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   referenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wasteReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1016,6 +1061,7 @@ export type InventoryTransactionSelect<ExtArgs extends runtime.Types.Extensions.
   referenceType?: boolean
   referenceId?: boolean
   note?: boolean
+  wasteReason?: boolean
   createdById?: boolean
   createdAt?: boolean
   ingredient?: boolean | Prisma.InventoryTransaction$ingredientArgs<ExtArgs>
@@ -1034,6 +1080,7 @@ export type InventoryTransactionSelectCreateManyAndReturn<ExtArgs extends runtim
   referenceType?: boolean
   referenceId?: boolean
   note?: boolean
+  wasteReason?: boolean
   createdById?: boolean
   createdAt?: boolean
   ingredient?: boolean | Prisma.InventoryTransaction$ingredientArgs<ExtArgs>
@@ -1052,6 +1099,7 @@ export type InventoryTransactionSelectUpdateManyAndReturn<ExtArgs extends runtim
   referenceType?: boolean
   referenceId?: boolean
   note?: boolean
+  wasteReason?: boolean
   createdById?: boolean
   createdAt?: boolean
   ingredient?: boolean | Prisma.InventoryTransaction$ingredientArgs<ExtArgs>
@@ -1070,11 +1118,12 @@ export type InventoryTransactionSelectScalar = {
   referenceType?: boolean
   referenceId?: boolean
   note?: boolean
+  wasteReason?: boolean
   createdById?: boolean
   createdAt?: boolean
 }
 
-export type InventoryTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "itemType" | "ingredientId" | "productId" | "type" | "quantity" | "balanceAfter" | "referenceType" | "referenceId" | "note" | "createdById" | "createdAt", ExtArgs["result"]["inventoryTransaction"]>
+export type InventoryTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "itemType" | "ingredientId" | "productId" | "type" | "quantity" | "balanceAfter" | "referenceType" | "referenceId" | "note" | "wasteReason" | "createdById" | "createdAt", ExtArgs["result"]["inventoryTransaction"]>
 export type InventoryTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ingredient?: boolean | Prisma.InventoryTransaction$ingredientArgs<ExtArgs>
   product?: boolean | Prisma.InventoryTransaction$productArgs<ExtArgs>
@@ -1109,6 +1158,7 @@ export type $InventoryTransactionPayload<ExtArgs extends runtime.Types.Extension
     referenceType: string | null
     referenceId: string | null
     note: string | null
+    wasteReason: $Enums.WasteReason | null
     createdById: string
     createdAt: Date
   }, ExtArgs["result"]["inventoryTransaction"]>
@@ -1547,6 +1597,7 @@ export interface InventoryTransactionFieldRefs {
   readonly referenceType: Prisma.FieldRef<"InventoryTransaction", 'String'>
   readonly referenceId: Prisma.FieldRef<"InventoryTransaction", 'String'>
   readonly note: Prisma.FieldRef<"InventoryTransaction", 'String'>
+  readonly wasteReason: Prisma.FieldRef<"InventoryTransaction", 'WasteReason'>
   readonly createdById: Prisma.FieldRef<"InventoryTransaction", 'String'>
   readonly createdAt: Prisma.FieldRef<"InventoryTransaction", 'DateTime'>
 }

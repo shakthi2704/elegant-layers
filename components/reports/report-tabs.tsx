@@ -6,6 +6,7 @@ export const REPORT_VIEWS = [
     { value: "summary", label: "Profit summary" },
     { value: "daily", label: "Daily income" },
     { value: "products", label: "Sales by product" },
+    { value: "waste", label: "Waste" },
 ] as const;
 
 export type ReportView = (typeof REPORT_VIEWS)[number]["value"];

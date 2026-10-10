@@ -2471,6 +2471,7 @@ export const InventoryTransactionScalarFieldEnum = {
   referenceType: 'referenceType',
   referenceId: 'referenceId',
   note: 'note',
+  wasteReason: 'wasteReason',
   createdById: 'createdById',
   createdAt: 'createdAt'
 } as const
@@ -2755,6 +2756,20 @@ export type EnumInventoryTransactionTypeFieldRefInput<$PrismaModel> = FieldRefIn
  * Reference to a field of type 'InventoryTransactionType[]'
  */
 export type ListEnumInventoryTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InventoryTransactionType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WasteReason'
+ */
+export type EnumWasteReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WasteReason'>
+    
+
+
+/**
+ * Reference to a field of type 'WasteReason[]'
+ */
+export type ListEnumWasteReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WasteReason[]'>
     
 
 

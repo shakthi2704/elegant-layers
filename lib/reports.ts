@@ -403,3 +403,102 @@ export async function getProductSales(
         },
     };
 }
+
+// ---------------------------------------------------------------------------
+// Waste (stock thrown away)
+// ---------------------------------------------------------------------------
+
+const WASTE_REASONS = ["EXPIRED", "NOT_COLLECTED", "DAMAGED", "OTHER"] as const;
+type WasteReasonKey = (typeof WASTE_REASONS)[number];
+
+export type WasteReportRow = {
+    key: string;
+    name: string;
+    unit: string;
+    kind: "Ingredient" | "Product";
+    /** Quantity thrown away per reason (positive numbers). */
+    byReason: Record<WasteReasonKey, number>;
+    total: number;
+    /** How many waste entries were recorded. */
+    entries: number;
+};
+
+export type WasteReportResult = {
+    period: ReportPeriod;
+    rows: WasteReportRow[];
+    totalEntries: number;
+};
+
+/**
+ * Waste movements (type WASTE) in the period, by item and reason.
+ * The period uses the movement's recording time, as the Movements tab does.
+ */
+export async function getWasteReport(
+    period: ReportPeriod
+): Promise<WasteReportResult> {
+    const movements = await prisma.inventoryTransaction.findMany({
+        where: {
+            type: "WASTE",
+            createdAt: {
+                gte: colomboDayStart(period.from),
+                lte: colomboDayEnd(period.to),
+            },
+        },
+        select: {
+            quantity: true,
+            wasteReason: true,
+            ingredientId: true,
+            productId: true,
+            ingredient: { select: { name: true, unit: true } },
+            product: { select: { name: true, unit: true } },
+        },
+    });
+
+    const items = new Map<string, WasteReportRow>();
+
+    for (const m of movements) {
+        const isIngredient = m.ingredientId !== null;
+        const info = isIngredient ? m.ingredient : m.product;
+        const id = (isIngredient ? m.ingredientId : m.productId) ?? "unknown";
+        const key = `${isIngredient ? "i" : "p"}-${id}`;
+
+        let row = items.get(key);
+        if (!row) {
+            row = {
+                key,
+                name: info?.name ?? "Unknown item",
+                unit: info?.unit ?? "",
+                kind: isIngredient ? "Ingredient" : "Product",
+                byReason: { EXPIRED: 0, NOT_COLLECTED: 0, DAMAGED: 0, OTHER: 0 },
+                total: 0,
+                entries: 0,
+            };
+            items.set(key, row);
+        }
+
+        // Waste is stored as a negative quantity; show it as a positive amount.
+        const amount = Math.abs(m.quantity.toNumber());
+        row.byReason[m.wasteReason ?? "OTHER"] += amount;
+        row.total += amount;
+        row.entries += 1;
+    }
+
+    const rows = [...items.values()]
+        .map((r) => ({
+            ...r,
+            byReason: {
+                EXPIRED: Math.round(r.byReason.EXPIRED * 1000) / 1000,
+                NOT_COLLECTED: Math.round(r.byReason.NOT_COLLECTED * 1000) / 1000,
+                DAMAGED: Math.round(r.byReason.DAMAGED * 1000) / 1000,
+                OTHER: Math.round(r.byReason.OTHER * 1000) / 1000,
+            },
+            total: Math.round(r.total * 1000) / 1000,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    return {
+        period,
+        rows,
+        totalEntries: movements.length,
+    };
+}

@@ -114,3 +114,13 @@ export const AdvanceOutcome = {
 } as const
 
 export type AdvanceOutcome = (typeof AdvanceOutcome)[keyof typeof AdvanceOutcome]
+
+
+export const WasteReason = {
+  EXPIRED: 'EXPIRED',
+  NOT_COLLECTED: 'NOT_COLLECTED',
+  DAMAGED: 'DAMAGED',
+  OTHER: 'OTHER'
+} as const
+
+export type WasteReason = (typeof WasteReason)[keyof typeof WasteReason]

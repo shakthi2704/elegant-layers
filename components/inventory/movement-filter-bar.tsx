@@ -21,6 +21,7 @@ const TYPE_OPTIONS = [
     { value: "PRODUCTION_OUT", label: "Production (used)" },
     { value: "SALE", label: "Sale" },
     { value: "SALE_VOID", label: "Sale void" },
+    { value: "WASTE", label: "Waste" },
     { value: "ADJUSTMENT", label: "Adjustment" },
 ];
 

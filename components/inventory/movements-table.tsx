@@ -4,6 +4,7 @@ import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { formatDateTime, colomboDayStart, colomboDayEnd } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
+import { WASTE_REASON_OPTIONS } from "@/lib/validations/inventory-waste";
 import {
     Table,
     TableBody,
@@ -36,6 +37,7 @@ function buildWhere({
         case "PURCHASE":
         case "PRODUCTION_IN":
         case "PRODUCTION_OUT":
+        case "WASTE":
         case "ADJUSTMENT":
             where.type = type;
             break;
@@ -91,8 +93,15 @@ function typeLabel(type: string, referenceType: string | null) {
 
 /** Where the movement came from: a label plus the page that shows the source. */
 function getSource(
-    txn: { id: string; referenceType: string | null; referenceId: string | null }
+    txn: {
+        id: string;
+        type: string;
+        referenceType: string | null;
+        referenceId: string | null;
+    }
 ) {
+    // Waste is entered by hand but has no detail page, so it gets no link.
+    if (txn.type === "WASTE") return null;
     if (txn.referenceType === "PURCHASE" && txn.referenceId) {
         return { label: "Purchase", href: `/purchases/${txn.referenceId}` };
     }
@@ -165,6 +174,14 @@ export async function MovementsTable({
                                         <Badge variant="outline">
                                             {typeLabel(txn.type, txn.referenceType)}
                                         </Badge>
+                                        {txn.type === "WASTE" && txn.wasteReason && (
+                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                {WASTE_REASON_OPTIONS.find(
+                                                    (o) => o.value === txn.wasteReason
+                                                )?.label ?? txn.wasteReason}
+                                                {txn.note ? ` — ${txn.note}` : ""}
+                                            </p>
+                                        )}
                                     </TableCell>
 
                                     <TableCell

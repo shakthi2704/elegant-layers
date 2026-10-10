@@ -277,6 +277,13 @@ export type EnumInventoryTransactionTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumInventoryTransactionTypeFilter<$PrismaModel> | $Enums.InventoryTransactionType
 }
 
+export type EnumWasteReasonNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.WasteReason | Prisma.EnumWasteReasonFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWasteReasonNullableFilter<$PrismaModel> | $Enums.WasteReason | null
+}
+
 export type EnumInventoryTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.InventoryTransactionType | Prisma.EnumInventoryTransactionTypeFieldRefInput<$PrismaModel>
   in?: $Enums.InventoryTransactionType[] | Prisma.ListEnumInventoryTransactionTypeFieldRefInput<$PrismaModel>
@@ -285,6 +292,16 @@ export type EnumInventoryTransactionTypeWithAggregatesFilter<$PrismaModel = neve
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumInventoryTransactionTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumInventoryTransactionTypeFilter<$PrismaModel>
+}
+
+export type EnumWasteReasonNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.WasteReason | Prisma.EnumWasteReasonFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWasteReasonNullableWithAggregatesFilter<$PrismaModel> | $Enums.WasteReason | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumWasteReasonNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumWasteReasonNullableFilter<$PrismaModel>
 }
 
 export type EnumSaleStatusFilter<$PrismaModel = never> = {
@@ -726,6 +743,13 @@ export type NestedEnumInventoryTransactionTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumInventoryTransactionTypeFilter<$PrismaModel> | $Enums.InventoryTransactionType
 }
 
+export type NestedEnumWasteReasonNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.WasteReason | Prisma.EnumWasteReasonFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWasteReasonNullableFilter<$PrismaModel> | $Enums.WasteReason | null
+}
+
 export type NestedEnumInventoryTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.InventoryTransactionType | Prisma.EnumInventoryTransactionTypeFieldRefInput<$PrismaModel>
   in?: $Enums.InventoryTransactionType[] | Prisma.ListEnumInventoryTransactionTypeFieldRefInput<$PrismaModel>
@@ -734,6 +758,16 @@ export type NestedEnumInventoryTransactionTypeWithAggregatesFilter<$PrismaModel 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumInventoryTransactionTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumInventoryTransactionTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumWasteReasonNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.WasteReason | Prisma.EnumWasteReasonFieldRefInput<$PrismaModel> | null
+  in?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.WasteReason[] | Prisma.ListEnumWasteReasonFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumWasteReasonNullableWithAggregatesFilter<$PrismaModel> | $Enums.WasteReason | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumWasteReasonNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumWasteReasonNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumSaleStatusFilter<$PrismaModel = never> = {
