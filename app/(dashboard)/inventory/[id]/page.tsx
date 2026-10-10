@@ -70,7 +70,7 @@ export default async function AdjustmentDetailPage({
                                 Previous Stock
                             </p>
                             <p className="font-medium">
-                                {previousBalance} {item?.unit}
+                                {previousBalance} <span className="text-xs">{item?.unit}</span>
                             </p>
                         </div>
 
@@ -86,7 +86,7 @@ export default async function AdjustmentDetailPage({
                             >
                                 {quantity >= 0 ? "+" : ""}
                                 {adjustment.quantity.toString()}{" "}
-                                {item?.unit}
+                                <span className="text-xs">  {item?.unit}</span>
                             </p>
                         </div>
 
@@ -96,7 +96,7 @@ export default async function AdjustmentDetailPage({
                             </p>
                             <p className="font-medium">
                                 {adjustment.balanceAfter.toString()}{" "}
-                                {item?.unit}
+                                <span className="text-xs">{item?.unit}</span>
                             </p>
                         </div>
                     </div>

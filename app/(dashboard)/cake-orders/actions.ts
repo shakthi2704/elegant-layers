@@ -180,9 +180,28 @@ export async function cancelCakeOrder(
         reason: formData.get("reason"),
         // A missing field arrives as null, which the schema would reject.
         advanceOutcome: formData.get("advanceOutcome") || undefined,
+        // An unticked checkbox is simply absent from the form data.
+        discardCake: formData.get("discardCake") === "1",
+        discardReason: formData.get("discardReason") || undefined,
     });
     if (!parsed.success) {
         return { fieldErrors: parsed.error.flatten().fieldErrors };
+    }
+
+    const discard = parsed.data.discardCake === true;
+    if (discard) {
+        if (existing.status !== "IN_PROGRESS" && existing.status !== "READY") {
+            return {
+                error: "Only a cake that is In progress or Ready can be discarded.",
+            };
+        }
+        if (!parsed.data.discardReason) {
+            return {
+                fieldErrors: {
+                    discardReason: ["Choose why the cake is being discarded."],
+                },
+            };
+        }
     }
 
     const hasAdvance = (existing.advancePaid?.toNumber() ?? 0) > 0;
@@ -203,6 +222,8 @@ export async function cancelCakeOrder(
             notes: `${existing.notes ? existing.notes + "\n\n" : ""}Cancelled: ${parsed.data.reason}`,
             advanceOutcome: hasAdvance ? parsed.data.advanceOutcome : null,
             advanceOutcomeAt: hasAdvance ? new Date() : null,
+            cakeDiscardedAt: discard ? new Date() : null,
+            cakeDiscardReason: discard ? parsed.data.discardReason : null,
         },
     });
 

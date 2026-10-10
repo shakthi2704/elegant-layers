@@ -5,6 +5,7 @@ import { ProfitSummary } from "@/components/reports/profit-summary";
 import { DailyIncomeTable } from "@/components/reports/daily-income-table";
 import { ProductSalesTable } from "@/components/reports/product-sales-table";
 import { WasteTable } from "@/components/reports/waste-table";
+import { DiscardedCakesTable } from "@/components/reports/discarded-cakes-table";
 import {
   ReportTabs,
   parseReportView,
@@ -47,7 +48,12 @@ export default async function ReportsPage({
       {view === "summary" && <ProfitSummary period={period} />}
       {view === "daily" && <DailyIncomeTable period={period} />}
       {view === "products" && <ProductSalesTable period={period} />}
-      {view === "waste" && <WasteTable period={period} />}
+      {view === "waste" && (
+        <div className="space-y-8">
+          <WasteTable period={period} />
+          <DiscardedCakesTable period={period} />
+        </div>
+      )}
     </div>
   );
 }

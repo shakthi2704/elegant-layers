@@ -6,6 +6,14 @@ import { advanceCakeOrderStatus, cancelCakeOrder } from "@/app/(dashboard)/cake-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { WASTE_REASON_OPTIONS } from "@/lib/validations/inventory-waste";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -39,6 +47,11 @@ export function CakeOrderStatusActions({
         {}
     );
     const [cancelOpen, setCancelOpen] = useState(false);
+    // A Ready cake that is being cancelled is almost always thrown away.
+    const [discard, setDiscard] = useState(status === "READY");
+    const [discardReason, setDiscardReason] = useState(
+        status === "READY" ? "NOT_COLLECTED" : ""
+    );
     const [cancelState, cancelAction, cancelPending] = useActionState(
         cancelCakeOrder.bind(null, orderId),
         {}
@@ -158,6 +171,66 @@ export function CakeOrderStatusActions({
                                         <p className="text-sm text-destructive">
                                             {cancelState.fieldErrors.advanceOutcome[0]}
                                         </p>
+                                    )}
+                                </fieldset>
+                            )}
+                            {(status === "IN_PROGRESS" || status === "READY") && (
+                                <fieldset className="space-y-3 rounded-md border border-border p-3">
+                                    <label className="flex items-start gap-2 text-sm">
+                                        <input
+                                            type="checkbox"
+                                            name="discardCake"
+                                            value="1"
+                                            checked={discard}
+                                            onChange={(e) => setDiscard(e.target.checked)}
+                                            className="mt-1"
+                                        />
+                                        <span>
+                                            <span className="font-medium">
+                                                The cake was already made and is being thrown away
+                                            </span>
+                                            <br />
+                                            <span className="text-muted-foreground">
+                                                This is recorded as waste in Reports.
+                                            </span>
+                                        </span>
+                                    </label>
+
+                                    {discard && (
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="discardReason">
+                                                Why is it being discarded?
+                                            </Label>
+                                            <Select
+                                                name="discardReason"
+                                                value={discardReason}
+                                                onValueChange={(value) =>
+                                                    setDiscardReason(value ?? "")
+                                                }
+                                            >
+                                                <SelectTrigger id="discardReason" className="w-full">
+                                                    <SelectValue placeholder="Choose a reason">
+                                                        {(value: string | null) =>
+                                                            WASTE_REASON_OPTIONS.find(
+                                                                (o) => o.value === value
+                                                            )?.label ?? "Choose a reason"
+                                                        }
+                                                    </SelectValue>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {WASTE_REASON_OPTIONS.map((o) => (
+                                                        <SelectItem key={o.value} value={o.value}>
+                                                            {o.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            {cancelState.fieldErrors?.discardReason && (
+                                                <p className="text-sm text-destructive">
+                                                    {cancelState.fieldErrors.discardReason[0]}
+                                                </p>
+                                            )}
+                                        </div>
                                     )}
                                 </fieldset>
                             )}

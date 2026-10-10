@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const PAYMENT_OPTIONS = [
     { value: "CASH", label: "Cash" },
-    { value: "BANK_DEPOSIT", label: "Bank Deposit" },
+    { value: "BANK_DEPOSIT", label: "Bank" },
 ];
 
 export function ExpenseForm({

@@ -381,6 +381,8 @@ export const CakeOrderScalarFieldEnum = {
   createdById: 'createdById',
   advanceOutcome: 'advanceOutcome',
   advanceOutcomeAt: 'advanceOutcomeAt',
+  cakeDiscardedAt: 'cakeDiscardedAt',
+  cakeDiscardReason: 'cakeDiscardReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

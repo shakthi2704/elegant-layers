@@ -77,12 +77,12 @@ export default async function IngredientsPage() {
                         : "font-medium text-green-600"
                     }
                   >
-                    {i.currentStock.toString()} {i.unit}
+                    {i.currentStock.toString()} <span className="text-xs">{i.unit}</span>
                   </span>
                 </TableCell>
 
                 <TableCell className="text-muted-foreground">
-                  {i.minimumStock.toString()} {i.unit}
+                  {i.minimumStock.toString()} <span className="text-xs">{i.unit}</span>
                 </TableCell>
 
                 <TableCell className="text-right">

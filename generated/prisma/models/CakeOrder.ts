@@ -55,6 +55,8 @@ export type CakeOrderMinAggregateOutputType = {
   createdById: string | null
   advanceOutcome: $Enums.AdvanceOutcome | null
   advanceOutcomeAt: Date | null
+  cakeDiscardedAt: Date | null
+  cakeDiscardReason: $Enums.WasteReason | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -78,6 +80,8 @@ export type CakeOrderMaxAggregateOutputType = {
   createdById: string | null
   advanceOutcome: $Enums.AdvanceOutcome | null
   advanceOutcomeAt: Date | null
+  cakeDiscardedAt: Date | null
+  cakeDiscardReason: $Enums.WasteReason | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -101,6 +105,8 @@ export type CakeOrderCountAggregateOutputType = {
   createdById: number
   advanceOutcome: number
   advanceOutcomeAt: number
+  cakeDiscardedAt: number
+  cakeDiscardReason: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -136,6 +142,8 @@ export type CakeOrderMinAggregateInputType = {
   createdById?: true
   advanceOutcome?: true
   advanceOutcomeAt?: true
+  cakeDiscardedAt?: true
+  cakeDiscardReason?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -159,6 +167,8 @@ export type CakeOrderMaxAggregateInputType = {
   createdById?: true
   advanceOutcome?: true
   advanceOutcomeAt?: true
+  cakeDiscardedAt?: true
+  cakeDiscardReason?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -182,6 +192,8 @@ export type CakeOrderCountAggregateInputType = {
   createdById?: true
   advanceOutcome?: true
   advanceOutcomeAt?: true
+  cakeDiscardedAt?: true
+  cakeDiscardReason?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -292,6 +304,8 @@ export type CakeOrderGroupByOutputType = {
   createdById: string
   advanceOutcome: $Enums.AdvanceOutcome | null
   advanceOutcomeAt: Date | null
+  cakeDiscardedAt: Date | null
+  cakeDiscardReason: $Enums.WasteReason | null
   createdAt: Date
   updatedAt: Date
   _count: CakeOrderCountAggregateOutputType | null
@@ -338,6 +352,8 @@ export type CakeOrderWhereInput = {
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
   advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardedAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardReason?: Prisma.EnumWasteReasonNullableFilter<"CakeOrder"> | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
@@ -364,6 +380,8 @@ export type CakeOrderOrderByWithRelationInput = {
   createdById?: Prisma.SortOrder
   advanceOutcome?: Prisma.SortOrderInput | Prisma.SortOrder
   advanceOutcomeAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cakeDiscardedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cakeDiscardReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
@@ -393,6 +411,8 @@ export type CakeOrderWhereUniqueInput = Prisma.AtLeast<{
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
   advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardedAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardReason?: Prisma.EnumWasteReasonNullableFilter<"CakeOrder"> | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
@@ -419,6 +439,8 @@ export type CakeOrderOrderByWithAggregationInput = {
   createdById?: Prisma.SortOrder
   advanceOutcome?: Prisma.SortOrderInput | Prisma.SortOrder
   advanceOutcomeAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cakeDiscardedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cakeDiscardReason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CakeOrderCountOrderByAggregateInput
@@ -450,6 +472,8 @@ export type CakeOrderScalarWhereWithAggregatesInput = {
   createdById?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
   advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableWithAggregatesFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardReason?: Prisma.EnumWasteReasonNullableWithAggregatesFilter<"CakeOrder"> | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CakeOrder"> | Date | string
 }
@@ -470,6 +494,8 @@ export type CakeOrderCreateInput = {
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutCakeOrdersInput
@@ -496,6 +522,8 @@ export type CakeOrderUncheckedCreateInput = {
   createdById: string
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -516,6 +544,8 @@ export type CakeOrderUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCakeOrdersNestedInput
@@ -542,6 +572,8 @@ export type CakeOrderUncheckedUpdateInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -565,6 +597,8 @@ export type CakeOrderCreateManyInput = {
   createdById: string
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -585,6 +619,8 @@ export type CakeOrderUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -608,6 +644,8 @@ export type CakeOrderUncheckedUpdateManyInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -641,6 +679,8 @@ export type CakeOrderCountOrderByAggregateInput = {
   createdById?: Prisma.SortOrder
   advanceOutcome?: Prisma.SortOrder
   advanceOutcomeAt?: Prisma.SortOrder
+  cakeDiscardedAt?: Prisma.SortOrder
+  cakeDiscardReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -669,6 +709,8 @@ export type CakeOrderMaxOrderByAggregateInput = {
   createdById?: Prisma.SortOrder
   advanceOutcome?: Prisma.SortOrder
   advanceOutcomeAt?: Prisma.SortOrder
+  cakeDiscardedAt?: Prisma.SortOrder
+  cakeDiscardReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -692,6 +734,8 @@ export type CakeOrderMinOrderByAggregateInput = {
   createdById?: Prisma.SortOrder
   advanceOutcome?: Prisma.SortOrder
   advanceOutcomeAt?: Prisma.SortOrder
+  cakeDiscardedAt?: Prisma.SortOrder
+  cakeDiscardReason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -855,6 +899,8 @@ export type CakeOrderCreateWithoutCreatedByInput = {
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutCakeOrdersInput
@@ -879,6 +925,8 @@ export type CakeOrderUncheckedCreateWithoutCreatedByInput = {
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -931,6 +979,8 @@ export type CakeOrderScalarWhereInput = {
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
   advanceOutcome?: Prisma.EnumAdvanceOutcomeNullableFilter<"CakeOrder"> | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardedAt?: Prisma.DateTimeNullableFilter<"CakeOrder"> | Date | string | null
+  cakeDiscardReason?: Prisma.EnumWasteReasonNullableFilter<"CakeOrder"> | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CakeOrder"> | Date | string
 }
@@ -951,6 +1001,8 @@ export type CakeOrderCreateWithoutProductInput = {
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutCakeOrdersInput
@@ -975,6 +1027,8 @@ export type CakeOrderUncheckedCreateWithoutProductInput = {
   createdById: string
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1021,6 +1075,8 @@ export type CakeOrderCreateWithoutCustomerInput = {
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
   product?: Prisma.ProductCreateNestedOneWithoutCakeOrdersInput
@@ -1045,6 +1101,8 @@ export type CakeOrderUncheckedCreateWithoutCustomerInput = {
   createdById: string
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1093,6 +1151,8 @@ export type CakeOrderCreateManyCreatedByInput = {
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1113,6 +1173,8 @@ export type CakeOrderUpdateWithoutCreatedByInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCakeOrdersNestedInput
@@ -1137,6 +1199,8 @@ export type CakeOrderUncheckedUpdateWithoutCreatedByInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1159,6 +1223,8 @@ export type CakeOrderUncheckedUpdateManyWithoutCreatedByInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1181,6 +1247,8 @@ export type CakeOrderCreateManyProductInput = {
   createdById: string
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1201,6 +1269,8 @@ export type CakeOrderUpdateWithoutProductInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutCakeOrdersNestedInput
@@ -1225,6 +1295,8 @@ export type CakeOrderUncheckedUpdateWithoutProductInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1247,6 +1319,8 @@ export type CakeOrderUncheckedUpdateManyWithoutProductInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1269,6 +1343,8 @@ export type CakeOrderCreateManyCustomerInput = {
   createdById: string
   advanceOutcome?: $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Date | string | null
+  cakeDiscardedAt?: Date | string | null
+  cakeDiscardReason?: $Enums.WasteReason | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1289,6 +1365,8 @@ export type CakeOrderUpdateWithoutCustomerInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneWithoutCakeOrdersNestedInput
@@ -1313,6 +1391,8 @@ export type CakeOrderUncheckedUpdateWithoutCustomerInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1335,6 +1415,8 @@ export type CakeOrderUncheckedUpdateManyWithoutCustomerInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
   advanceOutcomeAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cakeDiscardReason?: Prisma.NullableEnumWasteReasonFieldUpdateOperationsInput | $Enums.WasteReason | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1360,6 +1442,8 @@ export type CakeOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdById?: boolean
   advanceOutcome?: boolean
   advanceOutcomeAt?: boolean
+  cakeDiscardedAt?: boolean
+  cakeDiscardReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1386,6 +1470,8 @@ export type CakeOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdById?: boolean
   advanceOutcome?: boolean
   advanceOutcomeAt?: boolean
+  cakeDiscardedAt?: boolean
+  cakeDiscardReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1412,6 +1498,8 @@ export type CakeOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdById?: boolean
   advanceOutcome?: boolean
   advanceOutcomeAt?: boolean
+  cakeDiscardedAt?: boolean
+  cakeDiscardReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1438,11 +1526,13 @@ export type CakeOrderSelectScalar = {
   createdById?: boolean
   advanceOutcome?: boolean
   advanceOutcomeAt?: boolean
+  cakeDiscardedAt?: boolean
+  cakeDiscardReason?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
+export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "cakeDiscardedAt" | "cakeDiscardReason" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
 export type CakeOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   product?: boolean | Prisma.CakeOrder$productArgs<ExtArgs>
@@ -1485,6 +1575,8 @@ export type $CakeOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     createdById: string
     advanceOutcome: $Enums.AdvanceOutcome | null
     advanceOutcomeAt: Date | null
+    cakeDiscardedAt: Date | null
+    cakeDiscardReason: $Enums.WasteReason | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["cakeOrder"]>
@@ -1931,6 +2023,8 @@ export interface CakeOrderFieldRefs {
   readonly createdById: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly advanceOutcome: Prisma.FieldRef<"CakeOrder", 'AdvanceOutcome'>
   readonly advanceOutcomeAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
+  readonly cakeDiscardedAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
+  readonly cakeDiscardReason: Prisma.FieldRef<"CakeOrder", 'WasteReason'>
   readonly createdAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CakeOrder", 'DateTime'>
 }

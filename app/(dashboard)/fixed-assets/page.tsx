@@ -98,11 +98,17 @@ export default async function FixedAssetsPage() {
                                     </TableCell>
 
                                     <TableCell>
-                                        Rs. {asset.purchaseCost.toString()}
+                                        Rs. {bookValue.toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}
                                     </TableCell>
 
                                     <TableCell>
-                                        Rs. {bookValue.toFixed(2)}
+                                        Rs. {bookValue.toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}
                                     </TableCell>
 
                                     <TableCell>

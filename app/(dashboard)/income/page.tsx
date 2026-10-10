@@ -79,8 +79,6 @@ export default async function IncomePage({
                 <TotalCard title="Cake order advances" value={income.totals.cakeAdvance} />
                 <TotalCard title="Cake order balances" value={income.totals.cakeBalance} />
             </div>
-            <IncomeFilterBar defaults={{ source, from, to }} />
-
 
             {showHeldNote && (
                 <div className="rounded-md border border-border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
@@ -91,7 +89,7 @@ export default async function IncomePage({
                     kept or refunded.
                 </div>
             )}
-
+            <IncomeFilterBar defaults={{ source, from, to }} />
             {income.noPriceCount > 0 && (
                 <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm">
                     {income.noPriceCount} collected order

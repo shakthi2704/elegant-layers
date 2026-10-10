@@ -36,7 +36,7 @@ export function ReportTabs({
                         "rounded-md px-3 py-1.5 text-sm font-medium",
                         active === v.value
                             ? "bg-primary text-primary-foreground"
-                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            : "text-muted-foreground  underline-offset-4 hover:bg-muted hover:text-foreground"
                     )}
                 >
                     {v.label}

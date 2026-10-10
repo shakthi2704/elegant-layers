@@ -133,11 +133,11 @@ export default async function InventoryPage({
                           }`}
                       >
                         {quantity >= 0 ? "+" : ""}
-                        {txn.quantity.toString()} {item?.unit}
+                        {txn.quantity.toString()} <span className="text-xs">{item?.unit}</span>
                       </TableCell>
 
                       <TableCell className="px-4 py-2.5">
-                        {txn.balanceAfter.toString()} {item?.unit}
+                        {txn.balanceAfter.toString()} <span className="text-xs">{item?.unit}</span>
                       </TableCell>
 
                       <TableCell className="px-4 py-2.5 text-muted-foreground">

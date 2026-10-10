@@ -127,10 +127,10 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
                                     {r.category}
                                 </TableCell>
                                 <TableCell className="px-4 py-2.5">
-                                    {r.current} {r.unit}
+                                    {r.current}<span className="text-xs"> {r.unit}</span>
                                 </TableCell>
                                 <TableCell className="px-4 py-2.5 text-muted-foreground">
-                                    {r.minimum} {r.unit}
+                                    {r.minimum} <span className="text-xs">{r.unit}</span>
                                 </TableCell>
                                 <TableCell className="px-4 py-2.5">
                                     <Badge

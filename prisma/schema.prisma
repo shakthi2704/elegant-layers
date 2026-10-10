@@ -434,6 +434,8 @@ model CakeOrder {
   createdById   String
   advanceOutcome   AdvanceOutcome?   // set when the order is cancelled; null = not decided yet
   advanceOutcomeAt DateTime?         // when the outcome was recorded (a kept advance counts as income on this day)
+  cakeDiscardedAt   DateTime?                // set when a made cake is thrown away
+  cakeDiscardReason WasteReason?             // why it was thrown away (reuses the stock waste reasons)
   createdBy     User            @relation(fields: [createdById], references: [id])
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt

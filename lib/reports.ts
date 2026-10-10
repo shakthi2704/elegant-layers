@@ -502,3 +502,83 @@ export async function getWasteReport(
         totalEntries: movements.length,
     };
 }
+
+
+// ---------------------------------------------------------------------------
+// Ordered cakes discarded (custom cake orders thrown away)
+// ---------------------------------------------------------------------------
+
+export type DiscardedCakeRow = {
+    id: string;
+    discardedAt: Date;
+    cakeName: string;
+    customerName: string;
+    weight: string | null;
+    reason: WasteReasonKey | null;
+    /** Order price, or null if none was set. Shown for information only. */
+    price: number | null;
+    advance: number;
+    advanceOutcome: "KEPT" | "REFUNDED" | null;
+};
+
+export type DiscardedCakesResult = {
+    period: ReportPeriod;
+    /** Newest first. */
+    rows: DiscardedCakeRow[];
+    byReason: Record<WasteReasonKey, number>;
+};
+
+/**
+ * Cake orders that were cancelled with "cake already made and thrown away",
+ * counted on the day the discard was recorded.
+ */
+export async function getDiscardedCakes(
+    period: ReportPeriod
+): Promise<DiscardedCakesResult> {
+    const orders = await prisma.cakeOrder.findMany({
+        where: {
+            cakeDiscardedAt: {
+                gte: colomboDayStart(period.from),
+                lte: colomboDayEnd(period.to),
+            },
+        },
+        select: {
+            id: true,
+            cakeName: true,
+            weight: true,
+            price: true,
+            advancePaid: true,
+            advanceOutcome: true,
+            cakeDiscardReason: true,
+            cakeDiscardedAt: true,
+            customer: { select: { name: true } },
+        },
+        orderBy: { cakeDiscardedAt: "desc" },
+    });
+
+    const byReason: Record<WasteReasonKey, number> = {
+        EXPIRED: 0,
+        NOT_COLLECTED: 0,
+        DAMAGED: 0,
+        OTHER: 0,
+    };
+
+    const rows: DiscardedCakeRow[] = orders.map((o) => {
+        if (o.cakeDiscardReason) {
+            byReason[o.cakeDiscardReason] += 1;
+        }
+        return {
+            id: o.id,
+            discardedAt: o.cakeDiscardedAt ?? new Date(0),
+            cakeName: o.cakeName,
+            customerName: o.customer.name,
+            weight: o.weight,
+            reason: o.cakeDiscardReason,
+            price: o.price?.toNumber() ?? null,
+            advance: o.advancePaid?.toNumber() ?? 0,
+            advanceOutcome: o.advanceOutcome,
+        };
+    });
+
+    return { period, rows, byReason };
+}

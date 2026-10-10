@@ -174,14 +174,14 @@ export async function MovementsTable({
                                         <Badge variant="outline">
                                             {typeLabel(txn.type, txn.referenceType)}
                                         </Badge>
-                                        {txn.type === "WASTE" && txn.wasteReason && (
+                                        {/* {txn.type === "WASTE" && txn.wasteReason && (
                                             <p className="mt-1 text-xs text-muted-foreground">
                                                 {WASTE_REASON_OPTIONS.find(
                                                     (o) => o.value === txn.wasteReason
                                                 )?.label ?? txn.wasteReason}
                                                 {txn.note ? ` — ${txn.note}` : ""}
                                             </p>
-                                        )}
+                                        )} */}
                                     </TableCell>
 
                                     <TableCell
@@ -189,11 +189,11 @@ export async function MovementsTable({
                                             }`}
                                     >
                                         {quantity >= 0 ? "+" : ""}
-                                        {txn.quantity.toString()} {item?.unit}
+                                        {txn.quantity.toString()} <span className="text-xs">{item?.unit}</span>
                                     </TableCell>
 
                                     <TableCell className="px-4 py-2.5">
-                                        {txn.balanceAfter.toString()} {item?.unit}
+                                        {txn.balanceAfter.toString()} <span className="text-xs">{item?.unit}</span>
                                     </TableCell>
 
                                     <TableCell className="px-4 py-2.5">
