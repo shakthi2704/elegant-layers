@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import {
     StatusFilterSelect,
     CashierFilterSelect,
@@ -27,7 +29,7 @@ import {
 } from "@/components/ui/card";
 
 
-const RESULT_CAP = 100;
+
 
 // Sri Lanka has a fixed UTC+5:30 offset (no DST), so a calendar day picked in
 // the date inputs can be converted to a precise UTC instant without needing
@@ -42,10 +44,11 @@ export default async function SalesHistoryPage({
         cashierId?: string;
         from?: string;
         to?: string;
+        page?: string;
     }>;
 }) {
     await requireRole(["ADMIN", "CASHIER"]);
-    const { status, cashierId, from, to } = await searchParams;
+    const { status, cashierId, from, to, page } = await searchParams;
 
     const where: Prisma.SaleWhereInput = {
         status:
@@ -59,19 +62,23 @@ export default async function SalesHistoryPage({
         },
     };
 
-    const [sales, cashiers] = await Promise.all([
-        prisma.sale.findMany({
-            where,
-            include: { cashier: true },
-            orderBy: { createdAt: "desc" },
-            take: RESULT_CAP,
-        }),
+    const [salesCount, cashiers] = await Promise.all([
+        prisma.sale.count({ where }),
         prisma.user.findMany({
             where: { sales: { some: {} } },
             orderBy: { name: "asc" },
         }),
     ]);
+    const currentPage = clampPage(parsePage(page), salesCount);
 
+    const sales = await prisma.sale.findMany({
+        where,
+        include: { cashier: true },
+        // id breaks ties so rows never repeat or vanish between pages.
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        skip: (currentPage - 1) * PAGE_SIZE,
+        take: PAGE_SIZE,
+    });
     return (
         <div className="space-y-6 px-6">
             <Card className="p-4">
@@ -259,12 +266,13 @@ export default async function SalesHistoryPage({
             </div>
 
 
-            {sales.length === RESULT_CAP && (
-                <p className="text-sm text-muted-foreground">
-                    Showing the latest {RESULT_CAP} results — narrow your filters to see
-                    more.
-                </p>
-            )}
+            <TablePagination
+                page={currentPage}
+                pageSize={PAGE_SIZE}
+                total={salesCount}
+                basePath="/pos/history"
+                params={{ status, cashierId, from, to }}
+            />
         </div>
     );
 }

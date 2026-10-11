@@ -9,6 +9,8 @@ import { ExpenseFilterBar } from "@/components/expenses/expense-filter-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import {
   Table,
   TableBody,
@@ -18,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const RESULT_CAP = 100;
+
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const money = new Intl.NumberFormat("en-US", {
@@ -34,10 +36,11 @@ export default async function ExpensesPage({
     status?: string;
     from?: string;
     to?: string;
+    page?: string;
   }>;
 }) {
   await requireRole(["ADMIN"]);
-  const { category, status, from, to } = await searchParams;
+  const { category, status, from, to, page } = await searchParams;
 
   const validFrom = from && DATE_RE.test(from) ? from : undefined;
   const validTo = to && DATE_RE.test(to) ? to : undefined;
@@ -57,19 +60,23 @@ export default async function ExpensesPage({
     };
   }
 
-  const [expenses, matchCount, activeTotal] = await Promise.all([
-    prisma.expense.findMany({
-      where,
-      include: { recordedBy: { select: { name: true } } },
-      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
-      take: RESULT_CAP,
-    }),
+  const [matchCount, activeTotal] = await Promise.all([
     prisma.expense.count({ where }),
     prisma.expense.aggregate({
       where: { ...where, status: "ACTIVE" },
       _sum: { amount: true },
     }),
   ]);
+  const currentPage = clampPage(parsePage(page), matchCount);
+
+  const expenses = await prisma.expense.findMany({
+    where,
+    include: { recordedBy: { select: { name: true } } },
+    // id breaks ties so rows never repeat or vanish between pages.
+    orderBy: [{ date: "desc" }, { createdAt: "desc" }, { id: "desc" }],
+    skip: (currentPage - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
+  });
 
   const total = activeTotal._sum.amount?.toNumber() ?? 0;
   const showTotal = status !== "VOID";
@@ -99,7 +106,7 @@ export default async function ExpensesPage({
         <Card className="max-w-sm p-4">
           <p className="text-sm text-muted-foreground">
             Total of active expenses
-            {matchCount > RESULT_CAP ? " (all matches)" : ""}
+            {matchCount > PAGE_SIZE ? " (all matches)" : ""}
           </p>
           <p className="text-2xl font-semibold">
             Rs. {money.format(total)}
@@ -206,12 +213,13 @@ export default async function ExpensesPage({
           </Table>
         </div>
 
-        {matchCount > RESULT_CAP && (
-          <p className="text-sm text-muted-foreground">
-            Showing the latest {RESULT_CAP} of {matchCount} expenses.
-            Use the filters to narrow the list.
-          </p>
-        )}
+        <TablePagination
+          page={currentPage}
+          pageSize={PAGE_SIZE}
+          total={matchCount}
+          basePath="/expenses"
+          params={{ category, status, from, to }}
+        />
       </Card>
 
     </div>

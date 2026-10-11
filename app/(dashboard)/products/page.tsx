@@ -117,14 +117,9 @@ export default async function ProductsPage({
 
                 <TableCell>
                   {p.isFinishedProduct ? (
-                    <span
-                      className={
-                        Number(p.currentStock) <= Number(p.minimumStock)
-                          ? "font-medium text-destructive"
-                          : ""
-                      }
-                    >
-                      {p.currentStock.toString()}   <span className="text-[10px]">{p.unit}</span>
+                    <span>
+                      {p.currentStock.toString()}{" "}
+                      <span className="text-[10px]">{p.unit}</span>
                     </span>
                   ) : (
                     <span className="text-muted-foreground">—</span>
@@ -132,7 +127,10 @@ export default async function ProductsPage({
                 </TableCell>
                 <TableCell>
                   <Badge variant={p.status === "ACTIVE" ? "default" : "secondary"}>
-                    <span className="text-[10px]">{p.status}</span>
+                    {p.status
+                      .replace(/_/g, " ")
+                      .toLowerCase()
+                      .replace(/\b\w/g, (char) => char.toUpperCase())}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">

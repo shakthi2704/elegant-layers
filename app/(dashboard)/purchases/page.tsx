@@ -7,6 +7,8 @@ import { formatDate, colomboDayStart, colomboDayEnd } from "@/lib/format";
 import { PurchaseFilterBar } from "@/components/purchases/purchase-filter-bar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import {
   Table,
   TableBody,
@@ -16,7 +18,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const RESULT_CAP = 100;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const money = new Intl.NumberFormat("en-US", {
@@ -27,10 +28,15 @@ const money = new Intl.NumberFormat("en-US", {
 export default async function PurchasesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ supplier?: string; from?: string; to?: string }>;
+  searchParams: Promise<{
+    supplier?: string;
+    from?: string;
+    to?: string;
+    page?: string;
+  }>;
 }) {
   await requireRole(["ADMIN"]);
-  const { supplier, from, to } = await searchParams;
+  const { supplier, from, to, page } = await searchParams;
 
   const validFrom = from && DATE_RE.test(from) ? from : undefined;
   const validTo = to && DATE_RE.test(to) ? to : undefined;
@@ -52,17 +58,24 @@ export default async function PurchasesPage({
     };
   }
 
-  const [purchases, matchCount, totalAgg] = await Promise.all([
-    prisma.purchase.findMany({
-      where,
-      include: { supplier: true, items: true },
-      orderBy: [{ purchaseDate: "desc" }, { createdAt: "desc" }],
-      take: RESULT_CAP,
-    }),
+  const [matchCount, totalAgg] = await Promise.all([
     prisma.purchase.count({ where }),
     prisma.purchase.aggregate({ where, _sum: { totalAmount: true } }),
   ]);
+  const currentPage = clampPage(parsePage(page), matchCount);
 
+  const purchases = await prisma.purchase.findMany({
+    where,
+    include: { supplier: true, items: true },
+    // id breaks ties so rows never repeat or vanish between pages.
+    orderBy: [
+      { purchaseDate: "desc" },
+      { createdAt: "desc" },
+      { id: "desc" },
+    ],
+    skip: (currentPage - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
+  });
   const total = totalAgg._sum.totalAmount?.toNumber() ?? 0;
 
   return (
@@ -176,12 +189,13 @@ export default async function PurchasesPage({
           </Table>
         </div>
 
-        {matchCount > RESULT_CAP && (
-          <p className="text-sm text-muted-foreground">
-            Showing the latest {RESULT_CAP} of {matchCount} purchases. The total
-            above covers all of them. Use the filters to narrow the list.
-          </p>
-        )}
+        <TablePagination
+          page={currentPage}
+          pageSize={PAGE_SIZE}
+          total={matchCount}
+          basePath="/purchases"
+          params={{ supplier, from, to }}
+        />
       </Card>
 
 

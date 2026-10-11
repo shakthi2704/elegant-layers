@@ -7,6 +7,8 @@ import { formatDate, isPickupOverdue } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CakeOrderStatusFilterSelect } from "@/components/cake-orders/cake-order-status-filter";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import {
   Table,
   TableBody,
@@ -33,27 +35,48 @@ const ACTIVE_STATUSES = ["PENDING", "IN_PROGRESS", "READY"] as const;
 export default async function CakeOrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; page?: string }>;
 }) {
   await requireRole(["ADMIN", "CASHIER"]);
-  const { status } = await searchParams;
+  const { status, page } = await searchParams;
 
   const where: Prisma.CakeOrderWhereInput =
     status && status !== "ACTIVE"
       ? { status: status as Prisma.EnumCakeOrderStatusFilter["equals"] }
       : { status: { in: [...ACTIVE_STATUSES] } };
 
+  const total = await prisma.cakeOrder.count({ where });
+  const currentPage = clampPage(parsePage(page), total);
+
+  // Finished orders (collected or cancelled) show the newest pickup first;
+  // the working lists keep the soonest pickup first. id breaks ties so rows
+  // never repeat or vanish between pages.
+  const newestFirst = status === "COLLECTED" || status === "CANCELLED";
   const orders = await prisma.cakeOrder.findMany({
     where,
     include: { customer: true },
-    orderBy: [{ pickupDate: "asc" }, { pickupTime: "asc" }],
+    orderBy: newestFirst
+      ? [{ pickupDate: "desc" }, { pickupTime: "desc" }, { id: "desc" }]
+      : [{ pickupDate: "asc" }, { pickupTime: "asc" }, { id: "asc" }],
+    skip: (currentPage - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
   });
 
   const now = new Date();
-  const isOverdue = (o: (typeof orders)[number]) =>
+  const isOverdue = (o: {
+    status: string;
+    pickupDate: Date;
+    pickupTime: string;
+  }) =>
     (ACTIVE_STATUSES as readonly string[]).includes(o.status) &&
     isPickupOverdue(o.pickupDate, o.pickupTime, now);
-  const overdueCount = orders.filter(isOverdue).length;
+
+  // The warning counts every active order, not only the ones on this page.
+  const activeOrders = await prisma.cakeOrder.findMany({
+    where: { status: { in: [...ACTIVE_STATUSES] } },
+    select: { status: true, pickupDate: true, pickupTime: true },
+  });
+  const overdueCount = activeOrders.filter(isOverdue).length;
 
   return (
     <div className="space-y-6 px-6">
@@ -159,11 +182,12 @@ export default async function CakeOrdersPage({
 
                   <TableCell>
                     <Badge
-                      variant={
-                        STATUS_VARIANT[order.status] ?? "secondary"
-                      }
+                      variant={STATUS_VARIANT[order.status] ?? "secondary"}
                     >
-                      {order.status.replace("_", " ")}
+                      {order.status
+                        .replace(/_/g, " ")
+                        .toLowerCase()
+                        .replace(/\b\w/g, (char) => char.toUpperCase())}
                     </Badge>
                   </TableCell>
 
@@ -200,6 +224,16 @@ export default async function CakeOrdersPage({
               )}
             </TableBody>
           </Table>
+
+          <div className="pt-3">
+            <TablePagination
+              page={currentPage}
+              pageSize={PAGE_SIZE}
+              total={total}
+              basePath="/cake-orders"
+              params={{ status }}
+            />
+          </div>
         </div>
 
       </div>

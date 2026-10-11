@@ -103,7 +103,10 @@ export default async function UsersPage() {
                       u.role === "ADMIN" ? "default" : "secondary"
                     }
                   >
-                    {u.role}
+                    {u.role
+                      .replace(/_/g, " ")
+                      .toLowerCase()
+                      .replace(/\b\w/g, (char) => char.toUpperCase())}
                   </Badge>
                 </TableCell>
 

@@ -140,12 +140,9 @@ export default async function InventoryPage({
                         {item?.name}
                       </TableCell>
 
-                      <TableCell
-                        className={`px-4 py-2.5 ${quantity >= 0 ? "text-emerald-500" : "text-destructive"
-                          }`}
-                      >
+                      <TableCell>
                         {quantity >= 0 ? "+" : ""}
-                        {txn.quantity.toString()} <span className="text-xs">{item?.unit}</span>
+                        {txn.quantity.toString()}  <span className="text-xs">{item?.unit}</span>
                       </TableCell>
 
                       <TableCell className="px-4 py-2.5">

@@ -203,10 +203,7 @@ export async function MovementsTable({
                                         )} */}
                                     </TableCell>
 
-                                    <TableCell
-                                        className={`px-4 py-2.5 ${quantity >= 0 ? "text-emerald-500" : "text-destructive"
-                                            }`}
-                                    >
+                                    <TableCell>
                                         {quantity >= 0 ? "+" : ""}
                                         {txn.quantity.toString()} <span className="text-xs">{item?.unit}</span>
                                     </TableCell>
@@ -219,7 +216,7 @@ export async function MovementsTable({
                                         {source ? (
                                             <Link
                                                 href={source.href}
-                                                className="text-primary underline-offset-4 hover:underline"
+                                                className=" underline-offset-4 hover:underline"
                                             >
                                                 {source.label}
                                             </Link>

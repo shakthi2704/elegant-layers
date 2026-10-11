@@ -3,6 +3,8 @@ import Link from "next/link";
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -16,12 +18,27 @@ import {
   Card,
 } from "@/components/ui/card";
 
-export default async function ProductionPage() {
+export default async function ProductionPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   await requireRole(["ADMIN"]);
+  const { page } = await searchParams;
+
+  const total = await prisma.production.count();
+  const currentPage = clampPage(parsePage(page), total);
 
   const productions = await prisma.production.findMany({
     include: { items: { include: { product: true } } },
-    orderBy: { productionDate: "desc" },
+    // createdAt and id break ties so rows never repeat or vanish between pages.
+    orderBy: [
+      { productionDate: "desc" },
+      { createdAt: "desc" },
+      { id: "desc" },
+    ],
+    skip: (currentPage - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
   });
 
   return (
@@ -110,6 +127,16 @@ export default async function ProductionPage() {
             )}
           </TableBody>
         </Table>
+
+        <div className="pt-3">
+          <TablePagination
+            page={currentPage}
+            pageSize={PAGE_SIZE}
+            total={total}
+            basePath="/production"
+            params={{}}
+          />
+        </div>
       </div>
     </div>
   );

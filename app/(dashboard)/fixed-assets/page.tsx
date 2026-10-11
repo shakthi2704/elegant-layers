@@ -119,7 +119,10 @@ export default async function FixedAssetsPage() {
                                                     : "secondary"
                                             }
                                         >
-                                            {asset.status}
+                                            {asset.status
+                                                .replace(/_/g, " ")
+                                                .toLowerCase()
+                                                .replace(/\b\w/g, (char) => char.toUpperCase())}
                                         </Badge>
                                     </TableCell>
 
