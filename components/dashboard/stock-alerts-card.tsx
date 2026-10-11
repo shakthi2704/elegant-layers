@@ -187,7 +187,7 @@ export async function StockAlertsCard() {
                                                 }`}
                                         />
 
-                                        <span className="truncate text-sm font-medium">
+                                        <span className="truncate text-sm font-medium text-muted-foreground">
                                             {a.name}
                                         </span>
                                     </div>
