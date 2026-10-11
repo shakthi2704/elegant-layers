@@ -51,3 +51,19 @@ export const advanceOutcomeSchema = z.object({
         message: "Choose whether the advance was kept or refunded.",
     }),
 });
+
+export const startCakeOrderSchema = z.object({
+    // A one-off list of what this custom cake uses. It can be empty.
+    items: z
+        .array(
+            z.object({
+                ingredientId: z.string().min(1, "Choose an ingredient"),
+                quantity: z.coerce
+                    .number({ message: "Enter a quantity" })
+                    .min(0.001, "Quantity must be at least 0.001")
+                    .max(100000, "That quantity looks too large, please check it")
+                    .transform((n) => Math.round(n * 1000) / 1000),
+            })
+        )
+        .max(50, "Too many ingredients on one order"),
+});

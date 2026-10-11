@@ -19,6 +19,8 @@ import {
 import { StockTable } from "@/components/inventory/stock-table";
 import { MovementsTable } from "@/components/inventory/movements-table";
 import { MovementFilterBar } from "@/components/inventory/movement-filter-bar";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 
 import { StockFilterBar } from "@/components/inventory/stock-filter-bar";
 
@@ -35,23 +37,33 @@ export default async function InventoryPage({
     from?: string;
     to?: string;
     q?: string;
+    page?: string;
     low?: string;
   }>;
 }) {
   await requireRole(["ADMIN"]);
-  const { view: rawView, type, from, to, q, low } = await searchParams;
+  const { view: rawView, type, from, to, q, low, page } = await searchParams;
   const view = parseInventoryView(rawView);
 
   // Only load adjustments when that tab is open.
+  const adjustmentsTotal =
+    view === "adjustments"
+      ? await prisma.inventoryTransaction.count({
+        where: { type: "ADJUSTMENT" },
+      })
+      : 0;
+  const adjustmentsPage = clampPage(parsePage(page), adjustmentsTotal);
   const adjustments =
     view === "adjustments"
       ? await prisma.inventoryTransaction.findMany({
         where: { type: "ADJUSTMENT" },
         include: { ingredient: true, product: true, createdBy: true },
-        orderBy: { createdAt: "desc" },
+        // id breaks ties so rows never repeat or vanish between pages.
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        skip: (adjustmentsPage - 1) * PAGE_SIZE,
+        take: PAGE_SIZE,
       })
       : [];
-
   return (
     <div className="space-y-6 px-6">
       <Card className="p-4">
@@ -94,7 +106,7 @@ export default async function InventoryPage({
         {view === "movements" && (
           <>
             <MovementFilterBar defaults={{ type, from, to, q }} />
-            <MovementsTable filters={{ type, from, to, q }} />
+            <MovementsTable filters={{ type, from, to, q, page }} />
           </>
         )}
         {view === "adjustments" && (
@@ -170,6 +182,16 @@ export default async function InventoryPage({
                 )}
               </TableBody>
             </Table>
+
+            <div className="pt-3">
+              <TablePagination
+                page={adjustmentsPage}
+                pageSize={PAGE_SIZE}
+                total={adjustmentsTotal}
+                basePath="/inventory"
+                params={{ view: "adjustments" }}
+              />
+            </div>
           </div>
         )}
       </Card>

@@ -4,6 +4,8 @@ import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { formatDateTime, colomboDayStart, colomboDayEnd } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
+import { TablePagination } from "@/components/layout/table-pagination";
+import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import { WASTE_REASON_OPTIONS } from "@/lib/validations/inventory-waste";
 import {
     Table,
@@ -14,10 +16,10 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-const LIMIT = 100;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export type MovementFilters = {
+    page?: string;
     type?: string;
     from?: string;
     to?: string;
@@ -44,6 +46,14 @@ function buildWhere({
         case "SALE":
             where.type = "SALE";
             where.referenceType = "SALE";
+            break;
+        case "PRODUCTION_OUT_POS":
+            where.type = "PRODUCTION_OUT";
+            where.referenceType = "PRODUCTION";
+            break;
+        case "PRODUCTION_OUT_ORDER":
+            where.type = "PRODUCTION_OUT";
+            where.referenceType = "CAKE_ORDER";
             break;
         case "SALE_VOID":
             where.type = "SALE";
@@ -79,7 +89,9 @@ function typeLabel(type: string, referenceType: string | null) {
         case "PRODUCTION_IN":
             return "Production (made)";
         case "PRODUCTION_OUT":
-            return "Production (used)";
+            return referenceType === "CAKE_ORDER"
+                ? "Production (Orders)"
+                : "Production (POS)";
         case "SALE":
             return "Sale";
         case "WASTE":
@@ -114,6 +126,9 @@ function getSource(
     ) {
         return { label: "Sale", href: `/pos/${txn.referenceId}` };
     }
+    if (txn.referenceType === "CAKE_ORDER" && txn.referenceId) {
+        return { label: "Cake order", href: `/cake-orders/${txn.referenceId}` };
+    }
     if (txn.referenceType === "MANUAL") {
         return { label: "Adjustment", href: `/inventory/${txn.id}` };
     }
@@ -126,18 +141,22 @@ export async function MovementsTable({
 }: {
     filters: MovementFilters;
 }) {
+    const where = buildWhere(filters);
+    const total = await prisma.inventoryTransaction.count({ where });
+    const page = clampPage(parsePage(filters.page), total);
+
     const movements = await prisma.inventoryTransaction.findMany({
-        where: buildWhere(filters),
+        where,
         include: { ingredient: true, product: true, createdBy: true },
-        orderBy: { createdAt: "desc" },
-        take: LIMIT,
+        // id breaks ties so rows never repeat or vanish between pages.
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        skip: (page - 1) * PAGE_SIZE,
+        take: PAGE_SIZE,
     });
     return (
         <div className="space-y-3">
             <p className="text-sm text-muted-foreground">
-                {movements.length === LIMIT
-                    ? `Showing the latest ${LIMIT} matching movements. Narrow the filters to see older ones.`
-                    : `${movements.length} movement${movements.length === 1 ? "" : "s"} found.`}
+                {total} movement{total === 1 ? "" : "s"} found.
             </p>
 
             <div className="overflow-hidden rounded-md">
@@ -229,6 +248,20 @@ export async function MovementsTable({
                     </TableBody>
                 </Table>
             </div>
+
+            <TablePagination
+                page={page}
+                pageSize={PAGE_SIZE}
+                total={total}
+                basePath="/inventory"
+                params={{
+                    view: "movements",
+                    type: filters.type,
+                    from: filters.from,
+                    to: filters.to,
+                    q: filters.q,
+                }}
+            />
         </div>
     );
 }

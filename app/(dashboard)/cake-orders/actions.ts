@@ -9,6 +9,7 @@ import {
     advanceOutcomeSchema,
     cakeOrderSchema,
     cancelCakeOrderSchema,
+    startCakeOrderSchema,
 } from "@/lib/validations/cake-order";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 
@@ -145,6 +146,11 @@ export async function advanceCakeOrderStatus(
     }
 
     const nextStatus = FORWARD_TRANSITIONS[existing.status];
+    // A pending order must go through startCakeOrder, which takes the
+    // ingredients off stock. This action would skip that.
+    if (existing.status === "PENDING") {
+        return { error: "Use Mark In Progress to start a pending order." };
+    }
     if (!nextStatus) {
         return { error: "This order can't be moved forward from its current status." };
     }
@@ -274,5 +280,148 @@ export async function setAdvanceOutcome(
     revalidatePath(`/cake-orders/${orderId}`);
     revalidatePath("/income");
     revalidatePath("/reports");
+    return { success: true };
+}
+
+class StartOrderError extends Error { }
+
+const UNIT_LABELS: Record<string, string> = {
+    KG: "kg",
+    G: "g",
+    L: "L",
+    ML: "ml",
+    PCS: "pcs",
+};
+
+const round3 = (n: number) => Math.round(n * 1000) / 1000;
+
+export async function startCakeOrder(
+    orderId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    const user = await requireRole(["ADMIN", "CASHIER"]);
+
+    // One FormData entry per row for each field, so the two lists line up.
+    const ingredientIds = formData.getAll("ingredientId").map(String);
+    const quantities = formData.getAll("quantity").map(String);
+    if (ingredientIds.length !== quantities.length) {
+        return {
+            error: "The ingredient list was not sent correctly. Please try again.",
+        };
+    }
+
+    // Completely blank rows are ignored; the row number is kept so an
+    // error can say which row needs fixing.
+    const rows = ingredientIds
+        .map((ingredientId, index) => ({
+            row: index + 1,
+            ingredientId: ingredientId.trim(),
+            quantity: quantities[index].trim(),
+        }))
+        .filter((r) => r.ingredientId !== "" || r.quantity !== "");
+
+    const parsed = startCakeOrderSchema.safeParse({
+        items: rows.map(({ ingredientId, quantity }) => ({
+            ingredientId,
+            quantity,
+        })),
+    });
+    if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        const index = issue.path[1];
+        const rowNumber = typeof index === "number" ? rows[index]?.row : undefined;
+        return {
+            error: rowNumber
+                ? `Row ${rowNumber}: ${issue.message}`
+                : issue.message,
+        };
+    }
+
+    // The same ingredient on two rows is added together.
+    const needed = new Map<string, number>();
+    for (const item of parsed.data.items) {
+        needed.set(
+            item.ingredientId,
+            round3((needed.get(item.ingredientId) ?? 0) + item.quantity)
+        );
+    }
+    // A fixed order means two people starting orders at once can't
+    // block each other.
+    const lines = [...needed.entries()].sort(([a], [b]) => a.localeCompare(b));
+
+    const existing = await prisma.cakeOrder.findUnique({ where: { id: orderId } });
+    if (!existing) {
+        return { error: "Order not found." };
+    }
+    if (existing.status !== "PENDING") {
+        return { error: "Only a pending order can be started." };
+    }
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            // The status in the where clause stops a double click, or a
+            // second person, from starting (and deducting for) the same
+            // order twice.
+            const moved = await tx.cakeOrder.updateMany({
+                where: { id: orderId, status: "PENDING" },
+                data: { status: "IN_PROGRESS" },
+            });
+            if (moved.count === 0) {
+                throw new StartOrderError("This order has already been started.");
+            }
+
+            for (const [ingredientId, quantity] of lines) {
+                const result = await tx.ingredient.updateMany({
+                    where: { id: ingredientId, currentStock: { gte: quantity } },
+                    data: { currentStock: { decrement: quantity } },
+                });
+
+                if (result.count === 0) {
+                    const ingredient = await tx.ingredient.findUnique({
+                        where: { id: ingredientId },
+                        select: { name: true, unit: true, currentStock: true },
+                    });
+                    if (!ingredient) {
+                        throw new StartOrderError(
+                            "An ingredient in the list no longer exists. Remove it and try again."
+                        );
+                    }
+                    const unit = UNIT_LABELS[ingredient.unit] ?? ingredient.unit;
+                    throw new StartOrderError(
+                        `Not enough "${ingredient.name}" to start this order: ${quantity} ${unit} needed, ${ingredient.currentStock.toString()} ${unit} in stock.`
+                    );
+                }
+
+                const after = await tx.ingredient.findUniqueOrThrow({
+                    where: { id: ingredientId },
+                    select: { currentStock: true },
+                });
+                await tx.inventoryTransaction.create({
+                    data: {
+                        itemType: "INGREDIENT",
+                        ingredientId,
+                        type: "PRODUCTION_OUT",
+                        quantity: -quantity,
+                        balanceAfter: after.currentStock,
+                        referenceType: "CAKE_ORDER",
+                        referenceId: orderId,
+                        createdById: user.id,
+                    },
+                });
+            }
+        });
+    } catch (e) {
+        if (e instanceof StartOrderError) {
+            return { error: e.message };
+        }
+        throw e;
+    }
+
+    revalidatePath("/cake-orders");
+    revalidatePath(`/cake-orders/${orderId}`);
+    revalidatePath("/inventory");
+    revalidatePath("/ingredients");
+    revalidatePath("/dashboard");
     return { success: true };
 }

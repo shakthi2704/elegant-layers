@@ -129,7 +129,7 @@ export function CakeOrderForm({
                     </div>
 
                     {/* Existing Product */}
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                         <Label htmlFor="productId">
                             Tie to an Existing Product (optional)
                         </Label>
@@ -165,7 +165,7 @@ export function CakeOrderForm({
                                 ))}
                             </SelectContent>
                         </Select>
-                    </div>
+                    </div> */}
 
                     {/* Cake Details */}
                     <div className="space-y-2">

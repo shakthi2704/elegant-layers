@@ -2,9 +2,16 @@
 
 import { useActionState, useEffect, useState } from "react";
 
-import { advanceCakeOrderStatus, cancelCakeOrder } from "@/app/(dashboard)/cake-orders/actions";
+import {
+    advanceCakeOrderStatus,
+    cancelCakeOrder,
+} from "@/app/(dashboard)/cake-orders/actions";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {
+    CakeOrderStartDialog,
+    type StartIngredient,
+} from "@/components/cake-orders/cake-order-start-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { WASTE_REASON_OPTIONS } from "@/lib/validations/inventory-waste";
 import {
@@ -36,11 +43,13 @@ export function CakeOrderStatusActions({
     status,
     canCancel,
     advancePaid,
+    ingredients,
 }: {
     orderId: string;
     status: string;
     canCancel: boolean;
     advancePaid: number;
+    ingredients: StartIngredient[];
 }) {
     const [advanceState, advanceAction, advancePending] = useActionState(
         advanceCakeOrderStatus.bind(null, orderId),
@@ -79,7 +88,11 @@ export function CakeOrderStatusActions({
 
     return (
         <div className="flex flex-wrap items-center gap-2">
-            {nextLabel && status !== "READY" && (
+            {status === "PENDING" && (
+                <CakeOrderStartDialog orderId={orderId} ingredients={ingredients} />
+            )}
+
+            {nextLabel && status === "IN_PROGRESS" && (
                 <form action={advanceAction}>
                     <Button type="submit" disabled={advancePending}>
                         {advancePending ? "Updating..." : nextLabel}

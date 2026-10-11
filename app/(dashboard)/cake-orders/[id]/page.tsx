@@ -34,6 +34,14 @@ const PAYMENT_METHOD_LABEL: Record<string, string> = {
     BANK_DEPOSIT: "Bank Deposit",
 };
 
+const UNIT_LABELS: Record<string, string> = {
+    KG: "kg",
+    G: "g",
+    L: "L",
+    ML: "ml",
+    PCS: "pcs",
+};
+
 export default async function CakeOrderDetailPage({
     params,
 }: {
@@ -60,6 +68,33 @@ export default async function CakeOrderDetailPage({
 
     const isLocked =
         order.status === "COLLECTED" || order.status === "CANCELLED";
+    // What was taken off stock when this cake was started. A Pending order
+    // has nothing yet.
+    const ingredientsUsed =
+        order.status === "PENDING"
+            ? []
+            : await prisma.inventoryTransaction.findMany({
+                where: {
+                    referenceType: "CAKE_ORDER",
+                    referenceId: order.id,
+                    type: "PRODUCTION_OUT",
+                },
+                include: { ingredient: true },
+                orderBy: { createdAt: "asc" },
+            });
+    // Only a Pending order can be started, so only then is the ingredient
+    // list needed.
+    const ingredients =
+        order.status === "PENDING"
+            ? (
+                await prisma.ingredient.findMany({ orderBy: { name: "asc" } })
+            ).map((i) => ({
+                id: i.id,
+                name: i.name,
+                unit: i.unit,
+                currentStock: i.currentStock.toNumber(),
+            }))
+            : [];
 
     return (
 
@@ -280,6 +315,46 @@ export default async function CakeOrderDetailPage({
                         )}
 
                         {/* Notes */}
+                        {/* Ingredients used */}
+                        {order.status !== "PENDING" && (
+                            <section className="border-t pt-6">
+                                <h2 className="mb-3 text-sm font-medium text-muted-foreground">
+                                    Ingredients used
+                                </h2>
+
+                                {ingredientsUsed.length > 0 ? (
+                                    <>
+                                        <ul className="space-y-2 text-sm">
+                                            {ingredientsUsed.map((txn) => (
+                                                <li
+                                                    key={txn.id}
+                                                    className="flex items-center justify-between gap-4"
+                                                >
+                                                    <span className="text-muted-foreground">
+                                                        {txn.ingredient?.name}
+                                                    </span>
+                                                    <span>
+                                                        {txn.quantity.abs().toString()}{" "}
+                                                        {UNIT_LABELS[txn.ingredient?.unit ?? ""] ??
+                                                            txn.ingredient?.unit}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <p className="mt-3 text-xs text-muted-foreground">
+                                            Taken off stock on{" "}
+                                            {formatDateTime(ingredientsUsed[0].createdAt)}.
+                                            {order.status === "CANCELLED" &&
+                                                " The order was cancelled, but these ingredients were already used, so they stay counted."}
+                                        </p>
+                                    </>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground">
+                                        No ingredients were recorded for this order.
+                                    </p>
+                                )}
+                            </section>
+                        )}
                         {order.notes && (
                             <section className="border-t pt-6">
                                 <h2 className="mb-3 text-sm font-medium text-muted-foreground">
@@ -347,6 +422,7 @@ export default async function CakeOrderDetailPage({
                                     advancePaid={
                                         order.advancePaid?.toNumber() ?? 0
                                     }
+                                    ingredients={ingredients}
                                 />
 
                                 {order.status === "CANCELLED" &&
