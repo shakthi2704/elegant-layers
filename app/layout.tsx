@@ -15,9 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Elegant Layers",
-  description: "Cake shop management and POS system",
+  title: "Elegant Layers | Cake Shop POS & Order Management",
+  description:
+    "Manage your cake shop with Elegant Layers. Simplify point-of-sale transactions, track sales, manage custom cake orders, and streamline your bakery operations in one place.",
 };
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
