@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
 import { auth } from "@/lib/auth";
+import { getShopSettings } from "@/lib/settings";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Separator } from "@/components/ui/separator";
@@ -32,10 +33,12 @@ export default async function DashboardLayout({
     redirect("/sign-in");
   }
 
+  const shop = await getShopSettings();
   return (
     <SidebarProvider>
       <AppSidebar
         user={{ name: user.name, email: user.email, role: user.role }}
+        shopName={shop.name}
         className="print:hidden"
       />
       <SidebarInset>

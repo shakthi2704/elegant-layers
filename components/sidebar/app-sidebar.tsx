@@ -33,9 +33,10 @@ type SessionUser = {
 };
 
 export function AppSidebar({
+    shopName,
     user,
     ...props
-}: { user: SessionUser } & React.ComponentProps<typeof Sidebar>) {
+}: { user: SessionUser; shopName: string } & React.ComponentProps<typeof Sidebar>) {
     const pathname = usePathname();
 
     const groups = NAV_GROUPS.map((group) => ({
@@ -53,13 +54,13 @@ export function AppSidebar({
                         <SidebarMenuButton size="lg" render={<Link href="/dashboard" />}>
                             <Image
                                 src="/logo/logo.png"
-                                alt="Elegant Layers"
+                                alt={shopName}
                                 width={56}
                                 height={56}
                                 className="size-7 shrink-0 rounded-md object-contain"
                             />
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">Elegant Layers</span>
+                                <span className="truncate font-semibold">{shopName}</span>
                                 <span className="truncate text-xs text-sidebar-foreground/60">
                                     Cake Shop POS
                                 </span>

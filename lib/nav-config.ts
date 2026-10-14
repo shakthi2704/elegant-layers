@@ -14,7 +14,8 @@ import {
   BarChart3,
   Users,
   Boxes,
-  Banknote
+  Banknote,
+  Settings,
 } from "lucide-react";
 
 export type NavItem = {
@@ -70,6 +71,9 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     title: "Administration",
-    items: [{ title: "Users", href: "/users", icon: Users, roles: ["ADMIN"] }],
+    items: [
+      { title: "Users", href: "/users", icon: Users, roles: ["ADMIN"] },
+      { title: "Settings", href: "/settings", icon: Settings, roles: ["ADMIN"] },
+    ],
   },
 ];

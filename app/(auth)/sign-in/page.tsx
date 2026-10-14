@@ -1,9 +1,11 @@
 import Image from "next/image"
 import { Suspense } from "react"
 import { LoginForm } from "@/components/auth/login-form"
+import { getShopSettings } from "@/lib/settings"
 import { GalleryVerticalEnd, Cookie } from "lucide-react"
 
-export default function Page() {
+export default async function Page() {
+    const shop = await getShopSettings()
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -14,7 +16,7 @@ export default function Page() {
                             <Cookie />
 
                         </div>
-                        Elegant Layers
+                        {shop.name}
                     </a>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
@@ -31,7 +33,7 @@ export default function Page() {
                     src="/logo/logo.webp"
                     width={600}
                     height={400}
-                    alt="Elegant Layers"
+                    alt={shop.name}
                     className="absolute inset-0 h-full w-full object-cover"
                 />
             </div>

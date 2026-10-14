@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { formatDateTime } from "@/lib/format";
+import { getShopSettings } from "@/lib/settings";
 import { POSTerminal } from "@/components/pos/pos-terminal";
 import { DiscardSaleButton } from "@/components/pos/discard-sale-button";
 import { VoidSaleButton } from "@/components/pos/void-sale-button";
@@ -79,10 +80,20 @@ export default async function SaleDetailPage({
         );
     }
 
+    const shop = await getShopSettings();
     // COMPLETED or VOID — receipt-style read-only view
     return (
         <div className="max-w-lg space-y-6 print:max-w-none print:space-y-2 print:font-mono print:text-[11px]">
             <div>
+                {/* Printed receipts start with the shop details. On screen they
+                    stay hidden, because staff already know where they are. */}
+                <div className="mb-2 hidden text-center print:mb-2 print:block print:border-b print:border-dashed print:border-black print:pb-2 print:text-black">
+                    <p className="text-sm font-bold">{shop.name}</p>
+                    {shop.address && (
+                        <p className="whitespace-pre-line text-[10px]">{shop.address}</p>
+                    )}
+                    {shop.phone && <p className="text-[10px]">Tel: {shop.phone}</p>}
+                </div>
                 <h1 className="text-xl font-semibold print:text-sm print:text-black">
                     {sale.saleNumber}
                 </h1>
@@ -196,6 +207,11 @@ export default async function SaleDetailPage({
                 )}
             </div>
 
+            {shop.billFooter && (
+                <p className="hidden text-center text-[10px] print:block print:text-black">
+                    {shop.billFooter}
+                </p>
+            )}
             <div className="flex gap-2 print:hidden">
                 <PrintBillButton />
                 {sale.status === "COMPLETED" && user.role === "ADMIN" && (

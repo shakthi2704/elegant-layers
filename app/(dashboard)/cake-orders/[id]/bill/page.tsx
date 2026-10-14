@@ -6,13 +6,9 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { PrintKotButton } from "@/components/cake-orders/print-kot-button";
+import { getShopSettings } from "@/lib/settings";
 
 // Fill these in once the client provides them. Empty values are not printed.
-const SHOP = {
-    name: "Elegant Layers",
-    address: "",
-    phone: "",
-};
 
 const PAYMENT_METHOD_LABEL: Record<string, string> = {
     CASH: "Cash",
@@ -42,6 +38,8 @@ export default async function CakeOrderBillPage({
     if (!order) {
         notFound();
     }
+
+    const shop = await getShopSettings();
 
     const backLink = (
         <Button
@@ -114,9 +112,9 @@ export default async function CakeOrderBillPage({
                 {/* Header */}
                 <div className="flex items-start justify-between border-b border-black pb-4">
                     <div>
-                        <h2 className="text-2xl font-bold">{SHOP.name}</h2>
-                        {SHOP.address && <p>{SHOP.address}</p>}
-                        {SHOP.phone && <p>Tel: {SHOP.phone}</p>}
+                        <h2 className="text-2xl font-bold">{shop.name}</h2>
+                        {shop.address && <p className="whitespace-pre-line">{shop.address}</p>}
+                        {shop.phone && <p>Tel: {shop.phone}</p>}
                     </div>
                     <div className="text-right">
                         <p className="text-lg font-semibold">{documentTitle}</p>
@@ -193,11 +191,10 @@ export default async function CakeOrderBillPage({
                     </div>
                 </div>
 
-                <p className="border-t border-black pt-4 text-center text-xs">
-                    {isCollected
-                        ? "Paid in full. Thank you for your order!"
-                        : "Thank you for your order!"}
-                </p>
+                <div className="space-y-1 border-t border-black pt-4 text-center text-xs">
+                    {isCollected && <p>Paid in full.</p>}
+                    <p>{shop.billFooter || "Thank you for your order!"}</p>
+                </div>
             </div>
         </div>
     );
