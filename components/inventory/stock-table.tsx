@@ -26,6 +26,7 @@ type StockRow = {
     minimum: number;
     unit: string;
     status: StockStatus;
+    inactive: boolean;
 };
 
 function getStatus(current: number, minimum: number): StockStatus {
@@ -66,6 +67,7 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
                 key: `ingredient-${i.id}`,
                 name: i.name,
                 type: "Ingredient",
+                inactive: false,
                 category: "—",
                 current,
                 minimum,
@@ -80,6 +82,7 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
                 key: `product-${p.id}`,
                 name: p.name,
                 type: "Product",
+                inactive: p.status === "INACTIVE",
                 category: p.category.name,
                 current,
                 minimum,
@@ -91,12 +94,11 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
 
     const rows =
         filters.low === "1"
-            ? allRows.filter((r) => r.status !== "OK")
+            ? allRows.filter((r) => r.status !== "OK" && !r.inactive)
             : allRows;
 
-    const lowCount = rows.filter((r) => r.status === "LOW").length;
-    const outCount = rows.filter((r) => r.status === "OUT").length;
-
+    const lowCount = rows.filter((r) => r.status === "LOW" && !r.inactive).length;
+    const outCount = rows.filter((r) => r.status === "OUT" && !r.inactive).length;
     return (
         <div className="space-y-3">
             <p className="text-sm text-muted-foreground">
@@ -119,7 +121,17 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
                     <TableBody className="divide-y divide-border bg-muted/20">
                         {rows.map((r) => (
                             <TableRow key={r.key}>
-                                <TableCell className="px-4 py-2.5 font-medium">{r.name}</TableCell>
+                                <TableCell className="px-4 py-2.5 font-medium">
+                                    {r.name}
+                                    {r.inactive && (
+                                        <Badge
+                                            variant="outline"
+                                            className="ml-2 text-muted-foreground"
+                                        >
+                                            Inactive
+                                        </Badge>
+                                    )}
+                                </TableCell>
                                 <TableCell className="px-4 py-2.5 text-muted-foreground">
                                     {r.type}
                                 </TableCell>

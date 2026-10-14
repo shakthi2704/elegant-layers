@@ -42,7 +42,8 @@ export async function StockAlertsCard() {
     const [ingredients, products] = await Promise.all([
         prisma.ingredient.findMany({ select }),
         prisma.product.findMany({
-            where: { isFinishedProduct: true },
+            // Deactivated products are not restocked, so they raise no alerts.
+            where: { isFinishedProduct: true, status: "ACTIVE" },
             select,
         }),
     ]);
@@ -228,18 +229,18 @@ export async function StockAlertsCard() {
 
             </CardContent>
             <CardFooter className="mt-auto p-3 pt-0">
-                <Button variant="ghost" className="w-full">
-                    <Link
-                        href="/inventory?view=stock&low=1"
-                        className="mt-auto flex items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
-                    >
-                        <span>
-                            {alerts.length > LIST_LIMIT
-                                ? `View all ${alerts.length} alerts`
-                                : "View stock"}
-                        </span>
-                        <ArrowRight className="size-4" />
-                    </Link>
+                <Button
+                    variant="ghost"
+                    className="w-full text-muted-foreground"
+                    nativeButton={false}
+                    render={<Link href="/inventory?view=stock&low=1" />}
+                >
+                    <span>
+                        {alerts.length > LIST_LIMIT
+                            ? `View all ${alerts.length} alerts`
+                            : "View stock"}
+                    </span>
+                    <ArrowRight className="size-4" />
                 </Button>
             </CardFooter>
         </Card>
