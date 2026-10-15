@@ -36,7 +36,7 @@ export default async function IngredientsPage() {
       <Card className="p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-semibold">Ingredients</h1>
+            <h1 className="text-3xl font-semibold">Ingredients & Supplies</h1>
             <p className="text-sm text-muted-foreground">
               Raw materials used in recipes and consumed by Production.
             </p>
@@ -47,7 +47,7 @@ export default async function IngredientsPage() {
             nativeButton={false}
             render={<Link href="/ingredients/new" />}
           >
-            Add Ingredient
+            Add Item
           </Button>
         </div>
       </Card>

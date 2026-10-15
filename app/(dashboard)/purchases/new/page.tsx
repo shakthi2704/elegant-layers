@@ -24,13 +24,17 @@ export default async function NewPurchasePage() {
         }),
     ]);
 
+    const foodIngredients = ingredients.filter((i) => i.kind === "INGREDIENT");
+    const supplies = ingredients.filter((i) => i.kind === "SUPPLY");
+
     return (
+
         <div className="space-y-6">
             <Card className="max-w-6xl">
                 <CardHeader>
                     <CardTitle className="text-3xl font-semibold">Record Purchase</CardTitle>
                     <CardDescription>
-                        Recording a purchase increases ingredient or product stock immediately.
+                        Recording a purchase increases ingredient, supply or product stock immediately.
                     </CardDescription>
                 </CardHeader>
             </Card>
@@ -48,7 +52,8 @@ export default async function NewPurchasePage() {
                 <PurchaseForm
                     action={createPurchase}
                     suppliers={suppliers.map((s) => ({ id: s.id, name: s.name }))}
-                    ingredients={ingredients.map((i) => ({ id: i.id, name: i.name, unit: i.unit }))}
+                    ingredients={foodIngredients.map((i) => ({ id: i.id, name: i.name, unit: i.unit }))}
+                    supplies={supplies.map((i) => ({ id: i.id, name: i.name, unit: i.unit }))}
                     products={products.map((p) => ({ id: p.id, name: p.name, unit: p.unit }))}
                 />
             )}

@@ -11,6 +11,7 @@ function parseFormData(formData: FormData) {
   return {
     name: formData.get("name"),
     unit: formData.get("unit"),
+    kind: formData.get("kind") || "INGREDIENT",
     minimumStock: formData.get("minimumStock") || 0,
   };
 }
@@ -57,8 +58,23 @@ export async function updateIngredient(
   if (existing) {
     return { fieldErrors: { name: ["An ingredient with this name already exists."] } };
   }
-
+  // A Supply is hidden from the recipe pickers, so it can't stay inside a recipe.
+  if (parsed.data.kind === "SUPPLY") {
+    const recipeUsage = await prisma.recipeItem.count({
+      where: { ingredientId },
+    });
+    if (recipeUsage > 0) {
+      return {
+        fieldErrors: {
+          kind: [
+            `This item is used in ${recipeUsage} recipe${recipeUsage === 1 ? "" : "s"}. Remove it from ${recipeUsage === 1 ? "that recipe" : "those recipes"} first, then change it to a Supply.`,
+          ],
+        },
+      };
+    }
+  }
   await prisma.ingredient.update({
+
     where: { id: ingredientId },
     data: parsed.data,
   });

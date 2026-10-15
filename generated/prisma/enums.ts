@@ -44,6 +44,14 @@ export const InventoryItemType = {
 export type InventoryItemType = (typeof InventoryItemType)[keyof typeof InventoryItemType]
 
 
+export const IngredientKind = {
+  INGREDIENT: 'INGREDIENT',
+  SUPPLY: 'SUPPLY'
+} as const
+
+export type IngredientKind = (typeof IngredientKind)[keyof typeof IngredientKind]
+
+
 export const InventoryTransactionType = {
   PURCHASE: 'PURCHASE',
   PRODUCTION_IN: 'PRODUCTION_IN',

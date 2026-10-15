@@ -14,11 +14,20 @@ export default async function NewWastePage() {
         }),
     ]);
 
+
+    const foodIngredients = ingredients.filter((i) => i.kind === "INGREDIENT");
+    const supplies = ingredients.filter((i) => i.kind === "SUPPLY");
     return (
         <div className="space-y-6">
             <WasteForm
                 action={createWaste}
-                ingredients={ingredients.map((i) => ({
+                supplies={supplies.map((i) => ({
+                    id: i.id,
+                    name: i.name,
+                    unit: i.unit,
+                    currentStock: i.currentStock.toNumber(),
+                }))}
+                ingredients={foodIngredients.map((i) => ({
                     id: i.id,
                     name: i.name,
                     unit: i.unit,

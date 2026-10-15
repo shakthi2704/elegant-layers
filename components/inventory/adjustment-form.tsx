@@ -29,9 +29,20 @@ type Item = {
     currentStock: number;
 };
 
+// What the Type dropdown offers. Supplies are stored as ingredients, so the
+// server only ever sees INGREDIENT or PRODUCT.
+type PickerType = "INGREDIENT" | "SUPPLY" | "PRODUCT";
+
+const TYPE_LABELS: Record<PickerType, string> = {
+    INGREDIENT: "Ingredient",
+    SUPPLY: "Supply",
+    PRODUCT: "Product",
+};
+
 export function AdjustmentForm({
     action,
     ingredients,
+    supplies,
     products,
 }: {
     action: (
@@ -39,21 +50,22 @@ export function AdjustmentForm({
         formData: FormData
     ) => Promise<ActionState>;
     ingredients: Item[];
+    supplies: Item[];
     products: Item[];
 }) {
     const [state, formAction, pending] = useActionState(action, {});
 
-    const [itemType, setItemType] = useState<
-        "INGREDIENT" | "PRODUCT" | ""
-    >("");
+    const [itemType, setItemType] = useState<PickerType | "">("");
     const [itemId, setItemId] = useState("");
 
     const itemsForType =
         itemType === "INGREDIENT"
             ? ingredients
-            : itemType === "PRODUCT"
-                ? products
-                : [];
+            : itemType === "SUPPLY"
+                ? supplies
+                : itemType === "PRODUCT"
+                    ? products
+                    : [];
 
     const selectedItem = itemsForType.find((i) => i.id === itemId);
 
@@ -73,14 +85,23 @@ export function AdjustmentForm({
                     <div className="space-y-2">
                         <Label htmlFor="itemType">Type</Label>
 
-                        <Select
+                        <input
+                            type="hidden"
                             name="itemType"
+                            value={
+                                itemType === "PRODUCT"
+                                    ? "PRODUCT"
+                                    : itemType === ""
+                                        ? ""
+                                        : "INGREDIENT"
+                            }
+                        />
+
+                        <Select
                             value={itemType}
                             onValueChange={(value) => {
                                 setItemType(
-                                    (value as
-                                        | "INGREDIENT"
-                                        | "PRODUCT") ?? ""
+                                    (value as PickerType) ?? ""
                                 );
                                 setItemId("");
                             }}
@@ -91,12 +112,7 @@ export function AdjustmentForm({
                             >
                                 <SelectValue placeholder="Select type">
                                     {(value: string | null) =>
-                                        value === "INGREDIENT"
-                                            ? "Ingredient"
-                                            : value === "PRODUCT"
-                                                ? "Product"
-                                                : "Select type"
-                                    }
+                                        TYPE_LABELS[value as PickerType] ?? "Select type"}
                                 </SelectValue>
                             </SelectTrigger>
 
@@ -104,9 +120,8 @@ export function AdjustmentForm({
                                 <SelectItem value="INGREDIENT">
                                     Ingredient
                                 </SelectItem>
-                                <SelectItem value="PRODUCT">
-                                    Product
-                                </SelectItem>
+                                <SelectItem value="SUPPLY">Supply</SelectItem>
+                                <SelectItem value="PRODUCT">Product</SelectItem>
                             </SelectContent>
                         </Select>
 
@@ -120,9 +135,7 @@ export function AdjustmentForm({
                     {/* Item */}
                     <div className="space-y-2">
                         <Label htmlFor="itemId">
-                            {itemType === "PRODUCT"
-                                ? "Product"
-                                : "Ingredient"}
+                            {itemType ? TYPE_LABELS[itemType] : "Ingredient"}
                         </Label>
 
                         <Select

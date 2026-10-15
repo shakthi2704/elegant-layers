@@ -36,9 +36,20 @@ type Supplier = { id: string; name: string };
 type Item = { id: string; name: string; unit: string };
 type ItemType = "INGREDIENT" | "PRODUCT";
 
+// What the Type dropdown offers. Supplies are stored as ingredients, so the
+// server only ever sees INGREDIENT or PRODUCT.
+type PickerType = "INGREDIENT" | "SUPPLY" | "PRODUCT";
+
+const TYPE_LABELS: Record<PickerType, string> = {
+    INGREDIENT: "Ingredient",
+    SUPPLY: "Supply",
+    PRODUCT: "Product",
+};
+
 type Row = {
     key: string;
     itemType: ItemType;
+    group: PickerType;
     itemId: string;
     name: string;
     unit: string;
@@ -68,6 +79,7 @@ export function PurchaseForm({
     action,
     suppliers,
     ingredients,
+    supplies,
     products,
 }: {
     action: (
@@ -76,6 +88,7 @@ export function PurchaseForm({
     ) => Promise<ActionState>;
     suppliers: Supplier[];
     ingredients: Item[];
+    supplies: Item[];
     products: Item[];
 }) {
     const [state, formAction, pending] = useActionState(action, {});
@@ -86,15 +99,21 @@ export function PurchaseForm({
     // The picker: choose Type + Item here, then "Add" drops it into the table
     // below as its own row — the table itself never shows Type/Item dropdowns.
     const [pickerType, setPickerType] =
-        useState<ItemType>("INGREDIENT");
+        useState<PickerType>("INGREDIENT");
     const [pickerItemId, setPickerItemId] = useState("");
 
     const pickerOptions =
-        pickerType === "INGREDIENT" ? ingredients : products;
+        pickerType === "INGREDIENT"
+            ? ingredients
+            : pickerType === "SUPPLY"
+                ? supplies
+                : products;
+
+    const pickerPlaceholder = `Select ${TYPE_LABELS[pickerType].toLowerCase()}`;
 
     const alreadyAddedIds = new Set(
         rows
-            .filter((r) => r.itemType === pickerType)
+            .filter((r) => r.group === pickerType)
             .map((r) => r.itemId)
     );
 
@@ -124,7 +143,8 @@ export function PurchaseForm({
             ...prev,
             {
                 key: newRowKey(),
-                itemType: pickerType,
+                itemType: pickerType === "PRODUCT" ? "PRODUCT" : "INGREDIENT",
+                group: pickerType,
                 itemId: item.id,
                 name: item.name,
                 unit: item.unit,
@@ -262,7 +282,7 @@ export function PurchaseForm({
                                     value={pickerType}
                                     onValueChange={(value) => {
                                         setPickerType(
-                                            (value as ItemType) ??
+                                            (value as PickerType) ??
                                             "INGREDIENT"
                                         );
                                         setPickerItemId("");
@@ -270,20 +290,18 @@ export function PurchaseForm({
                                 >
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Type">
-                                            {(
-                                                value: string | null
-                                            ) =>
-                                                value ===
-                                                    "PRODUCT"
-                                                    ? "Product"
-                                                    : "Ingredient"
-                                            }
+                                            {(value: string | null) =>
+                                                TYPE_LABELS[value as PickerType] ?? "Ingredient"}
                                         </SelectValue>
                                     </SelectTrigger>
 
                                     <SelectContent>
                                         <SelectItem value="INGREDIENT">
                                             Ingredient
+                                        </SelectItem>
+
+                                        <SelectItem value="SUPPLY">
+                                            Supply
                                         </SelectItem>
 
                                         <SelectItem value="PRODUCT">
@@ -295,9 +313,7 @@ export function PurchaseForm({
 
                             <div className="flex-1 space-y-2">
                                 <Label>
-                                    {pickerType === "PRODUCT"
-                                        ? "Product"
-                                        : "Ingredient"}
+                                    {TYPE_LABELS[pickerType]}
                                 </Label>
 
                                 <Select
@@ -312,10 +328,7 @@ export function PurchaseForm({
                                     <SelectTrigger className="w-full">
                                         <SelectValue
                                             placeholder={
-                                                pickerType ===
-                                                    "PRODUCT"
-                                                    ? "Select product"
-                                                    : "Select ingredient"
+                                                pickerPlaceholder
                                             }
                                         >
                                             {(
@@ -326,10 +339,7 @@ export function PurchaseForm({
                                                         i.id ===
                                                         value
                                                 )?.name ??
-                                                (pickerType ===
-                                                    "PRODUCT"
-                                                    ? "Select product"
-                                                    : "Select ingredient")
+                                                pickerPlaceholder
                                             }
                                         </SelectValue>
                                     </SelectTrigger>
@@ -433,10 +443,7 @@ export function PurchaseForm({
                                                         variant="outline"
                                                         className="text-xs"
                                                     >
-                                                        {row.itemType ===
-                                                            "PRODUCT"
-                                                            ? "Product"
-                                                            : "Ingredient"}
+                                                        {TYPE_LABELS[row.group]}
                                                     </Badge>
                                                 </div>
                                             </TableCell>
@@ -523,9 +530,9 @@ export function PurchaseForm({
                                             className="px-4 py-10 text-center text-muted-foreground"
                                         >
                                             Use the picker above
-                                            to add ingredients or
-                                            products to this
-                                            purchase.
+                                            to add ingredients,
+                                            supplies or products to
+                                            this purchase.
                                         </TableCell>
                                     </TableRow>
                                 )}

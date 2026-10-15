@@ -93,6 +93,7 @@ export default async function CakeOrderDetailPage({
                 name: i.name,
                 unit: i.unit,
                 currentStock: i.currentStock.toNumber(),
+                kind: i.kind,
             }))
             : [];
 
@@ -319,7 +320,7 @@ export default async function CakeOrderDetailPage({
                         {order.status !== "PENDING" && (
                             <section className="border-t pt-6">
                                 <h2 className="mb-3 text-sm font-medium text-muted-foreground">
-                                    Ingredients used
+                                    Ingredients & Supplies used
                                 </h2>
 
                                 {ingredientsUsed.length > 0 ? (

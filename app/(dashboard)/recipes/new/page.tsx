@@ -8,7 +8,11 @@ import { Card, CardHeader, CardTitle, } from "@/components/ui/card";
 export default async function NewRecipePage() {
     await requireRole(["ADMIN"]);
 
-    const ingredients = await prisma.ingredient.findMany({ orderBy: { name: "asc" } });
+    // Supplies (serviettes, boxes, bags) are not recipe ingredients.
+    const ingredients = await prisma.ingredient.findMany({
+        where: { kind: "INGREDIENT" },
+        orderBy: { name: "asc" },
+    });
 
     return (
         <div className="space-y-6 px-6">

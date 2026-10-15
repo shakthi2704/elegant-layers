@@ -17,6 +17,7 @@ import {
 const TYPE_OPTIONS = [
     { value: "ALL", label: "All items" },
     { value: "INGREDIENT", label: "Ingredients" },
+    { value: "SUPPLY", label: "Supplies" },
     { value: "PRODUCT", label: "Products" },
 ];
 

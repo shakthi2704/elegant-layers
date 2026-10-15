@@ -2354,7 +2354,8 @@ export const IngredientScalarFieldEnum = {
   currentStock: 'currentStock',
   minimumStock: 'minimumStock',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  kind: 'kind'
 } as const
 
 export type IngredientScalarFieldEnum = (typeof IngredientScalarFieldEnum)[keyof typeof IngredientScalarFieldEnum]
@@ -2730,6 +2731,20 @@ export type EnumUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Unit[]'
  */
 export type ListEnumUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Unit[]'>
+    
+
+
+/**
+ * Reference to a field of type 'IngredientKind'
+ */
+export type EnumIngredientKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IngredientKind'>
+    
+
+
+/**
+ * Reference to a field of type 'IngredientKind[]'
+ */
+export type ListEnumIngredientKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IngredientKind[]'>
     
 
 

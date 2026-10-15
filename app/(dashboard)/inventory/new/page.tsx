@@ -23,6 +23,9 @@ export default async function NewAdjustmentPage() {
         }),
     ]);
 
+    const foodIngredients = ingredients.filter((i) => i.kind === "INGREDIENT");
+    const supplies = ingredients.filter((i) => i.kind === "SUPPLY");
+
     return (
         <div className="space-y-6">
             <Card className="max-w-2xl">
@@ -38,7 +41,13 @@ export default async function NewAdjustmentPage() {
 
             <AdjustmentForm
                 action={createAdjustment}
-                ingredients={ingredients.map((i) => ({
+                supplies={supplies.map((i) => ({
+                    id: i.id,
+                    name: i.name,
+                    unit: i.unit,
+                    currentStock: i.currentStock.toNumber(),
+                }))}
+                ingredients={foodIngredients.map((i) => ({
                     id: i.id,
                     name: i.name,
                     unit: i.unit,

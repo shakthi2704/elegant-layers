@@ -25,13 +25,23 @@ import {
 
 const UNITS = ["KG", "G", "L", "ML", "PCS"];
 
+const KINDS = [
+  { value: "INGREDIENT", label: "Ingredient" },
+  { value: "SUPPLY", label: "Supply" },
+];
+
 export function IngredientForm({
   action,
   defaultValues,
   submitLabel,
 }: {
   action: (prevState: ActionState, formData: FormData) => Promise<ActionState>;
-  defaultValues?: { name: string; unit: string; minimumStock: number | string };
+  defaultValues?: {
+    name: string;
+    unit: string;
+    kind: string;
+    minimumStock: number | string;
+  };
   submitLabel: string;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
@@ -81,6 +91,45 @@ export function IngredientForm({
             )}
           </div>
 
+          {/* Type */}
+          <div className="space-y-2">
+            <Label htmlFor="kind">Type</Label>
+
+            <Select
+              name="kind"
+              defaultValue={defaultValues?.kind ?? "INGREDIENT"}
+            >
+              <SelectTrigger id="kind" className="w-full">
+                <SelectValue placeholder="Select type">
+                  {(value: string) =>
+                    KINDS.find((k) => k.value === value)?.label ??
+                    "Select type"
+                  }
+                </SelectValue>
+              </SelectTrigger>
+
+              <SelectContent>
+                {KINDS.map((k) => (
+                  <SelectItem key={k.value} value={k.value}>
+                    {k.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <p className="text-xs text-muted-foreground">
+              Choose Supply for things that aren&apos;t food, such as
+              serviettes, cake boxes or bags. Supplies are bought and counted
+              like ingredients, but they don&apos;t appear when building
+              recipes.
+            </p>
+
+            {state.fieldErrors?.kind && (
+              <p className="text-sm text-destructive">
+                {state.fieldErrors.kind[0]}
+              </p>
+            )}
+          </div>
           {/* Unit and Minimum Stock */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">

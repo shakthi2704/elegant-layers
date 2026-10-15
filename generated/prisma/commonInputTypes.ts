@@ -253,6 +253,23 @@ export type EnumUnitWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumUnitFilter<$PrismaModel>
 }
 
+export type EnumIngredientKindFilter<$PrismaModel = never> = {
+  equals?: $Enums.IngredientKind | Prisma.EnumIngredientKindFieldRefInput<$PrismaModel>
+  in?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumIngredientKindFilter<$PrismaModel> | $Enums.IngredientKind
+}
+
+export type EnumIngredientKindWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.IngredientKind | Prisma.EnumIngredientKindFieldRefInput<$PrismaModel>
+  in?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumIngredientKindWithAggregatesFilter<$PrismaModel> | $Enums.IngredientKind
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumIngredientKindFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumIngredientKindFilter<$PrismaModel>
+}
+
 export type EnumInventoryItemTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.InventoryItemType | Prisma.EnumInventoryItemTypeFieldRefInput<$PrismaModel>
   in?: $Enums.InventoryItemType[] | Prisma.ListEnumInventoryItemTypeFieldRefInput<$PrismaModel>
@@ -717,6 +734,23 @@ export type NestedEnumUnitWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumUnitFilter<$PrismaModel>
   _max?: Prisma.NestedEnumUnitFilter<$PrismaModel>
+}
+
+export type NestedEnumIngredientKindFilter<$PrismaModel = never> = {
+  equals?: $Enums.IngredientKind | Prisma.EnumIngredientKindFieldRefInput<$PrismaModel>
+  in?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumIngredientKindFilter<$PrismaModel> | $Enums.IngredientKind
+}
+
+export type NestedEnumIngredientKindWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.IngredientKind | Prisma.EnumIngredientKindFieldRefInput<$PrismaModel>
+  in?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.IngredientKind[] | Prisma.ListEnumIngredientKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumIngredientKindWithAggregatesFilter<$PrismaModel> | $Enums.IngredientKind
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumIngredientKindFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumIngredientKindFilter<$PrismaModel>
 }
 
 export type NestedEnumInventoryItemTypeFilter<$PrismaModel = never> = {

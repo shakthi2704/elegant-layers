@@ -15,7 +15,17 @@ export default async function EditRecipePage({
 
     const [recipe, ingredients] = await Promise.all([
         prisma.recipe.findUnique({ where: { id }, include: { items: true } }),
-        prisma.ingredient.findMany({ orderBy: { name: "asc" } }),
+        // Supplies are not recipe ingredients, but anything already in this
+        // recipe stays listed so its line never shows up blank.
+        prisma.ingredient.findMany({
+            where: {
+                OR: [
+                    { kind: "INGREDIENT" },
+                    { recipeItems: { some: { recipeId: id } } },
+                ],
+            },
+            orderBy: { name: "asc" },
+        }),
     ]);
 
     if (!recipe) {

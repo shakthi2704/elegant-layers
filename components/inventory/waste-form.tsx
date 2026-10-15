@@ -30,9 +30,20 @@ type Item = {
     currentStock: number;
 };
 
+// What the Type dropdown offers. Supplies are stored as ingredients, so the
+// server only ever sees INGREDIENT or PRODUCT.
+type PickerType = "INGREDIENT" | "SUPPLY" | "PRODUCT";
+
+const TYPE_LABELS: Record<PickerType, string> = {
+    INGREDIENT: "Ingredient",
+    SUPPLY: "Supply",
+    PRODUCT: "Product",
+};
+
 export function WasteForm({
     action,
     ingredients,
+    supplies,
     products,
 }: {
     action: (
@@ -40,13 +51,12 @@ export function WasteForm({
         formData: FormData
     ) => Promise<ActionState>;
     ingredients: Item[];
+    supplies: Item[];
     products: Item[];
 }) {
     const [state, formAction, pending] = useActionState(action, {});
 
-    const [itemType, setItemType] = useState<
-        "INGREDIENT" | "PRODUCT" | ""
-    >("");
+    const [itemType, setItemType] = useState<PickerType | "">("");
     const [itemId, setItemId] = useState("");
     const [quantity, setQuantity] = useState("");
     const [reason, setReason] = useState("");
@@ -55,9 +65,11 @@ export function WasteForm({
     const itemsForType =
         itemType === "INGREDIENT"
             ? ingredients
-            : itemType === "PRODUCT"
-                ? products
-                : [];
+            : itemType === "SUPPLY"
+                ? supplies
+                : itemType === "PRODUCT"
+                    ? products
+                    : [];
 
     const selectedItem = itemsForType.find((i) => i.id === itemId);
 
@@ -78,12 +90,23 @@ export function WasteForm({
                     <div className="space-y-2">
                         <Label htmlFor="itemType">Type</Label>
 
-                        <Select
+                        <input
+                            type="hidden"
                             name="itemType"
+                            value={
+                                itemType === "PRODUCT"
+                                    ? "PRODUCT"
+                                    : itemType === ""
+                                        ? ""
+                                        : "INGREDIENT"
+                            }
+                        />
+
+                        <Select
                             value={itemType}
                             onValueChange={(value) => {
                                 setItemType(
-                                    (value as "INGREDIENT" | "PRODUCT") ?? ""
+                                    (value as PickerType) ?? ""
                                 );
                                 setItemId("");
                             }}
@@ -91,12 +114,7 @@ export function WasteForm({
                             <SelectTrigger id="itemType" className="w-full">
                                 <SelectValue placeholder="Select type">
                                     {(value: string | null) =>
-                                        value === "INGREDIENT"
-                                            ? "Ingredient"
-                                            : value === "PRODUCT"
-                                                ? "Product"
-                                                : "Select type"
-                                    }
+                                        TYPE_LABELS[value as PickerType] ?? "Select type"}
                                 </SelectValue>
                             </SelectTrigger>
 
@@ -104,6 +122,7 @@ export function WasteForm({
                                 <SelectItem value="INGREDIENT">
                                     Ingredient
                                 </SelectItem>
+                                <SelectItem value="SUPPLY">Supply</SelectItem>
                                 <SelectItem value="PRODUCT">Product</SelectItem>
                             </SelectContent>
                         </Select>
@@ -118,7 +137,7 @@ export function WasteForm({
                     {/* Item */}
                     <div className="space-y-2">
                         <Label htmlFor="itemId">
-                            {itemType === "PRODUCT" ? "Product" : "Ingredient"}
+                            {itemType ? TYPE_LABELS[itemType] : "Ingredient"}
                         </Label>
 
                         <Select

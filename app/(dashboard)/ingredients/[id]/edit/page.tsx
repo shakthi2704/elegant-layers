@@ -23,7 +23,7 @@ export default async function EditIngredientPage({
   return (
     <div className="space-y-6 px-6">
       <div>
-        <h1 className="text-xl font-semibold">Edit Ingredient</h1>
+        <h1 className="text-xl font-semibold">Edit Item</h1>
         <p className="text-sm text-muted-foreground">
           Current stock: {ingredient.currentStock.toString()} {ingredient.unit}
         </p>
@@ -34,6 +34,7 @@ export default async function EditIngredientPage({
         defaultValues={{
           name: ingredient.name,
           unit: ingredient.unit,
+          kind: ingredient.kind,
           minimumStock: ingredient.minimumStock.toString(),
         }}
       />

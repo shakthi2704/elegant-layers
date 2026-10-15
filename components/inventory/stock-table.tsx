@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 
 export type StockFilters = {
-    type?: string; // "INGREDIENT" | "PRODUCT" | anything else = all
+    type?: string; // "INGREDIENT" | "SUPPLY" | "PRODUCT" | anything else = all
     low?: string; // "1" = only Low and Out items
     q?: string; // part of an item name
 };
@@ -20,7 +20,7 @@ type StockStatus = "OUT" | "LOW" | "OK";
 type StockRow = {
     key: string;
     name: string;
-    type: "Ingredient" | "Product";
+    type: "Ingredient" | "Supply" | "Product";
     category: string;
     current: number;
     minimum: number;
@@ -37,7 +37,8 @@ function getStatus(current: number, minimum: number): StockStatus {
 
 export async function StockTable({ filters }: { filters: StockFilters }) {
     const showIngredients = filters.type !== "PRODUCT";
-    const showProducts = filters.type !== "INGREDIENT";
+    const showProducts =
+        filters.type !== "INGREDIENT" && filters.type !== "SUPPLY";
 
     const search = filters.q?.trim();
     const nameFilter = search
@@ -46,7 +47,14 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
 
     const ingredients = showIngredients
         ? await prisma.ingredient.findMany({
-            where: nameFilter,
+            where: {
+                ...nameFilter,
+                ...(filters.type === "INGREDIENT"
+                    ? { kind: "INGREDIENT" as const }
+                    : filters.type === "SUPPLY"
+                        ? { kind: "SUPPLY" as const }
+                        : {}),
+            },
             orderBy: { name: "asc" },
         })
         : [];
@@ -66,7 +74,7 @@ export async function StockTable({ filters }: { filters: StockFilters }) {
             return {
                 key: `ingredient-${i.id}`,
                 name: i.name,
-                type: "Ingredient",
+                type: i.kind === "SUPPLY" ? "Supply" : "Ingredient",
                 inactive: false,
                 category: "—",
                 current,

@@ -29,6 +29,7 @@ export type StartIngredient = {
     name: string;
     unit: string;
     currentStock: number;
+    kind: string;
 };
 
 type Row = {
@@ -45,6 +46,11 @@ const UNIT_LABELS: Record<string, string> = {
     PCS: "pcs",
 };
 
+function displayName(ingredient: StartIngredient) {
+    return ingredient.kind === "SUPPLY"
+        ? `${ingredient.name} (Supply)`
+        : ingredient.name;
+}
 function unitLabel(unit: string) {
     return UNIT_LABELS[unit] ?? unit;
 }
@@ -78,6 +84,10 @@ export function CakeOrderStartDialog({
     }, [state.success]);
 
     const byId = new Map(ingredients.map((i) => [i.id, i]));
+    const nameOf = (id: string | null) => {
+        const found = byId.get(id ?? "");
+        return found ? displayName(found) : undefined;
+    };
     const chosenIds = new Set(
         rows.map((r) => r.ingredientId).filter((id) => id !== "")
     );
@@ -149,7 +159,7 @@ export function CakeOrderStartDialog({
                                                 <SelectTrigger className="w-full">
                                                     <SelectValue placeholder="Select ingredient">
                                                         {(value: string | null) =>
-                                                            byId.get(value ?? "")?.name ??
+                                                            nameOf(value) ??
                                                             "Select ingredient"
                                                         }
                                                     </SelectValue>
@@ -169,7 +179,7 @@ export function CakeOrderStartDialog({
                                                                 i.id !== a.row.ingredientId
                                                             }
                                                         >
-                                                            {i.name}
+                                                            {displayName(i)}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
