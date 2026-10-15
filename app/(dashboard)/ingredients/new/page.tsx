@@ -14,7 +14,7 @@ export default async function NewIngredientPage() {
     <div className="space-y-6 px-6">
       <Card className="max-w-2xl">
         <CardHeader>
-          <CardTitle className="text-3xl font-semibold">Add Ingredient</CardTitle>
+          <CardTitle className="text-3xl font-semibold">Add Ingredients & Supplies</CardTitle>
         </CardHeader>
       </Card>
       <IngredientForm action={createIngredient} submitLabel="Create Ingredient" />

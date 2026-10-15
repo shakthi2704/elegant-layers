@@ -7,6 +7,7 @@ import { formatDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { PrintKotButton } from "@/components/cake-orders/print-kot-button";
 import { getShopSettings } from "@/lib/settings";
+import Image from "next/image";
 
 // Fill these in once the client provides them. Empty values are not printed.
 
@@ -111,10 +112,22 @@ export default async function CakeOrderBillPage({
             <div className="max-w-[210mm] space-y-8 rounded-lg border bg-white p-10 text-sm text-black shadow-sm print:max-w-none print:rounded-none print:border-0 print:p-0 print:text-[13px] print:text-black print:shadow-none">
                 {/* Header */}
                 <div className="flex items-start justify-between border-b border-black pb-4">
-                    <div>
-                        <h2 className="text-2xl font-bold">{shop.name}</h2>
-                        {shop.address && <p className="whitespace-pre-line">{shop.address}</p>}
-                        {shop.phone && <p>Tel: {shop.phone}</p>}
+                    <div className="flex items-center gap-4">
+                        <Image
+                            src="/logo/logo.webp"
+                            alt={shop.name}
+                            width={320}
+                            height={320}
+                            priority
+                            className="size-20 shrink-0 object-contain print:size-[22mm]"
+                        />
+                        <div>
+                            <h2 className="text-2xl font-bold">{shop.name}</h2>
+                            {shop.address && (
+                                <p className="whitespace-pre-line">{shop.address}</p>
+                            )}
+                            {shop.phone && <p>Tel: {shop.phone}</p>}
+                        </div>
                     </div>
                     <div className="text-right">
                         <p className="text-lg font-semibold">{documentTitle}</p>
