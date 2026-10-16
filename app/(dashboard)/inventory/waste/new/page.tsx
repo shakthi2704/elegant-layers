@@ -3,6 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { createWaste } from "@/app/(dashboard)/inventory/actions";
 import { WasteForm } from "@/components/inventory/waste-form";
 
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
+
 export default async function NewWastePage() {
     await requireRole(["ADMIN"]);
 
@@ -18,7 +26,13 @@ export default async function NewWastePage() {
     const foodIngredients = ingredients.filter((i) => i.kind === "INGREDIENT");
     const supplies = ingredients.filter((i) => i.kind === "SUPPLY");
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 px-6">
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle className="text-3xl font-semibold">Record Waste</CardTitle>
+                </CardHeader>
+            </Card>
+
             <WasteForm
                 action={createWaste}
                 supplies={supplies.map((i) => ({
