@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
+import { getShopSettings } from "@/lib/settings";
 // import "./globals-copy.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,11 +15,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Elegant Layers | Cake Shop POS & Order Management",
-  description:
-    "Manage your cake shop with Elegant Layers. Simplify point-of-sale transactions, track sales, manage custom cake orders, and streamline your bakery operations in one place.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // The browser tab shows the business name from Settings. If the database
+  // can't be reached, fall back to the default so the page still loads.
+  let name = "Elegant Layers";
+  try {
+    name = (await getShopSettings()).name;
+  } catch {
+    // keep the default
+  }
+
+  return {
+    title: name,
+    description: "Cake shop management and POS system",
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
