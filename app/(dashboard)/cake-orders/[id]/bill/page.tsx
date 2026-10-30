@@ -176,17 +176,31 @@ export default async function CakeOrderBillPage({
 
                 {/* Totals */}
                 <div className="ml-auto w-full max-w-xs space-y-2">
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                         <span>{discount > 0 ? "Price" : "Total Price"}</span>
                         <span>{money(discount > 0 ? price + discount : price)}</span>
+                    </div> */}
+                    <div className="flex justify-between">
+                        <span>{discount > 0 ? "Price" : "Total Price"}</span>
+                        <span>
+                            {money(order.isComplimentary ? 0 : discount > 0 ? price + discount : price)}
+                        </span>
                     </div>
                     {discount > 0 && (
                         <>
-                            <div className="flex justify-between">
+                            {/* <div className="flex justify-between">
                                 <span>
                                     {order.isComplimentary ? "Complimentary" : "Discount"}
                                 </span>
                                 <span>- {money(discount)}</span>
+                            </div> */}
+                            <div className="flex justify-between">
+                                <span>
+                                    {order.isComplimentary ? "Complimentary" : "Discount"}
+                                </span>
+                                <span>
+                                    {order.isComplimentary ? money(0) : `- ${money(discount)}`}
+                                </span>
                             </div>
                             <div className="flex justify-between border-t border-black pt-2">
                                 <span>Total Price</span>

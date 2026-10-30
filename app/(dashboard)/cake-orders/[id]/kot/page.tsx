@@ -4,6 +4,7 @@ import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { formatDate, formatDateTime } from "@/lib/format";
 import { PrintKotButton } from "@/components/cake-orders/print-kot-button";
+import { getShopSettings } from "@/lib/settings";
 
 export default async function CakeOrderKotPage({
     params,
