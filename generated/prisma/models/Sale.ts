@@ -59,6 +59,7 @@ export type SaleMinAggregateOutputType = {
   voidReason: string | null
   voidedAt: Date | null
   voidedById: string | null
+  complimentaryReason: string | null
 }
 
 export type SaleMaxAggregateOutputType = {
@@ -78,6 +79,7 @@ export type SaleMaxAggregateOutputType = {
   voidReason: string | null
   voidedAt: Date | null
   voidedById: string | null
+  complimentaryReason: string | null
 }
 
 export type SaleCountAggregateOutputType = {
@@ -97,6 +99,7 @@ export type SaleCountAggregateOutputType = {
   voidReason: number
   voidedAt: number
   voidedById: number
+  complimentaryReason: number
   _all: number
 }
 
@@ -134,6 +137,7 @@ export type SaleMinAggregateInputType = {
   voidReason?: true
   voidedAt?: true
   voidedById?: true
+  complimentaryReason?: true
 }
 
 export type SaleMaxAggregateInputType = {
@@ -153,6 +157,7 @@ export type SaleMaxAggregateInputType = {
   voidReason?: true
   voidedAt?: true
   voidedById?: true
+  complimentaryReason?: true
 }
 
 export type SaleCountAggregateInputType = {
@@ -172,6 +177,7 @@ export type SaleCountAggregateInputType = {
   voidReason?: true
   voidedAt?: true
   voidedById?: true
+  complimentaryReason?: true
   _all?: true
 }
 
@@ -278,6 +284,7 @@ export type SaleGroupByOutputType = {
   voidReason: string | null
   voidedAt: Date | null
   voidedById: string | null
+  complimentaryReason: string | null
   _count: SaleCountAggregateOutputType | null
   _avg: SaleAvgAggregateOutputType | null
   _sum: SaleSumAggregateOutputType | null
@@ -320,6 +327,7 @@ export type SaleWhereInput = {
   voidReason?: Prisma.StringNullableFilter<"Sale"> | string | null
   voidedAt?: Prisma.DateTimeNullableFilter<"Sale"> | Date | string | null
   voidedById?: Prisma.StringNullableFilter<"Sale"> | string | null
+  complimentaryReason?: Prisma.StringNullableFilter<"Sale"> | string | null
   cashier?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voidedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.SaleItemListRelationFilter
@@ -342,6 +350,7 @@ export type SaleOrderByWithRelationInput = {
   voidReason?: Prisma.SortOrderInput | Prisma.SortOrder
   voidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   voidedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrderInput | Prisma.SortOrder
   cashier?: Prisma.UserOrderByWithRelationInput
   voidedBy?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.SaleItemOrderByRelationAggregateInput
@@ -367,6 +376,7 @@ export type SaleWhereUniqueInput = Prisma.AtLeast<{
   voidReason?: Prisma.StringNullableFilter<"Sale"> | string | null
   voidedAt?: Prisma.DateTimeNullableFilter<"Sale"> | Date | string | null
   voidedById?: Prisma.StringNullableFilter<"Sale"> | string | null
+  complimentaryReason?: Prisma.StringNullableFilter<"Sale"> | string | null
   cashier?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voidedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   items?: Prisma.SaleItemListRelationFilter
@@ -389,6 +399,7 @@ export type SaleOrderByWithAggregationInput = {
   voidReason?: Prisma.SortOrderInput | Prisma.SortOrder
   voidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   voidedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SaleCountOrderByAggregateInput
   _avg?: Prisma.SaleAvgOrderByAggregateInput
   _max?: Prisma.SaleMaxOrderByAggregateInput
@@ -416,6 +427,7 @@ export type SaleScalarWhereWithAggregatesInput = {
   voidReason?: Prisma.StringNullableWithAggregatesFilter<"Sale"> | string | null
   voidedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Sale"> | Date | string | null
   voidedById?: Prisma.StringNullableWithAggregatesFilter<"Sale"> | string | null
+  complimentaryReason?: Prisma.StringNullableWithAggregatesFilter<"Sale"> | string | null
 }
 
 export type SaleCreateInput = {
@@ -433,6 +445,7 @@ export type SaleCreateInput = {
   updatedAt?: Date | string
   voidReason?: string | null
   voidedAt?: Date | string | null
+  complimentaryReason?: string | null
   cashier: Prisma.UserCreateNestedOneWithoutSalesInput
   voidedBy?: Prisma.UserCreateNestedOneWithoutVoidedSalesInput
   items?: Prisma.SaleItemCreateNestedManyWithoutSaleInput
@@ -455,6 +468,7 @@ export type SaleUncheckedCreateInput = {
   voidReason?: string | null
   voidedAt?: Date | string | null
   voidedById?: string | null
+  complimentaryReason?: string | null
   items?: Prisma.SaleItemUncheckedCreateNestedManyWithoutSaleInput
 }
 
@@ -473,6 +487,7 @@ export type SaleUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cashier?: Prisma.UserUpdateOneRequiredWithoutSalesNestedInput
   voidedBy?: Prisma.UserUpdateOneWithoutVoidedSalesNestedInput
   items?: Prisma.SaleItemUpdateManyWithoutSaleNestedInput
@@ -495,6 +510,7 @@ export type SaleUncheckedUpdateInput = {
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SaleItemUncheckedUpdateManyWithoutSaleNestedInput
 }
 
@@ -515,6 +531,7 @@ export type SaleCreateManyInput = {
   voidReason?: string | null
   voidedAt?: Date | string | null
   voidedById?: string | null
+  complimentaryReason?: string | null
 }
 
 export type SaleUpdateManyMutationInput = {
@@ -532,6 +549,7 @@ export type SaleUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SaleUncheckedUpdateManyInput = {
@@ -551,6 +569,7 @@ export type SaleUncheckedUpdateManyInput = {
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SaleListRelationFilter = {
@@ -580,6 +599,7 @@ export type SaleCountOrderByAggregateInput = {
   voidReason?: Prisma.SortOrder
   voidedAt?: Prisma.SortOrder
   voidedById?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrder
 }
 
 export type SaleAvgOrderByAggregateInput = {
@@ -607,6 +627,7 @@ export type SaleMaxOrderByAggregateInput = {
   voidReason?: Prisma.SortOrder
   voidedAt?: Prisma.SortOrder
   voidedById?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrder
 }
 
 export type SaleMinOrderByAggregateInput = {
@@ -626,6 +647,7 @@ export type SaleMinOrderByAggregateInput = {
   voidReason?: Prisma.SortOrder
   voidedAt?: Prisma.SortOrder
   voidedById?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrder
 }
 
 export type SaleSumOrderByAggregateInput = {
@@ -770,6 +792,7 @@ export type SaleCreateWithoutCashierInput = {
   updatedAt?: Date | string
   voidReason?: string | null
   voidedAt?: Date | string | null
+  complimentaryReason?: string | null
   voidedBy?: Prisma.UserCreateNestedOneWithoutVoidedSalesInput
   items?: Prisma.SaleItemCreateNestedManyWithoutSaleInput
 }
@@ -790,6 +813,7 @@ export type SaleUncheckedCreateWithoutCashierInput = {
   voidReason?: string | null
   voidedAt?: Date | string | null
   voidedById?: string | null
+  complimentaryReason?: string | null
   items?: Prisma.SaleItemUncheckedCreateNestedManyWithoutSaleInput
 }
 
@@ -818,6 +842,7 @@ export type SaleCreateWithoutVoidedByInput = {
   updatedAt?: Date | string
   voidReason?: string | null
   voidedAt?: Date | string | null
+  complimentaryReason?: string | null
   cashier: Prisma.UserCreateNestedOneWithoutSalesInput
   items?: Prisma.SaleItemCreateNestedManyWithoutSaleInput
 }
@@ -838,6 +863,7 @@ export type SaleUncheckedCreateWithoutVoidedByInput = {
   updatedAt?: Date | string
   voidReason?: string | null
   voidedAt?: Date | string | null
+  complimentaryReason?: string | null
   items?: Prisma.SaleItemUncheckedCreateNestedManyWithoutSaleInput
 }
 
@@ -887,6 +913,7 @@ export type SaleScalarWhereInput = {
   voidReason?: Prisma.StringNullableFilter<"Sale"> | string | null
   voidedAt?: Prisma.DateTimeNullableFilter<"Sale"> | Date | string | null
   voidedById?: Prisma.StringNullableFilter<"Sale"> | string | null
+  complimentaryReason?: Prisma.StringNullableFilter<"Sale"> | string | null
 }
 
 export type SaleUpsertWithWhereUniqueWithoutVoidedByInput = {
@@ -920,6 +947,7 @@ export type SaleCreateWithoutItemsInput = {
   updatedAt?: Date | string
   voidReason?: string | null
   voidedAt?: Date | string | null
+  complimentaryReason?: string | null
   cashier: Prisma.UserCreateNestedOneWithoutSalesInput
   voidedBy?: Prisma.UserCreateNestedOneWithoutVoidedSalesInput
 }
@@ -941,6 +969,7 @@ export type SaleUncheckedCreateWithoutItemsInput = {
   voidReason?: string | null
   voidedAt?: Date | string | null
   voidedById?: string | null
+  complimentaryReason?: string | null
 }
 
 export type SaleCreateOrConnectWithoutItemsInput = {
@@ -974,6 +1003,7 @@ export type SaleUpdateWithoutItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cashier?: Prisma.UserUpdateOneRequiredWithoutSalesNestedInput
   voidedBy?: Prisma.UserUpdateOneWithoutVoidedSalesNestedInput
 }
@@ -995,6 +1025,7 @@ export type SaleUncheckedUpdateWithoutItemsInput = {
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SaleCreateManyCashierInput = {
@@ -1013,6 +1044,7 @@ export type SaleCreateManyCashierInput = {
   voidReason?: string | null
   voidedAt?: Date | string | null
   voidedById?: string | null
+  complimentaryReason?: string | null
 }
 
 export type SaleCreateManyVoidedByInput = {
@@ -1031,6 +1063,7 @@ export type SaleCreateManyVoidedByInput = {
   updatedAt?: Date | string
   voidReason?: string | null
   voidedAt?: Date | string | null
+  complimentaryReason?: string | null
 }
 
 export type SaleUpdateWithoutCashierInput = {
@@ -1048,6 +1081,7 @@ export type SaleUpdateWithoutCashierInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedBy?: Prisma.UserUpdateOneWithoutVoidedSalesNestedInput
   items?: Prisma.SaleItemUpdateManyWithoutSaleNestedInput
 }
@@ -1068,6 +1102,7 @@ export type SaleUncheckedUpdateWithoutCashierInput = {
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SaleItemUncheckedUpdateManyWithoutSaleNestedInput
 }
 
@@ -1087,6 +1122,7 @@ export type SaleUncheckedUpdateManyWithoutCashierInput = {
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   voidedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SaleUpdateWithoutVoidedByInput = {
@@ -1104,6 +1140,7 @@ export type SaleUpdateWithoutVoidedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cashier?: Prisma.UserUpdateOneRequiredWithoutSalesNestedInput
   items?: Prisma.SaleItemUpdateManyWithoutSaleNestedInput
 }
@@ -1124,6 +1161,7 @@ export type SaleUncheckedUpdateWithoutVoidedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.SaleItemUncheckedUpdateManyWithoutSaleNestedInput
 }
 
@@ -1143,6 +1181,7 @@ export type SaleUncheckedUpdateManyWithoutVoidedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voidReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   voidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1193,6 +1232,7 @@ export type SaleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   voidReason?: boolean
   voidedAt?: boolean
   voidedById?: boolean
+  complimentaryReason?: boolean
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
   items?: boolean | Prisma.Sale$itemsArgs<ExtArgs>
@@ -1216,6 +1256,7 @@ export type SaleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   voidReason?: boolean
   voidedAt?: boolean
   voidedById?: boolean
+  complimentaryReason?: boolean
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
 }, ExtArgs["result"]["sale"]>
@@ -1237,6 +1278,7 @@ export type SaleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   voidReason?: boolean
   voidedAt?: boolean
   voidedById?: boolean
+  complimentaryReason?: boolean
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
 }, ExtArgs["result"]["sale"]>
@@ -1258,9 +1300,10 @@ export type SaleSelectScalar = {
   voidReason?: boolean
   voidedAt?: boolean
   voidedById?: boolean
+  complimentaryReason?: boolean
 }
 
-export type SaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "saleNumber" | "status" | "type" | "holdLabel" | "subtotal" | "discount" | "total" | "cashReceived" | "changeGiven" | "cashierId" | "createdAt" | "updatedAt" | "voidReason" | "voidedAt" | "voidedById", ExtArgs["result"]["sale"]>
+export type SaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "saleNumber" | "status" | "type" | "holdLabel" | "subtotal" | "discount" | "total" | "cashReceived" | "changeGiven" | "cashierId" | "createdAt" | "updatedAt" | "voidReason" | "voidedAt" | "voidedById" | "complimentaryReason", ExtArgs["result"]["sale"]>
 export type SaleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cashier?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voidedBy?: boolean | Prisma.Sale$voidedByArgs<ExtArgs>
@@ -1300,6 +1343,7 @@ export type $SalePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     voidReason: string | null
     voidedAt: Date | null
     voidedById: string | null
+    complimentaryReason: string | null
   }, ExtArgs["result"]["sale"]>
   composites: {}
 }
@@ -1742,6 +1786,7 @@ export interface SaleFieldRefs {
   readonly voidReason: Prisma.FieldRef<"Sale", 'String'>
   readonly voidedAt: Prisma.FieldRef<"Sale", 'DateTime'>
   readonly voidedById: Prisma.FieldRef<"Sale", 'String'>
+  readonly complimentaryReason: Prisma.FieldRef<"Sale", 'String'>
 }
     
 

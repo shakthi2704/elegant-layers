@@ -46,7 +46,8 @@ export async function createProduct(
     const product = await prisma.product.create({ data: parsed.data });
 
     revalidatePath("/products");
-    redirect(`/products/${product.id}/edit`);
+    // redirect(`/products/${product.id}/edit`);
+    redirect("/products");
 }
 
 export async function updateProduct(

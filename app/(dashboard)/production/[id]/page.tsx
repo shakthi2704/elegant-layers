@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatDateTime } from "@/lib/format";
+import { Badge } from "@/components/ui/badge";
+import { AddProductionIngredientsDialog } from "@/components/production/add-production-ingredients-dialog";
 import {
     Card,
     CardContent,
@@ -55,8 +57,20 @@ export default async function ProductionDetailPage({
     const componentsConsumed = consumed.filter(
         (txn) => txn.itemType === "PRODUCT"
     );
-
+    // For "Add forgotten ingredients": food ingredients only, with stock.
+    const ingredientOptions = (
+        await prisma.ingredient.findMany({
+            where: { kind: "INGREDIENT" },
+            orderBy: { name: "asc" },
+        })
+    ).map((i) => ({
+        id: i.id,
+        name: i.name,
+        unit: i.unit,
+        currentStock: i.currentStock.toNumber(),
+    }));
     return (
+
         <div className="space-y-6 px-6">
             {/* Production Details */}
             <Card className="max-w-2xl">
@@ -176,6 +190,19 @@ export default async function ProductionDetailPage({
                                     <TableRow key={txn.id}>
                                         <TableCell className="px-4 py-2.5 font-medium">
                                             {txn.ingredient?.name}
+                                            {txn.note && (
+                                                <>
+                                                    <Badge
+                                                        variant="outline"
+                                                        className="ml-2 text-muted-foreground"
+                                                    >
+                                                        Added later
+                                                    </Badge>
+                                                    <p className="mt-0.5 text-xs font-normal text-muted-foreground">
+                                                        {formatDateTime(txn.createdAt)}. {txn.note}
+                                                    </p>
+                                                </>
+                                            )}
                                         </TableCell>
 
                                         <TableCell className="px-4 py-2.5 text-right">
@@ -189,6 +216,16 @@ export default async function ProductionDetailPage({
                     </div>
                 </CardContent>
             </Card>
+            {/* Forgotten ingredients */}
+            <div className="flex max-w-2xl flex-wrap items-center justify-between gap-3 rounded-md border border-border px-4 py-3">
+                <p className="text-sm text-muted-foreground">
+                    Forgot an ingredient when this production was recorded?
+                </p>
+                <AddProductionIngredientsDialog
+                    productionId={production.id}
+                    ingredients={ingredientOptions}
+                />
+            </div>
 
             {/* Base Components Consumed */}
             {componentsConsumed.length > 0 && (

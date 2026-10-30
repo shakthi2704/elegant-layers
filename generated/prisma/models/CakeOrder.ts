@@ -29,11 +29,13 @@ export type AggregateCakeOrder = {
 export type CakeOrderAvgAggregateOutputType = {
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  discount: runtime.Decimal | null
 }
 
 export type CakeOrderSumAggregateOutputType = {
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  discount: runtime.Decimal | null
 }
 
 export type CakeOrderMinAggregateOutputType = {
@@ -50,6 +52,9 @@ export type CakeOrderMinAggregateOutputType = {
   status: $Enums.CakeOrderStatus | null
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  discount: runtime.Decimal | null
+  isComplimentary: boolean | null
+  complimentaryReason: string | null
   paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string | null
@@ -75,6 +80,9 @@ export type CakeOrderMaxAggregateOutputType = {
   status: $Enums.CakeOrderStatus | null
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  discount: runtime.Decimal | null
+  isComplimentary: boolean | null
+  complimentaryReason: string | null
   paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string | null
@@ -100,6 +108,9 @@ export type CakeOrderCountAggregateOutputType = {
   status: number
   price: number
   advancePaid: number
+  discount: number
+  isComplimentary: number
+  complimentaryReason: number
   paymentMethod: number
   notes: number
   createdById: number
@@ -116,11 +127,13 @@ export type CakeOrderCountAggregateOutputType = {
 export type CakeOrderAvgAggregateInputType = {
   price?: true
   advancePaid?: true
+  discount?: true
 }
 
 export type CakeOrderSumAggregateInputType = {
   price?: true
   advancePaid?: true
+  discount?: true
 }
 
 export type CakeOrderMinAggregateInputType = {
@@ -137,6 +150,9 @@ export type CakeOrderMinAggregateInputType = {
   status?: true
   price?: true
   advancePaid?: true
+  discount?: true
+  isComplimentary?: true
+  complimentaryReason?: true
   paymentMethod?: true
   notes?: true
   createdById?: true
@@ -162,6 +178,9 @@ export type CakeOrderMaxAggregateInputType = {
   status?: true
   price?: true
   advancePaid?: true
+  discount?: true
+  isComplimentary?: true
+  complimentaryReason?: true
   paymentMethod?: true
   notes?: true
   createdById?: true
@@ -187,6 +206,9 @@ export type CakeOrderCountAggregateInputType = {
   status?: true
   price?: true
   advancePaid?: true
+  discount?: true
+  isComplimentary?: true
+  complimentaryReason?: true
   paymentMethod?: true
   notes?: true
   createdById?: true
@@ -299,6 +321,9 @@ export type CakeOrderGroupByOutputType = {
   status: $Enums.CakeOrderStatus
   price: runtime.Decimal | null
   advancePaid: runtime.Decimal | null
+  discount: runtime.Decimal
+  isComplimentary: boolean
+  complimentaryReason: string | null
   paymentMethod: $Enums.PaymentMethod | null
   notes: string | null
   createdById: string
@@ -347,6 +372,9 @@ export type CakeOrderWhereInput = {
   status?: Prisma.EnumCakeOrderStatusFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFilter<"CakeOrder"> | boolean
+  complimentaryReason?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
@@ -375,6 +403,9 @@ export type CakeOrderOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   advancePaid?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount?: Prisma.SortOrder
+  isComplimentary?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -406,6 +437,9 @@ export type CakeOrderWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumCakeOrderStatusFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFilter<"CakeOrder"> | boolean
+  complimentaryReason?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
@@ -434,6 +468,9 @@ export type CakeOrderOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   advancePaid?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount?: Prisma.SortOrder
+  isComplimentary?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -467,6 +504,9 @@ export type CakeOrderScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumCakeOrderStatusWithAggregatesFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableWithAggregatesFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableWithAggregatesFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalWithAggregatesFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolWithAggregatesFilter<"CakeOrder"> | boolean
+  complimentaryReason?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableWithAggregatesFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
@@ -490,6 +530,9 @@ export type CakeOrderCreateInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
@@ -517,6 +560,9 @@ export type CakeOrderUncheckedCreateInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
@@ -540,6 +586,9 @@ export type CakeOrderUpdateInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -567,6 +616,9 @@ export type CakeOrderUncheckedUpdateInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -592,6 +644,9 @@ export type CakeOrderCreateManyInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
@@ -615,6 +670,9 @@ export type CakeOrderUpdateManyMutationInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -639,6 +697,9 @@ export type CakeOrderUncheckedUpdateManyInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -674,6 +735,9 @@ export type CakeOrderCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  discount?: Prisma.SortOrder
+  isComplimentary?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -688,6 +752,7 @@ export type CakeOrderCountOrderByAggregateInput = {
 export type CakeOrderAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  discount?: Prisma.SortOrder
 }
 
 export type CakeOrderMaxOrderByAggregateInput = {
@@ -704,6 +769,9 @@ export type CakeOrderMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  discount?: Prisma.SortOrder
+  isComplimentary?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -729,6 +797,9 @@ export type CakeOrderMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  discount?: Prisma.SortOrder
+  isComplimentary?: Prisma.SortOrder
+  complimentaryReason?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -743,6 +814,7 @@ export type CakeOrderMinOrderByAggregateInput = {
 export type CakeOrderSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
   advancePaid?: Prisma.SortOrder
+  discount?: Prisma.SortOrder
 }
 
 export type CakeOrderCreateNestedManyWithoutCreatedByInput = {
@@ -895,6 +967,9 @@ export type CakeOrderCreateWithoutCreatedByInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
@@ -921,6 +996,9 @@ export type CakeOrderUncheckedCreateWithoutCreatedByInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
@@ -974,6 +1052,9 @@ export type CakeOrderScalarWhereInput = {
   status?: Prisma.EnumCakeOrderStatusFilter<"CakeOrder"> | $Enums.CakeOrderStatus
   price?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.DecimalNullableFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFilter<"CakeOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFilter<"CakeOrder"> | boolean
+  complimentaryReason?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"CakeOrder"> | $Enums.PaymentMethod | null
   notes?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   createdById?: Prisma.StringFilter<"CakeOrder"> | string
@@ -997,6 +1078,9 @@ export type CakeOrderCreateWithoutProductInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
@@ -1022,6 +1106,9 @@ export type CakeOrderUncheckedCreateWithoutProductInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
@@ -1071,6 +1158,9 @@ export type CakeOrderCreateWithoutCustomerInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
@@ -1096,6 +1186,9 @@ export type CakeOrderUncheckedCreateWithoutCustomerInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
@@ -1147,6 +1240,9 @@ export type CakeOrderCreateManyCreatedByInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   advanceOutcome?: $Enums.AdvanceOutcome | null
@@ -1169,6 +1265,9 @@ export type CakeOrderUpdateWithoutCreatedByInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -1195,6 +1294,9 @@ export type CakeOrderUncheckedUpdateWithoutCreatedByInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -1219,6 +1321,9 @@ export type CakeOrderUncheckedUpdateManyWithoutCreatedByInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -1242,6 +1347,9 @@ export type CakeOrderCreateManyProductInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
@@ -1265,6 +1373,9 @@ export type CakeOrderUpdateWithoutProductInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -1290,6 +1401,9 @@ export type CakeOrderUncheckedUpdateWithoutProductInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1314,6 +1428,9 @@ export type CakeOrderUncheckedUpdateManyWithoutProductInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1338,6 +1455,9 @@ export type CakeOrderCreateManyCustomerInput = {
   status?: $Enums.CakeOrderStatus
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: boolean
+  complimentaryReason?: string | null
   paymentMethod?: $Enums.PaymentMethod | null
   notes?: string | null
   createdById: string
@@ -1361,6 +1481,9 @@ export type CakeOrderUpdateWithoutCustomerInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   advanceOutcome?: Prisma.NullableEnumAdvanceOutcomeFieldUpdateOperationsInput | $Enums.AdvanceOutcome | null
@@ -1386,6 +1509,9 @@ export type CakeOrderUncheckedUpdateWithoutCustomerInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1410,6 +1536,9 @@ export type CakeOrderUncheckedUpdateManyWithoutCustomerInput = {
   status?: Prisma.EnumCakeOrderStatusFieldUpdateOperationsInput | $Enums.CakeOrderStatus
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   advancePaid?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  isComplimentary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  complimentaryReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1437,6 +1566,9 @@ export type CakeOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  discount?: boolean
+  isComplimentary?: boolean
+  complimentaryReason?: boolean
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
@@ -1465,6 +1597,9 @@ export type CakeOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  discount?: boolean
+  isComplimentary?: boolean
+  complimentaryReason?: boolean
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
@@ -1493,6 +1628,9 @@ export type CakeOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  discount?: boolean
+  isComplimentary?: boolean
+  complimentaryReason?: boolean
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
@@ -1521,6 +1659,9 @@ export type CakeOrderSelectScalar = {
   status?: boolean
   price?: boolean
   advancePaid?: boolean
+  discount?: boolean
+  isComplimentary?: boolean
+  complimentaryReason?: boolean
   paymentMethod?: boolean
   notes?: boolean
   createdById?: boolean
@@ -1532,7 +1673,7 @@ export type CakeOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "cakeDiscardedAt" | "cakeDiscardReason" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
+export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "discount" | "isComplimentary" | "complimentaryReason" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "cakeDiscardedAt" | "cakeDiscardReason" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
 export type CakeOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   product?: boolean | Prisma.CakeOrder$productArgs<ExtArgs>
@@ -1570,6 +1711,9 @@ export type $CakeOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     status: $Enums.CakeOrderStatus
     price: runtime.Decimal | null
     advancePaid: runtime.Decimal | null
+    discount: runtime.Decimal
+    isComplimentary: boolean
+    complimentaryReason: string | null
     paymentMethod: $Enums.PaymentMethod | null
     notes: string | null
     createdById: string
@@ -2018,6 +2162,9 @@ export interface CakeOrderFieldRefs {
   readonly status: Prisma.FieldRef<"CakeOrder", 'CakeOrderStatus'>
   readonly price: Prisma.FieldRef<"CakeOrder", 'Decimal'>
   readonly advancePaid: Prisma.FieldRef<"CakeOrder", 'Decimal'>
+  readonly discount: Prisma.FieldRef<"CakeOrder", 'Decimal'>
+  readonly isComplimentary: Prisma.FieldRef<"CakeOrder", 'Boolean'>
+  readonly complimentaryReason: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly paymentMethod: Prisma.FieldRef<"CakeOrder", 'PaymentMethod'>
   readonly notes: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly createdById: Prisma.FieldRef<"CakeOrder", 'String'>

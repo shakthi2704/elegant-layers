@@ -18,6 +18,34 @@ const FORWARD_TRANSITIONS: Record<string, "IN_PROGRESS" | "READY" | "COLLECTED">
     IN_PROGRESS: "READY",
     READY: "COLLECTED",
 };
+/**
+ * The form asks for the price BEFORE discount. The database keeps what the
+ * customer pays in `price`, and the amount taken off in `discount`, so income,
+ * balances and bills all keep working unchanged. A complimentary order pays
+ * nothing: its price is 0 and `discount` holds the value given away.
+ */
+function pricing(data: {
+    price?: number;
+    discount?: number;
+    isComplimentary?: boolean;
+    complimentaryReason?: string;
+}) {
+    if (data.isComplimentary) {
+        return {
+            price: 0,
+            discount: data.price ?? 0,
+            isComplimentary: true,
+            complimentaryReason: data.complimentaryReason ?? null,
+        };
+    }
+    const discount = data.discount ?? 0;
+    return {
+        price: data.price === undefined ? undefined : data.price - discount,
+        discount,
+        isComplimentary: false,
+        complimentaryReason: null,
+    };
+}
 
 function parseFormData(formData: FormData) {
     const productId = formData.get("productId");
@@ -34,6 +62,10 @@ function parseFormData(formData: FormData) {
         imageUrl: formData.get("imageUrl") || undefined,
         pickupDate: formData.get("pickupDate"),
         pickupTime: formData.get("pickupTime"),
+        discount: formData.get("discount") || undefined,
+        // An unticked checkbox is simply absent from the form data.
+        isComplimentary: formData.get("isComplimentary") === "1",
+        complimentaryReason: formData.get("complimentaryReason") || undefined,
         price: formData.get("price") || undefined,
         advancePaid: formData.get("advancePaid") || undefined,
         paymentMethod: paymentMethod && paymentMethod !== "none" ? paymentMethod : undefined,
@@ -63,6 +95,7 @@ export async function createCakeOrder(
 
         return tx.cakeOrder.create({
             data: {
+                ...pricing(orderData),
                 ...orderData,
                 customerId: customer.id,
                 createdById: user.id,
@@ -105,6 +138,7 @@ export async function updateCakeOrder(
             create: { name: customerName, phone: customerPhone },
         });
 
+        const money = pricing(orderData);
         // Prisma treats `undefined` as "leave unchanged", so every optional
         // field is mapped to null explicitly; otherwise clearing a field in
         // the form (e.g. removing the photo) would silently do nothing.
@@ -120,7 +154,10 @@ export async function updateCakeOrder(
                 imageUrl: orderData.imageUrl ?? null,
                 pickupDate: orderData.pickupDate,
                 pickupTime: orderData.pickupTime,
-                price: orderData.price ?? null,
+                price: money.price ?? null,
+                discount: money.discount,
+                isComplimentary: money.isComplimentary,
+                complimentaryReason: money.complimentaryReason,
                 advancePaid: orderData.advancePaid ?? null,
                 paymentMethod: orderData.paymentMethod ?? null,
                 notes: orderData.notes ?? null,

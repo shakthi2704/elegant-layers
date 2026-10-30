@@ -193,7 +193,9 @@ export default async function CakeOrdersPage({
 
                   <TableCell>
                     {order.price
-                      ? `Rs. ${Number(order.price).toLocaleString("en-LK")}`
+                      ? order.isComplimentary
+                        ? "Complimentary"
+                        : `Rs. ${Number(order.price).toLocaleString("en-LK")}`
                       : "—"}
                   </TableCell>
 

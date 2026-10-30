@@ -334,7 +334,8 @@ export const SaleScalarFieldEnum = {
   updatedAt: 'updatedAt',
   voidReason: 'voidReason',
   voidedAt: 'voidedAt',
-  voidedById: 'voidedById'
+  voidedById: 'voidedById',
+  complimentaryReason: 'complimentaryReason'
 } as const
 
 export type SaleScalarFieldEnum = (typeof SaleScalarFieldEnum)[keyof typeof SaleScalarFieldEnum]
@@ -347,7 +348,8 @@ export const SaleItemScalarFieldEnum = {
   quantity: 'quantity',
   unitPrice: 'unitPrice',
   discount: 'discount',
-  subtotal: 'subtotal'
+  subtotal: 'subtotal',
+  isComplimentary: 'isComplimentary'
 } as const
 
 export type SaleItemScalarFieldEnum = (typeof SaleItemScalarFieldEnum)[keyof typeof SaleItemScalarFieldEnum]
@@ -377,6 +379,9 @@ export const CakeOrderScalarFieldEnum = {
   status: 'status',
   price: 'price',
   advancePaid: 'advancePaid',
+  discount: 'discount',
+  isComplimentary: 'isComplimentary',
+  complimentaryReason: 'complimentaryReason',
   paymentMethod: 'paymentMethod',
   notes: 'notes',
   createdById: 'createdById',

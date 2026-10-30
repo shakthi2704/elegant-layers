@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireRole } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
+import { Badge } from "@/components/ui/badge";
 import { TablePagination } from "@/components/layout/table-pagination";
 import { PAGE_SIZE, clampPage, parsePage } from "@/lib/pagination";
 import { Button } from "@/components/ui/button";
@@ -84,7 +85,10 @@ export default async function ProductionPage({
             {productions.map((production) => {
               const lines = production.items.map(
                 (item) =>
-                  `${item.product.name} (${item.quantityProduced.toString()})`
+                ({
+                  text: `${item.product.name} (${item.quantityProduced.toString()})`,
+                  inactive: item.product.status === "INACTIVE",
+                })
               );
 
               return (
@@ -95,7 +99,17 @@ export default async function ProductionPage({
 
                   <TableCell className="px-4 py-2.5 font-medium">
                     {lines.map((line, i) => (
-                      <div key={i}>{line}</div>
+                      <div key={i}>
+                        {line.text}
+                        {line.inactive && (
+                          <Badge
+                            variant="outline"
+                            className="ml-2 px-1.5 py-0 text-[10px] font-normal text-muted-foreground"
+                          >
+                            Inactive
+                          </Badge>
+                        )}
+                      </div>
                     ))}
                   </TableCell>
 

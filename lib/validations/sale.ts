@@ -1,13 +1,20 @@
 import { z } from "zod";
 
-export const saleItemSchema = z.object({
-    productId: z.string().min(1, "Select a product"),
-    quantity: z.coerce
-        .number({ message: "Quantity is required" })
-        .positive("Quantity must be greater than 0"),
-    unitPrice: z.coerce.number({ message: "Price is required" }).min(0),
-    discount: z.coerce.number().min(0).default(0),
-});
+export const saleItemSchema = z
+    .object({
+        productId: z.string().min(1, "Select a product"),
+        quantity: z.coerce
+            .number({ message: "Quantity is required" })
+            .positive("Quantity must be greater than 0"),
+        unitPrice: z.coerce.number({ message: "Price is required" }).min(0),
+        discount: z.coerce.number().min(0).default(0),
+        // How many of the units on this line are given free (complimentary).
+        freeQuantity: z.coerce.number().min(0).default(0),
+    })
+    .refine((item) => item.freeQuantity <= item.quantity, {
+        message: "Free quantity can't be more than the quantity",
+        path: ["freeQuantity"],
+    });
 
 const saleBaseSchema = z.object({
     type: z.enum(["DINE_IN", "TAKEAWAY"], {
@@ -15,6 +22,7 @@ const saleBaseSchema = z.object({
     }),
     discount: z.coerce.number().min(0).default(0),
     items: z.array(saleItemSchema).min(1, "Add at least one item to the bill"),
+    complimentaryReason: z.string().trim().max(200).optional(),
 });
 
 export const holdSaleSchema = saleBaseSchema.extend({

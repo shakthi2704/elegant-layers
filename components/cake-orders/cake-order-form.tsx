@@ -40,6 +40,9 @@ type CakeOrderFormValues = {
     pickupTime: string;
     price: number | string | null;
     advancePaid: number | string | null;
+    discount: number | string | null;
+    isComplimentary: boolean;
+    complimentaryReason: string | null;
     paymentMethod: string | null;
     notes: string | null;
 };
@@ -61,6 +64,19 @@ export function CakeOrderForm({
     submitLabel: string;
 }) {
     const [state, formAction, pending] = useActionState(action, {});
+
+    // Kept in state so the "amount to pay" line updates as the owner types.
+    const [price, setPrice] = useState(String(defaultValues?.price ?? ""));
+    const [discount, setDiscount] = useState(String(defaultValues?.discount ?? ""));
+    const [isComplimentary, setIsComplimentary] = useState(
+        defaultValues?.isComplimentary ?? false
+    );
+    const [complimentaryReason, setComplimentaryReason] = useState(
+        defaultValues?.complimentaryReason ?? ""
+    );
+    const grossPrice = Number(price) || 0;
+    const discountAmount = isComplimentary ? grossPrice : Number(discount) || 0;
+    const toPay = Math.max(0, grossPrice - discountAmount);
 
     const [imageUrl, setImageUrl] = useState<string | null>(
         defaultValues?.imageUrl ?? null
@@ -346,7 +362,8 @@ export function CakeOrderForm({
                                 type="number"
                                 step="0.01"
                                 min="0"
-                                defaultValue={defaultValues?.price ?? ""}
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
                             />
 
                             {state.fieldErrors?.price && (
@@ -427,6 +444,101 @@ export function CakeOrderForm({
                         )}
                     </div>
 
+                    {/* Discount and complimentary */}
+                    <div className="space-y-4 rounded-md border border-border p-4">
+                        <div>
+                            <h3 className="text-sm font-medium">
+                                Discount or complimentary
+                            </h3>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Optional. The price above is the price before any
+                                discount.
+                            </p>
+                        </div>
+
+                        <label className="flex items-start gap-2 text-sm">
+                            <input
+                                type="checkbox"
+                                name="isComplimentary"
+                                value="1"
+                                checked={isComplimentary}
+                                onChange={(e) => setIsComplimentary(e.target.checked)}
+                                className="mt-1"
+                            />
+                            <span>
+                                <span className="font-medium">
+                                    This cake is complimentary (free)
+                                </span>
+                                <br />
+                                <span className="text-muted-foreground">
+                                    The customer pays nothing and the price above is
+                                    recorded as the value given away. Ingredients are
+                                    still taken off stock.
+                                </span>
+                            </span>
+                        </label>
+
+                        {isComplimentary ? (
+                            <div className="space-y-2">
+                                <Label htmlFor="complimentaryReason">Reason</Label>
+                                <Input
+                                    id="complimentaryReason"
+                                    name="complimentaryReason"
+                                    list="cake-complimentary-reasons"
+                                    value={complimentaryReason}
+                                    onChange={(e) =>
+                                        setComplimentaryReason(e.target.value)
+                                    }
+                                    maxLength={200}
+                                    placeholder="e.g. Customer gift"
+                                />
+                                <datalist id="cake-complimentary-reasons">
+                                    <option value="Customer gift" />
+                                    <option value="Staff order" />
+                                    <option value="Sample / tasting" />
+                                    <option value="Owner's order" />
+                                </datalist>
+                                {state.fieldErrors?.complimentaryReason && (
+                                    <p className="text-sm text-destructive">
+                                        {state.fieldErrors.complimentaryReason[0]}
+                                    </p>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <Label htmlFor="discount">Discount (Rs.)</Label>
+                                <Input
+                                    id="discount"
+                                    name="discount"
+                                    type="number"
+                                    step="0.01"
+                                    min="0"
+                                    value={discount}
+                                    onChange={(e) => setDiscount(e.target.value)}
+                                />
+                                {state.fieldErrors?.discount && (
+                                    <p className="text-sm text-destructive">
+                                        {state.fieldErrors.discount[0]}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+
+                        {grossPrice > 0 && discountAmount > 0 && (
+                            <div className="flex justify-between border-t border-border pt-3 text-sm">
+                                <span className="text-muted-foreground">
+                                    Amount to pay
+                                </span>
+                                <span className="font-medium">
+                                    Rs.{" "}
+                                    {toPay.toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
+                                </span>
+                            </div>
+                        )}
+                    </div>
                     {/* Notes */}
                     <div className="space-y-2">
                         <Label htmlFor="notes">Notes</Label>

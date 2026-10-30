@@ -241,6 +241,54 @@ export default async function CakeOrderDetailPage({
                                             </dd>
                                         </>
                                     )}
+                                    {order.isComplimentary && (
+                                        <>
+                                            <dt className="text-muted-foreground">
+                                                Complimentary
+                                            </dt>
+                                            <dd className="text-right">
+                                                Rs.{" "}
+                                                {Number(order.discount).toLocaleString(
+                                                    "en-US",
+                                                    {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                    }
+                                                )}{" "}
+                                                given free
+                                                {order.complimentaryReason &&
+                                                    ` (${order.complimentaryReason})`}
+                                            </dd>
+                                        </>
+                                    )}
+
+                                    {!order.isComplimentary &&
+                                        Number(order.discount) > 0 && (
+                                            <>
+                                                <dt className="text-muted-foreground">
+                                                    Discount given
+                                                </dt>
+                                                <dd className="text-right">
+                                                    Rs.{" "}
+                                                    {Number(order.discount).toLocaleString(
+                                                        "en-US",
+                                                        {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2,
+                                                        }
+                                                    )}{" "}
+                                                    (price was Rs.{" "}
+                                                    {(
+                                                        Number(order.price) +
+                                                        Number(order.discount)
+                                                    ).toLocaleString("en-US", {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                    })}
+                                                    )
+                                                </dd>
+                                            </>
+                                        )}
 
                                     {order.advancePaid && (
                                         <>

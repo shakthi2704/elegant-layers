@@ -18,17 +18,20 @@ function parseSaleFormData(formData: FormData) {
     const quantities = formData.getAll("quantity");
     const unitPrices = formData.getAll("unitPrice");
     const discounts = formData.getAll("discount");
+    const freeQuantities = formData.getAll("freeQuantity");
 
     return {
         type: formData.get("type"),
         holdLabel: formData.get("holdLabel"),
         cashReceived: formData.get("cashReceived"),
-        discount: formData.get("discount") || 0,
+        discount: formData.get("billDiscount") || 0,
+        complimentaryReason: formData.get("complimentaryReason") || undefined,
         items: productIds.map((productId, index) => ({
             productId,
             quantity: quantities[index],
             unitPrice: unitPrices[index],
             discount: discounts[index] ?? 0,
+            freeQuantity: freeQuantities[index] ?? 0,
         })),
     };
 }
@@ -42,6 +45,55 @@ function calculateTotals(
         0
     );
     return { subtotal, total: subtotal - saleDiscount };
+}
+
+type ParsedLine = {
+    productId: string;
+    quantity: number;
+    unitPrice: number;
+    discount: number;
+    freeQuantity: number;
+};
+
+type SaleRow = {
+    productId: string;
+    quantity: number;
+    unitPrice: number;
+    discount: number;
+    isComplimentary: boolean;
+};
+
+/**
+ * One bill line can hold both paid and free units. It is saved as up to two
+ * rows: a paid row, and a complimentary row whose discount equals its full
+ * price (so the totals maths stays exactly the same). Stock still moves for
+ * both, because the item physically leaves either way.
+ */
+function expandFreeLines(items: ParsedLine[]): SaleRow[] {
+    const rows: SaleRow[] = [];
+    for (const item of items) {
+        const free = Math.min(item.freeQuantity, item.quantity);
+        const paid = Math.round((item.quantity - free) * 1000) / 1000;
+        if (paid > 0) {
+            rows.push({
+                productId: item.productId,
+                quantity: paid,
+                unitPrice: item.unitPrice,
+                discount: item.discount,
+                isComplimentary: false,
+            });
+        }
+        if (free > 0) {
+            rows.push({
+                productId: item.productId,
+                quantity: free,
+                unitPrice: item.unitPrice,
+                discount: Math.round(free * item.unitPrice * 100) / 100,
+                isComplimentary: true,
+            });
+        }
+    }
+    return rows;
 }
 
 async function generateSaleNumber(tx: Prisma.TransactionClient) {
@@ -134,7 +186,15 @@ export async function holdSale(
         return { fieldErrors: parsed.error.flatten().fieldErrors };
     }
 
-    const { type, holdLabel, discount, items } = parsed.data;
+    const { type, holdLabel, discount, complimentaryReason } = parsed.data;
+    const items = expandFreeLines(parsed.data.items);
+    if (discount > calculateTotals(items, 0).subtotal + 0.005) {
+        return { error: "The discount can't be more than the bill total." };
+    }
+    // The reason is only saved when something on the bill is free.
+    const reasonToSave = items.some((i) => i.isComplimentary)
+        ? complimentaryReason?.trim() || null
+        : null;
     const { subtotal, total } = calculateTotals(items, discount);
 
     await prisma.$transaction(async (tx) => {
@@ -152,12 +212,14 @@ export async function holdSale(
                     subtotal,
                     discount,
                     total,
+                    complimentaryReason: reasonToSave,
                     items: {
                         create: items.map((item) => ({
                             productId: item.productId,
                             quantity: item.quantity,
                             unitPrice: item.unitPrice,
                             discount: item.discount,
+                            isComplimentary: item.isComplimentary,
                             subtotal: item.quantity * item.unitPrice - item.discount,
                         })),
                     },
@@ -176,6 +238,7 @@ export async function holdSale(
                 subtotal,
                 discount,
                 total,
+                complimentaryReason: reasonToSave,
                 cashierId: user.id,
                 items: {
                     create: items.map((item) => ({
@@ -183,6 +246,7 @@ export async function holdSale(
                         quantity: item.quantity,
                         unitPrice: item.unitPrice,
                         discount: item.discount,
+                        isComplimentary: item.isComplimentary,
                         subtotal: item.quantity * item.unitPrice - item.discount,
                     })),
                 },
@@ -207,7 +271,17 @@ export async function completeSale(
         return { fieldErrors: parsed.error.flatten().fieldErrors };
     }
 
-    const { type, discount, items, cashReceived } = parsed.data;
+    const { type, discount, cashReceived, complimentaryReason } = parsed.data;
+    const items = expandFreeLines(parsed.data.items);
+    if (discount > calculateTotals(items, 0).subtotal + 0.005) {
+        return { error: "The discount can't be more than the bill total." };
+    }
+    // Free items need a reason before the bill can be completed.
+    const hasFree = items.some((i) => i.isComplimentary);
+    if (hasFree && (complimentaryReason?.trim().length ?? 0) < 3) {
+        return { error: "Please give a reason for the complimentary items." };
+    }
+    const reasonToSave = hasFree ? complimentaryReason?.trim() || null : null;
     const { subtotal, total } = calculateTotals(items, discount);
 
     if (cashReceived < total) {
@@ -256,6 +330,7 @@ export async function completeSale(
                         subtotal,
                         discount,
                         total,
+                        complimentaryReason: reasonToSave,
                         cashReceived,
                         changeGiven,
                         items: {
@@ -264,6 +339,7 @@ export async function completeSale(
                                 quantity: item.quantity,
                                 unitPrice: item.unitPrice,
                                 discount: item.discount,
+                                isComplimentary: item.isComplimentary,
                                 subtotal: item.quantity * item.unitPrice - item.discount,
                             })),
                         },
@@ -279,6 +355,7 @@ export async function completeSale(
                         subtotal,
                         discount,
                         total,
+                        complimentaryReason: reasonToSave,
                         cashReceived,
                         changeGiven,
                         cashierId: user.id,
@@ -288,6 +365,7 @@ export async function completeSale(
                                 quantity: item.quantity,
                                 unitPrice: item.unitPrice,
                                 discount: item.discount,
+                                isComplimentary: item.isComplimentary,
                                 subtotal: item.quantity * item.unitPrice - item.discount,
                             })),
                         },

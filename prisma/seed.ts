@@ -10,7 +10,6 @@ const prisma = new PrismaClient({ adapter });
 const CATEGORIES = [
     "Whole Cakes",
     "Cake Pieces",
-    "Cake Slices",
     "Tea",
     "Coffee",
     "Soft Drinks",

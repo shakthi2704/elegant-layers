@@ -323,9 +323,38 @@ export type ProductSalesRow = {
     productId: string;
     name: string;
     unit: string;
+    /** Everything that left the shop: paid units plus complimentary ones. */
     quantity: number;
+    /** Units given away free (complimentary). */
+    freeQuantity: number;
+    /** What the free units would have cost at the selling price. */
+    freeValue: number;
     /** Sum of line subtotals (already after any per-item discount). */
     revenue: number;
+};
+
+export type ComplimentaryBill = {
+    saleId: string;
+    saleNumber: string;
+    reason: string;
+    value: number;
+    date: Date;
+};
+
+export type CakeOrderGiveaways = {
+    /** Discounts given on cake orders placed in the period (not cancelled). */
+    discountTotal: number;
+    discountOrders: number;
+    /** Free cake orders placed in the period (not cancelled). */
+    complimentaryValue: number;
+    complimentaryOrders: {
+        id: string;
+        cakeName: string;
+        customerName: string;
+        reason: string;
+        value: number;
+        date: Date;
+    }[];
 };
 
 export type ProductSalesResult = {
@@ -340,57 +369,121 @@ export type ProductSalesResult = {
         /** What the bills actually brought in: itemRevenue - billDiscounts. */
         posTotal: number;
         billCount: number;
+        /** Value of everything given away free on POS bills. */
+        complimentaryValue: number;
     };
+    /** POS bills with free items, newest first. */
+    complimentaryBills: ComplimentaryBill[];
+    /** Cake orders are listed separately: they have no product lines. */
+    cakeOrders: CakeOrderGiveaways;
 };
 
 /**
  * Completed POS bills only (same completion-time rule as everywhere else).
- * Cake orders have no product lines, so they are not part of this report.
+ * Cake orders have no product lines, so their discounts and free orders are
+ * reported in their own block, by the day the order was placed.
  */
 export async function getProductSales(
     period: ReportPeriod
 ): Promise<ProductSalesResult> {
+    const range = {
+        gte: colomboDayStart(period.from),
+        lte: colomboDayEnd(period.to),
+    };
     const saleWhere = {
         status: "COMPLETED",
-        updatedAt: {
-            gte: colomboDayStart(period.from),
-            lte: colomboDayEnd(period.to),
-        },
+        updatedAt: range,
     } satisfies Prisma.SaleWhereInput;
+    const orderWhere = {
+        status: { not: "CANCELLED" },
+        createdAt: range,
+    } satisfies Prisma.CakeOrderWhereInput;
 
-    const [groups, saleAgg] = await Promise.all([
-        prisma.saleItem.groupBy({
-            by: ["productId"],
-            where: { sale: saleWhere },
-            _sum: { quantity: true, subtotal: true },
-        }),
-        prisma.sale.aggregate({
-            where: saleWhere,
-            _sum: { discount: true, total: true },
-            _count: { _all: true },
-        }),
-    ]);
+    const [groups, freeGroups, saleAgg, freeBills, discountAgg, freeOrders] =
+        await Promise.all([
+            prisma.saleItem.groupBy({
+                by: ["productId"],
+                where: { sale: saleWhere },
+                _sum: { quantity: true, subtotal: true },
+            }),
+            // Complimentary rows keep their full price in `discount`.
+            prisma.saleItem.groupBy({
+                by: ["productId"],
+                where: { sale: saleWhere, isComplimentary: true },
+                _sum: { quantity: true, discount: true },
+            }),
+            prisma.sale.aggregate({
+                where: saleWhere,
+                _sum: { discount: true, total: true },
+                _count: { _all: true },
+            }),
+            prisma.sale.findMany({
+                where: {
+                    ...saleWhere,
+                    items: { some: { isComplimentary: true } },
+                },
+                select: {
+                    id: true,
+                    saleNumber: true,
+                    complimentaryReason: true,
+                    updatedAt: true,
+                    items: {
+                        where: { isComplimentary: true },
+                        select: { discount: true },
+                    },
+                },
+                orderBy: { updatedAt: "desc" },
+            }),
+            prisma.cakeOrder.aggregate({
+                where: {
+                    ...orderWhere,
+                    isComplimentary: false,
+                    discount: { gt: 0 },
+                },
+                _sum: { discount: true },
+                _count: { _all: true },
+            }),
+            prisma.cakeOrder.findMany({
+                where: { ...orderWhere, isComplimentary: true },
+                select: {
+                    id: true,
+                    cakeName: true,
+                    complimentaryReason: true,
+                    discount: true,
+                    createdAt: true,
+                    customer: { select: { name: true } },
+                },
+                orderBy: { createdAt: "desc" },
+            }),
+        ]);
 
     const products = await prisma.product.findMany({
         where: { id: { in: groups.map((g) => g.productId) } },
         select: { id: true, name: true, unit: true },
     });
     const productById = new Map(products.map((p) => [p.id, p]));
+    const freeByProduct = new Map(freeGroups.map((g) => [g.productId, g]));
 
     const rows: ProductSalesRow[] = groups
         .map((g) => {
             const product = productById.get(g.productId);
+            const free = freeByProduct.get(g.productId);
             return {
                 productId: g.productId,
                 name: product?.name ?? "Unknown product",
                 unit: product?.unit ?? "PCS",
                 quantity: g._sum.quantity?.toNumber() ?? 0,
+                freeQuantity: free?._sum.quantity?.toNumber() ?? 0,
+                freeValue: round2(free?._sum.discount?.toNumber() ?? 0),
                 revenue: round2(g._sum.subtotal?.toNumber() ?? 0),
             };
         })
         .sort((a, b) => b.revenue - a.revenue);
 
     const itemRevenue = round2(rows.reduce((s, r) => s + r.revenue, 0));
+    const complimentaryValue = round2(
+        rows.reduce((s, r) => s + r.freeValue, 0)
+    );
 
     return {
         period,
@@ -400,6 +493,31 @@ export async function getProductSales(
             billDiscounts: round2(saleAgg._sum.discount?.toNumber() ?? 0),
             posTotal: round2(saleAgg._sum.total?.toNumber() ?? 0),
             billCount: saleAgg._count._all,
+            complimentaryValue,
+        },
+        complimentaryBills: freeBills.map((b) => ({
+            saleId: b.id,
+            saleNumber: b.saleNumber,
+            reason: b.complimentaryReason ?? "No reason recorded",
+            value: round2(
+                b.items.reduce((s, i) => s + i.discount.toNumber(), 0)
+            ),
+            date: b.updatedAt,
+        })),
+        cakeOrders: {
+            discountTotal: round2(discountAgg._sum.discount?.toNumber() ?? 0),
+            discountOrders: discountAgg._count._all,
+            complimentaryValue: round2(
+                freeOrders.reduce((s, o) => s + o.discount.toNumber(), 0)
+            ),
+            complimentaryOrders: freeOrders.map((o) => ({
+                id: o.id,
+                cakeName: o.cakeName,
+                customerName: o.customer.name,
+                reason: o.complimentaryReason ?? "No reason recorded",
+                value: round2(o.discount.toNumber()),
+                date: o.createdAt,
+            })),
         },
     };
 }

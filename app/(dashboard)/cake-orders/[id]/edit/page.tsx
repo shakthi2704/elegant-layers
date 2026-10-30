@@ -77,7 +77,16 @@ export default async function EditCakeOrderPage({
                     // stored as UTC midnight, so the ISO date is the date that was entered
                     pickupDate: order.pickupDate.toISOString().slice(0, 10),
                     pickupTime: order.pickupTime,
-                    price: order.price?.toString() ?? null,
+                    // The form shows the price before discount; the database
+                    // keeps what the customer pays.
+                    price:
+                        order.price === null
+                            ? null
+                            : (order.price.toNumber() + order.discount.toNumber()).toString(),
+                    discount:
+                        order.discount.toNumber() > 0 ? order.discount.toString() : null,
+                    isComplimentary: order.isComplimentary,
+                    complimentaryReason: order.complimentaryReason,
                     advancePaid: order.advancePaid?.toString() ?? null,
                     paymentMethod: order.paymentMethod,
                     notes: order.notes,

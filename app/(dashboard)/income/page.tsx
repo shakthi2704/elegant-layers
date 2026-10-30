@@ -73,11 +73,14 @@ export default async function IncomePage({
                     </p>
                 </div>
             </Card>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <TotalCard title="Total income" value={income.totals.total} strong />
                 <TotalCard title="POS bills" value={income.totals.pos} />
-                <TotalCard title="Cake order advances" value={income.totals.cakeAdvance} />
-                <TotalCard title="Cake order balances" value={income.totals.cakeBalance} />
+                <TotalCard
+                    title="Cake orders"
+                    value={income.totals.cakeAdvance + income.totals.cakeBalance}
+                />
+
             </div>
 
             {showHeldNote && (

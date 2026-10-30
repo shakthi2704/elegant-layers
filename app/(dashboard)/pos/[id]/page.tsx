@@ -67,12 +67,15 @@ export default async function SaleDetailPage({
                         id: sale.id,
                         type: sale.type,
                         holdLabel: sale.holdLabel,
+                        discount: sale.discount.toNumber(),
+                        complimentaryReason: sale.complimentaryReason,
                         items: sale.items.map((item) => ({
                             productId: item.productId,
                             name: item.product.name,
                             unitPrice: item.unitPrice.toNumber(),
                             unit: item.product.unit,
                             quantity: item.quantity.toNumber(),
+                            isComplimentary: item.isComplimentary,
                         })),
                     }}
                 />
@@ -129,6 +132,11 @@ export default async function SaleDetailPage({
                             <tr key={item.id} className="print:text-black">
                                 <td className="px-4 py-2 print:px-1 print:py-1">
                                     {item.product.name}
+                                    {item.isComplimentary && (
+                                        <span className="ml-1 text-xs text-muted-foreground print:text-black">
+                                            (Complimentary)
+                                        </span>
+                                    )}
                                 </td>
 
                                 <td className="px-4 py-2 text-right print:px-1 print:py-1">
@@ -168,6 +176,21 @@ export default async function SaleDetailPage({
                         })}
                     </span>
                 </div>
+                {Number(sale.discount) > 0 && (
+                    <div className="flex justify-between">
+                        <span className="text-muted-foreground print:text-black">
+                            Discount
+                        </span>
+                        <span className="print:text-black">
+                            (Rs.{" "}
+                            {Number(sale.discount).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })}
+                            )
+                        </span>
+                    </div>
+                )}
 
                 <div className="flex justify-between text-lg font-semibold print:text-sm">
                     <span className="print:text-black">Total</span>
@@ -179,6 +202,13 @@ export default async function SaleDetailPage({
                         })}
                     </span>
                 </div>
+
+                {sale.complimentaryReason && (
+                    <div className="flex justify-between text-muted-foreground print:hidden">
+                        <span>Complimentary reason</span>
+                        <span>{sale.complimentaryReason}</span>
+                    </div>
+                )}
 
                 {sale.cashReceived && (
                     <>

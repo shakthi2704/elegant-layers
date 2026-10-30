@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/require-role";
 import { productionSchema } from "@/lib/validations/production";
+import { addProductionIngredientsSchema } from "@/lib/validations/production-extra";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 
 function parseFormData(formData: FormData) {
@@ -206,4 +207,149 @@ export async function createProduction(
     revalidatePath("/ingredients");
     revalidatePath("/products");
     redirect(`/production/${productionId}`);
+}
+
+// ---------------------------------------------------------------------------
+// Add ingredients that were forgotten when a production run was recorded.
+// A production record can never be edited, so the missing amounts are added
+// as extra stock movements tied to the same run, each with its reason.
+// ---------------------------------------------------------------------------
+
+class AddIngredientsError extends Error { }
+
+const INGREDIENT_UNIT_LABELS: Record<string, string> = {
+    KG: "kg",
+    G: "g",
+    L: "L",
+    ML: "ml",
+    PCS: "pcs",
+};
+
+export async function addProductionIngredients(
+    productionId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    const user = await requireRole(["ADMIN"]);
+
+    // One FormData entry per row for each field, so the two lists line up.
+    const ingredientIds = formData.getAll("ingredientId").map(String);
+    const quantities = formData.getAll("quantity").map(String);
+    if (ingredientIds.length !== quantities.length) {
+        return {
+            error: "The ingredient list was not sent correctly. Please try again.",
+        };
+    }
+
+    // Blank rows are ignored; the row number is kept so an error can say
+    // which row needs fixing.
+    const rows = ingredientIds
+        .map((ingredientId, index) => ({
+            row: index + 1,
+            ingredientId: ingredientId.trim(),
+            quantity: quantities[index].trim(),
+        }))
+        .filter((r) => r.ingredientId !== "" || r.quantity !== "");
+
+    const parsed = addProductionIngredientsSchema.safeParse({
+        reason: formData.get("reason") ?? "",
+        items: rows.map(({ ingredientId, quantity }) => ({
+            ingredientId,
+            quantity,
+        })),
+    });
+    if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        if (issue.path[0] === "reason") {
+            return { fieldErrors: { reason: [issue.message] } };
+        }
+        const index = issue.path[1];
+        const rowNumber =
+            issue.path[0] === "items" && typeof index === "number"
+                ? rows[index]?.row
+                : undefined;
+        return {
+            error: rowNumber ? `Row ${rowNumber}: ${issue.message}` : issue.message,
+        };
+    }
+
+    const { reason, items } = parsed.data;
+
+    // The same ingredient on two rows is added together.
+    const needed = new Map<string, number>();
+    for (const item of items) {
+        needed.set(
+            item.ingredientId,
+            Math.round(((needed.get(item.ingredientId) ?? 0) + item.quantity) * 1000) / 1000
+        );
+    }
+    // A fixed order means two people working at once can't block each other.
+    const lines = [...needed.entries()].sort(([a], [b]) => a.localeCompare(b));
+
+    const production = await prisma.production.findUnique({
+        where: { id: productionId },
+        select: { id: true },
+    });
+    if (!production) {
+        return { error: "Production record not found." };
+    }
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            for (const [ingredientId, quantity] of lines) {
+                // Only deduct if enough is in stock; otherwise nothing happens.
+                const result = await tx.ingredient.updateMany({
+                    where: { id: ingredientId, currentStock: { gte: quantity } },
+                    data: { currentStock: { decrement: quantity } },
+                });
+
+                if (result.count === 0) {
+                    const ingredient = await tx.ingredient.findUnique({
+                        where: { id: ingredientId },
+                        select: { name: true, unit: true, currentStock: true },
+                    });
+                    if (!ingredient) {
+                        throw new AddIngredientsError(
+                            "An ingredient in the list no longer exists. Remove it and try again."
+                        );
+                    }
+                    const unit = INGREDIENT_UNIT_LABELS[ingredient.unit] ?? ingredient.unit;
+                    throw new AddIngredientsError(
+                        `Not enough "${ingredient.name}": ${quantity} ${unit} needed, ${ingredient.currentStock.toString()} ${unit} in stock.`
+                    );
+                }
+
+                const after = await tx.ingredient.findUniqueOrThrow({
+                    where: { id: ingredientId },
+                    select: { currentStock: true },
+                });
+
+                await tx.inventoryTransaction.create({
+                    data: {
+                        itemType: "INGREDIENT",
+                        ingredientId,
+                        type: "PRODUCTION_OUT",
+                        quantity: -quantity,
+                        balanceAfter: after.currentStock,
+                        referenceType: "PRODUCTION",
+                        referenceId: productionId,
+                        note: `Added after production: ${reason}`,
+                        createdById: user.id,
+                    },
+                });
+            }
+        });
+    } catch (err) {
+        if (err instanceof AddIngredientsError) {
+            return { error: err.message };
+        }
+        throw err;
+    }
+
+    revalidatePath(`/production/${productionId}`);
+    revalidatePath("/production");
+    revalidatePath("/ingredients");
+    revalidatePath("/inventory");
+    revalidatePath("/dashboard");
+    return { success: true };
 }

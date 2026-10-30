@@ -87,6 +87,7 @@ export default async function CakeOrderBillPage({
 
     const price = order.price.toNumber();
     const advance = order.advancePaid ? order.advancePaid.toNumber() : 0;
+    const discount = order.discount.toNumber();
     const remaining = price - advance;
     const billNumber = order.id.slice(-8).toUpperCase();
 
@@ -176,9 +177,23 @@ export default async function CakeOrderBillPage({
                 {/* Totals */}
                 <div className="ml-auto w-full max-w-xs space-y-2">
                     <div className="flex justify-between">
-                        <span>Total Price</span>
-                        <span>{money(price)}</span>
+                        <span>{discount > 0 ? "Price" : "Total Price"}</span>
+                        <span>{money(discount > 0 ? price + discount : price)}</span>
                     </div>
+                    {discount > 0 && (
+                        <>
+                            <div className="flex justify-between">
+                                <span>
+                                    {order.isComplimentary ? "Complimentary" : "Discount"}
+                                </span>
+                                <span>- {money(discount)}</span>
+                            </div>
+                            <div className="flex justify-between border-t border-black pt-2">
+                                <span>Total Price</span>
+                                <span>{money(price)}</span>
+                            </div>
+                        </>
+                    )}
 
                     {advance > 0 && (
                         <div className="flex justify-between">
