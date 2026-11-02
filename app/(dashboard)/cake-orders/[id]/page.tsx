@@ -464,6 +464,19 @@ export default async function CakeOrderDetailPage({
                                     </Button>
                                 )}
 
+                                {order.status !== "CANCELLED" && (
+                                    <Button
+                                        variant="outline"
+                                        nativeButton={false}
+                                        render={
+                                            <Link
+                                                href={`/cake-orders/${order.id}/receipt`}
+                                            />
+                                        }
+                                    >
+                                        Receipt (80mm)
+                                    </Button>
+                                )}
                                 <CakeOrderStatusActions
                                     orderId={order.id}
                                     status={order.status}

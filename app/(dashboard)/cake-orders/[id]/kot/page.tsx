@@ -26,7 +26,7 @@ export default async function CakeOrderKotPage({
     const ticketNumber = order.id.slice(-8).toUpperCase();
 
     return (
-        <div className="max-w-sm space-y-4 font-mono text-sm text-foreground print:max-w-none print:bg-white print:text-[12px] print:text-black">
+        <div className="max-w-sm space-y-4 font-mono text-sm text-foreground print:max-w-none print:bg-white print:px-3 print:py-2 print:text-[12px] print:text-black">
             <div className="flex items-center justify-between print:hidden">
                 <h1 className="text-lg font-semibold">Kitchen Order Ticket</h1>
                 <PrintKotButton />
@@ -42,21 +42,28 @@ export default async function CakeOrderKotPage({
                     <span className="font-semibold">Customer:</span> {order.customer.name}
                 </p>
                 <p>
-                    <span className="font-semibold">Pickup:</span> {formatDate(order.pickupDate)} at{" "}
-                    {order.pickupTime}
+                    <span className="font-semibold">Pickup:</span>{" "}
+                    <span className="text-base font-bold">
+                        {formatDate(order.pickupDate)} at{" "}
+                        {order.pickupTime}
+                    </span>
                 </p>
             </div>
 
-            <div className="space-y-1 border-t border-dashed border-border pt-2">
+            <div className="space-y-1 border-t border-dashed border-border pt-2 print:border-black">
                 <p className="font-semibold">{order.cakeName}</p>
                 {order.product && <p>Base product: {order.product.name}</p>}
                 {order.shape && <p>Shape: {order.shape}</p>}
                 {order.weight && <p>Weight: {order.weight}</p>}
-                {order.message && <p>Message: &quot;{order.message}&quot;</p>}
+                {order.message && (
+                    <p className="text-base font-bold">
+                        Message: &quot;{order.message}&quot;
+                    </p>
+                )}
             </div>
 
             {order.notes && (
-                <div className="border-t border-dashed border-border pt-2">
+                <div className="border-t border-dashed border-border pt-2 print:border-black">
                     <p className="font-semibold">Notes:</p>
                     <p className="whitespace-pre-wrap">{order.notes}</p>
                 </div>
