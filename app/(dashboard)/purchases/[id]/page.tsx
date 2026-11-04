@@ -144,7 +144,10 @@ export default async function PurchaseDetailPage({
                                             </TableCell>
 
                                             <TableCell className="px-4 py-2.5 text-right">
-                                                Rs. {item.subtotal.toString()}
+                                                Rs. {Number(item.subtotal).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -156,7 +159,10 @@ export default async function PurchaseDetailPage({
                     {/* Total */}
                     <div className="mt-4 flex justify-end border-t border-border pt-4">
                         <p className="text-base font-semibold">
-                            Total: Rs. {purchase.totalAmount.toString()}
+                            Total: Rs. {Number(purchase.totalAmount).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })}
                         </p>
                     </div>
                 </CardContent>

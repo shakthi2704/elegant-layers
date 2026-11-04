@@ -23,6 +23,9 @@ type ProductOption = {
     unit: string;
     categoryId: string;
     categoryName: string;
+    tracksStock: boolean; // false for made-to-order items like tea and coffee
+    currentStock: number;
+    minimumStock: number;
 };
 
 type CategoryOption = { id: string; name: string };
@@ -154,6 +157,19 @@ export function POSTerminal({
     const cashReceivedNum = Number(cashReceived) || 0;
     const changeGiven = cashReceivedNum - total;
 
+
+    function isOutOfStock(product: ProductOption) {
+        return product.tracksStock && product.currentStock <= 0;
+    }
+
+    ``
+    function isLowStock(product: ProductOption) {
+        return (
+            product.tracksStock &&
+            product.currentStock > 0 &&
+            product.currentStock <= product.minimumStock
+        );
+    }
     function addToCart(product: ProductOption) {
         setCart((prev) => {
             const existing = prev.find((l) => l.productId === product.id);
@@ -256,9 +272,20 @@ export function POSTerminal({
                             key={p.id}
                             type="button"
                             onClick={() => addToCart(p)}
-                            className="rounded-lg border border-border py-6 px-4 border- text-left bg-muted/50  hover:bg-muted/50"
+                            disabled={isOutOfStock(p)}
+                            className="relative disabled:cursor-not-allowed disabled:opacity-60 rounded-lg border border-border py-6 px-4 bg-muted/90  hover:bg-muted/40"
                         >
                             <p className="font-semibold text-base">{p.name}</p>
+                            {isLowStock(p) && (
+                                <span className="mt-1 inline-block rounded-md bg-amber-500/15 px-2 py-0.5 text-xs font-medium text-amber-700 dark:text-amber-400">
+                                    Low stock: {p.currentStock} {p.unit} left
+                                </span>
+                            )}
+                            {isOutOfStock(p) && (
+                                <span className="mt-1 inline-block rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                                    Out of stock
+                                </span>
+                            )}
                             <p className="text-sm text-muted-foreground">
                                 Rs. {p.sellingPrice.toLocaleString('en-US', {
                                     minimumFractionDigits: 2,

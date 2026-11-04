@@ -61,6 +61,9 @@ export default async function SaleDetailPage({
                         unit: p.unit,
                         categoryId: p.categoryId,
                         categoryName: p.category.name,
+                        tracksStock: p.isFinishedProduct,
+                        currentStock: p.currentStock.toNumber(),
+                        minimumStock: p.minimumStock.toNumber(),
                     }))}
                     categories={categories.map((c) => ({ id: c.id, name: c.name }))}
                     existingSale={{

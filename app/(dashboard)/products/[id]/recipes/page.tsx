@@ -21,7 +21,7 @@ export default async function ProductRecipesPage({
         prisma.recipe.findMany({ orderBy: { name: "asc" } }),
     ]);
 
-    if (!product || !product.isFinishedProduct) {
+    if (!product) {
         notFound();
     }
 
