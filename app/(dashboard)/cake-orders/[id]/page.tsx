@@ -10,6 +10,7 @@ import { CakeOrderStatusActions } from "@/components/cake-orders/cake-order-stat
 import { WASTE_REASON_OPTIONS } from "@/lib/validations/inventory-waste";
 import { SetAdvanceOutcomeButton } from "@/components/cake-orders/set-advance-outcome-button";
 import { AddOrderIngredientsDialog } from "@/components/cake-orders/add-order-ingredients-dialog";
+import { ICING_CATEGORY_NAME } from "@/lib/cake-order-icing";
 
 import {
     Card,
@@ -80,9 +81,29 @@ export default async function CakeOrderDetailPage({
                     referenceId: order.id,
                     type: "PRODUCTION_OUT",
                 },
-                include: { ingredient: true },
+                include: { ingredient: true, product: true },
                 orderBy: { createdAt: "asc" },
             });
+    // Icing (category "Icing") that can be taken from stock when a Pending
+    // order is started.
+    const icings =
+        order.status === "PENDING"
+            ? (
+                await prisma.product.findMany({
+                    where: {
+                        status: "ACTIVE",
+                        isFinishedProduct: true,
+                        category: { name: ICING_CATEGORY_NAME },
+                    },
+                    orderBy: { name: "asc" },
+                })
+            ).map((p) => ({
+                id: p.id,
+                name: p.name,
+                unit: p.unit,
+                currentStock: p.currentStock.toNumber(),
+            }))
+            : [];
     // Owners can add forgotten ingredients to a cake that has been started.
     const canAddIngredients =
         user.role === "ADMIN" &&
@@ -96,6 +117,24 @@ export default async function CakeOrderDetailPage({
             unit: i.unit,
             currentStock: i.currentStock.toNumber(),
             kind: i.kind,
+        }))
+        : [];
+    // Icing the owner can add to a started cake (category "Icing").
+    const addIcingOptions = canAddIngredients
+        ? (
+            await prisma.product.findMany({
+                where: {
+                    status: "ACTIVE",
+                    isFinishedProduct: true,
+                    category: { name: ICING_CATEGORY_NAME },
+                },
+                orderBy: { name: "asc" },
+            })
+        ).map((p) => ({
+            id: p.id,
+            name: p.name,
+            unit: p.unit,
+            currentStock: p.currentStock.toNumber(),
         }))
         : [];
     // Only a Pending order can be started, so only then is the ingredient
@@ -396,7 +435,10 @@ export default async function CakeOrderDetailPage({
                                                     className="flex items-center justify-between gap-4"
                                                 >
                                                     <span className="text-muted-foreground">
-                                                        {txn.ingredient?.name}
+                                                        {txn.ingredient?.name ?? txn.product?.name}
+                                                        {txn.product && (
+                                                            <span className="ml-1 text-xs">(Icing)</span>
+                                                        )}
                                                         {txn.note?.startsWith("Added after start:") && (
                                                             <>
                                                                 <Badge
@@ -413,8 +455,8 @@ export default async function CakeOrderDetailPage({
                                                     </span>
                                                     <span>
                                                         {txn.quantity.abs().toString()}{" "}
-                                                        {UNIT_LABELS[txn.ingredient?.unit ?? ""] ??
-                                                            txn.ingredient?.unit}
+                                                        {UNIT_LABELS[(txn.ingredient ?? txn.product)?.unit ?? ""] ??
+                                                            (txn.ingredient ?? txn.product)?.unit}
                                                     </span>
                                                 </li>
                                             ))}
@@ -442,6 +484,7 @@ export default async function CakeOrderDetailPage({
                                 <AddOrderIngredientsDialog
                                     orderId={order.id}
                                     ingredients={addIngredientOptions}
+                                    icings={addIcingOptions}
                                 />
                             </div>
                         )}
@@ -525,6 +568,7 @@ export default async function CakeOrderDetailPage({
                                     advancePaid={
                                         order.advancePaid?.toNumber() ?? 0
                                     }
+                                    icings={icings}
                                     ingredients={ingredients}
                                 />
 

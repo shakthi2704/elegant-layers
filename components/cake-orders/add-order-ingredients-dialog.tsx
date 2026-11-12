@@ -4,6 +4,12 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { Plus, X } from "lucide-react";
 
 import { addCakeOrderIngredients } from "@/app/(dashboard)/cake-orders/actions";
+import {
+    IcingPicker,
+    analyseIcing,
+    type IcingOption,
+    type IcingRow,
+} from "@/components/cake-orders/icing-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -60,10 +66,12 @@ function displayName(ingredient: OrderIngredientOption) {
 
 export function AddOrderIngredientsDialog({
     orderId,
+    icings = [],
     ingredients,
 }: {
     orderId: string;
     ingredients: OrderIngredientOption[];
+    icings?: IcingOption[];
 }) {
     const [open, setOpen] = useState(false);
     const keySeed = useRef(1);
@@ -76,6 +84,7 @@ export function AddOrderIngredientsDialog({
         { key: "row-1", ingredientId: "", quantity: "" },
     ]);
     const [reason, setReason] = useState("");
+    const [icingRows, setIcingRows] = useState<IcingRow[]>([]);
     const [state, formAction, pending] = useActionState(
         addCakeOrderIngredients.bind(null, orderId),
         {}
@@ -115,6 +124,7 @@ export function AddOrderIngredientsDialog({
     const anyIncomplete = analysed.some((a) => a.incomplete);
     const anyShort = analysed.some((a) => a.short);
     const reasonMissing = reason.trim().length < 3;
+    const icingStatus = analyseIcing(icingRows, icings);
 
     function updateRow(key: string, patch: Partial<Row>) {
         setRows((prev) =>
@@ -130,6 +140,7 @@ export function AddOrderIngredientsDialog({
                 if (next) {
                     setRows([newRow()]);
                     setReason("");
+                    setIcingRows([]);
                 }
             }}
         >
@@ -254,6 +265,11 @@ export function AddOrderIngredientsDialog({
                         <Plus className="size-4" />
                         Add ingredient
                     </Button>
+                    <IcingPicker
+                        icings={icings}
+                        rows={icingRows}
+                        onChange={setIcingRows}
+                    />
 
                     <div className="space-y-2">
                         <Label htmlFor="reason">Reason</Label>
@@ -295,7 +311,9 @@ export function AddOrderIngredientsDialog({
                             type="submit"
                             disabled={
                                 pending ||
-                                filledCount === 0 ||
+                                (filledCount === 0 && icingStatus.filledCount === 0) ||
+                                icingStatus.anyIncomplete ||
+                                icingStatus.anyShort ||
                                 anyIncomplete ||
                                 anyShort ||
                                 reasonMissing

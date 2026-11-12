@@ -4,6 +4,12 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { Plus, X } from "lucide-react";
 
 import { startCakeOrder } from "@/app/(dashboard)/cake-orders/actions";
+import {
+    IcingPicker,
+    analyseIcing,
+    type IcingOption,
+    type IcingRow,
+} from "@/components/cake-orders/icing-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -57,9 +63,11 @@ function unitLabel(unit: string) {
 
 export function CakeOrderStartDialog({
     orderId,
+    icings = [],
     ingredients,
 }: {
     orderId: string;
+    icings?: IcingOption[];
     ingredients: StartIngredient[];
 }) {
     const [open, setOpen] = useState(false);
@@ -77,6 +85,7 @@ export function CakeOrderStartDialog({
         {}
     );
 
+    const [icingRows, setIcingRows] = useState<IcingRow[]>([]);
     useEffect(() => {
         if (state.success) {
             setOpen(false);
@@ -114,6 +123,7 @@ export function CakeOrderStartDialog({
     const filledCount = analysed.filter((a) => !a.blank).length;
     const anyIncomplete = analysed.some((a) => a.incomplete);
     const anyShort = analysed.some((a) => a.short);
+    const icingStatus = analyseIcing(icingRows, icings);
 
     function updateRow(key: string, patch: Partial<Row>) {
         setRows((prev) =>
@@ -126,7 +136,10 @@ export function CakeOrderStartDialog({
             open={open}
             onOpenChange={(next) => {
                 setOpen(next);
-                if (next) setRows([newRow()]);
+                if (next) {
+                    setRows([newRow()]);
+                    setIcingRows([]);
+                }
             }}
         >
             <AlertDialogTrigger render={<Button>Mark In Progress</Button>} />
@@ -247,9 +260,13 @@ export function CakeOrderStartDialog({
                         <Plus className="size-4" />
                         Add ingredient
                     </Button>
-
+                    <IcingPicker
+                        icings={icings}
+                        rows={icingRows}
+                        onChange={setIcingRows}
+                    />
                     <p className="text-sm text-muted-foreground">
-                        {filledCount === 0
+                        {filledCount === 0 && icingStatus.filledCount === 0
                             ? "No ingredients listed: the order will start and nothing will be taken off stock."
                             : "These ingredients will be taken off stock when you start."}
                     </p>
@@ -274,7 +291,13 @@ export function CakeOrderStartDialog({
                         <AlertDialogCancel type="button">Back</AlertDialogCancel>
                         <Button
                             type="submit"
-                            disabled={pending || anyIncomplete || anyShort}
+                            disabled={
+                                pending ||
+                                anyIncomplete ||
+                                anyShort ||
+                                icingStatus.anyIncomplete ||
+                                icingStatus.anyShort
+                            }
                         >
                             {pending ? "Starting..." : "Start making"}
                         </Button>

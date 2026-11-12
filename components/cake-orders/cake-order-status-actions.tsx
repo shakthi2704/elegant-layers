@@ -7,6 +7,7 @@ import {
     cancelCakeOrder,
 } from "@/app/(dashboard)/cake-orders/actions";
 import { Button } from "@/components/ui/button";
+import type { IcingOption } from "@/components/cake-orders/icing-picker";
 import { Label } from "@/components/ui/label";
 import {
     CakeOrderStartDialog,
@@ -44,12 +45,14 @@ export function CakeOrderStatusActions({
     canCancel,
     advancePaid,
     ingredients,
+    icings,
 }: {
     orderId: string;
     status: string;
     canCancel: boolean;
     advancePaid: number;
     ingredients: StartIngredient[];
+    icings?: IcingOption[];
 }) {
     const [advanceState, advanceAction, advancePending] = useActionState(
         advanceCakeOrderStatus.bind(null, orderId),
@@ -89,7 +92,11 @@ export function CakeOrderStatusActions({
     return (
         <div className="flex flex-wrap items-center gap-2">
             {status === "PENDING" && (
-                <CakeOrderStartDialog orderId={orderId} ingredients={ingredients} />
+                <CakeOrderStartDialog
+                    orderId={orderId}
+                    ingredients={ingredients}
+                    icings={icings}
+                />
             )}
 
             {nextLabel && status === "IN_PROGRESS" && (

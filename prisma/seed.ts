@@ -15,6 +15,7 @@ const CATEGORIES = [
     "Soft Drinks",
     "Snacks",
     "Cake Base",
+    "Icing",
 ];
 
 async function main() {
