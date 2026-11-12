@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { CakeOrderStatusActions } from "@/components/cake-orders/cake-order-status-actions";
 import { WASTE_REASON_OPTIONS } from "@/lib/validations/inventory-waste";
 import { SetAdvanceOutcomeButton } from "@/components/cake-orders/set-advance-outcome-button";
+import { AddOrderIngredientsDialog } from "@/components/cake-orders/add-order-ingredients-dialog";
 
 import {
     Card,
@@ -82,6 +83,21 @@ export default async function CakeOrderDetailPage({
                 include: { ingredient: true },
                 orderBy: { createdAt: "asc" },
             });
+    // Owners can add forgotten ingredients to a cake that has been started.
+    const canAddIngredients =
+        user.role === "ADMIN" &&
+        ["IN_PROGRESS", "READY", "COLLECTED"].includes(order.status);
+    const addIngredientOptions = canAddIngredients
+        ? (
+            await prisma.ingredient.findMany({ orderBy: { name: "asc" } })
+        ).map((i) => ({
+            id: i.id,
+            name: i.name,
+            unit: i.unit,
+            currentStock: i.currentStock.toNumber(),
+            kind: i.kind,
+        }))
+        : [];
     // Only a Pending order can be started, so only then is the ingredient
     // list needed.
     const ingredients =
@@ -381,6 +397,19 @@ export default async function CakeOrderDetailPage({
                                                 >
                                                     <span className="text-muted-foreground">
                                                         {txn.ingredient?.name}
+                                                        {txn.note?.startsWith("Added after start:") && (
+                                                            <>
+                                                                <Badge
+                                                                    variant="outline"
+                                                                    className="ml-2 text-muted-foreground"
+                                                                >
+                                                                    Added later
+                                                                </Badge>
+                                                                <span className="mt-0.5 block text-xs font-normal">
+                                                                    {formatDateTime(txn.createdAt)}. {txn.note}
+                                                                </span>
+                                                            </>
+                                                        )}
                                                     </span>
                                                     <span>
                                                         {txn.quantity.abs().toString()}{" "}
@@ -403,6 +432,18 @@ export default async function CakeOrderDetailPage({
                                     </p>
                                 )}
                             </section>
+                        )}
+                        {/* Forgotten ingredients (owners only, once the cake is started) */}
+                        {canAddIngredients && (
+                            <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-border px-4 py-3">
+                                <p className="text-sm text-muted-foreground">
+                                    Forgot an ingredient when this cake was started?
+                                </p>
+                                <AddOrderIngredientsDialog
+                                    orderId={order.id}
+                                    ingredients={addIngredientOptions}
+                                />
+                            </div>
                         )}
                         {order.notes && (
                             <section className="border-t pt-6">

@@ -11,6 +11,7 @@ import {
     cancelCakeOrderSchema,
     startCakeOrderSchema,
 } from "@/lib/validations/cake-order";
+import { addProductionIngredientsSchema as addCakeOrderIngredientsSchema } from "@/lib/validations/production-extra";
 import type { ActionState } from "@/app/(dashboard)/products/actions";
 
 const FORWARD_TRANSITIONS: Record<string, "IN_PROGRESS" | "READY" | "COLLECTED"> = {
@@ -453,6 +454,155 @@ export async function startCakeOrder(
             return { error: e.message };
         }
         throw e;
+    }
+
+    revalidatePath("/cake-orders");
+    revalidatePath(`/cake-orders/${orderId}`);
+    revalidatePath("/inventory");
+    revalidatePath("/ingredients");
+    revalidatePath("/dashboard");
+    return { success: true };
+}
+
+
+class AddOrderIngredientsError extends Error { }
+
+/**
+ * Owner-only. Adds ingredients that were forgotten when a cake order was
+ * started. Same rules as "Add forgotten ingredients" on a production: stock
+ * goes down, a reason is required, and nothing is edited or removed. The
+ * extra movements are tagged "Added after start" so the order page can show
+ * them as "Added later".
+ */
+export async function addCakeOrderIngredients(
+    orderId: string,
+    _prevState: ActionState,
+    formData: FormData
+): Promise<ActionState> {
+    const user = await requireRole(["ADMIN"]);
+
+    // One FormData entry per row for each field, so the two lists line up.
+    const ingredientIds = formData.getAll("ingredientId").map(String);
+    const quantities = formData.getAll("quantity").map(String);
+    if (ingredientIds.length !== quantities.length) {
+        return {
+            error: "The ingredient list was not sent correctly. Please try again.",
+        };
+    }
+
+    // Blank rows are ignored; the row number is kept so an error can say
+    // which row needs fixing.
+    const rows = ingredientIds
+        .map((ingredientId, index) => ({
+            row: index + 1,
+            ingredientId: ingredientId.trim(),
+            quantity: quantities[index].trim(),
+        }))
+        .filter((r) => r.ingredientId !== "" || r.quantity !== "");
+
+    const parsed = addCakeOrderIngredientsSchema.safeParse({
+        reason: formData.get("reason") ?? "",
+        items: rows.map(({ ingredientId, quantity }) => ({
+            ingredientId,
+            quantity,
+        })),
+    });
+    if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        if (issue.path[0] === "reason") {
+            return { fieldErrors: { reason: [issue.message] } };
+        }
+        const index = issue.path[1];
+        const rowNumber =
+            issue.path[0] === "items" && typeof index === "number"
+                ? rows[index]?.row
+                : undefined;
+        return {
+            error: rowNumber ? `Row ${rowNumber}: ${issue.message}` : issue.message,
+        };
+    }
+
+    const { reason, items } = parsed.data;
+
+    // The same ingredient on two rows is added together.
+    const needed = new Map<string, number>();
+    for (const item of items) {
+        needed.set(
+            item.ingredientId,
+            round3((needed.get(item.ingredientId) ?? 0) + item.quantity)
+        );
+    }
+    // A fixed order means two people working at once can't block each other.
+    const lines = [...needed.entries()].sort(([a], [b]) => a.localeCompare(b));
+
+    const order = await prisma.cakeOrder.findUnique({
+        where: { id: orderId },
+        select: { id: true, status: true },
+    });
+    if (!order) {
+        return { error: "Order not found." };
+    }
+    if (order.status === "PENDING") {
+        return {
+            error: "This order has not been started yet. Enter the ingredients when you start it.",
+        };
+    }
+    if (order.status === "CANCELLED") {
+        return {
+            error: "This order was cancelled. Use a Stock Adjustment to correct stock.",
+        };
+    }
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            for (const [ingredientId, quantity] of lines) {
+                // Only deduct if enough is in stock; otherwise nothing happens.
+                const result = await tx.ingredient.updateMany({
+                    where: { id: ingredientId, currentStock: { gte: quantity } },
+                    data: { currentStock: { decrement: quantity } },
+                });
+
+                if (result.count === 0) {
+                    const ingredient = await tx.ingredient.findUnique({
+                        where: { id: ingredientId },
+                        select: { name: true, unit: true, currentStock: true },
+                    });
+                    if (!ingredient) {
+                        throw new AddOrderIngredientsError(
+                            "An ingredient in the list no longer exists. Remove it and try again."
+                        );
+                    }
+                    const unit = UNIT_LABELS[ingredient.unit] ?? ingredient.unit;
+                    throw new AddOrderIngredientsError(
+                        `Not enough "${ingredient.name}": ${quantity} ${unit} needed, ${ingredient.currentStock.toString()} ${unit} in stock.`
+                    );
+                }
+
+                const after = await tx.ingredient.findUniqueOrThrow({
+                    where: { id: ingredientId },
+                    select: { currentStock: true },
+                });
+
+                await tx.inventoryTransaction.create({
+                    data: {
+                        itemType: "INGREDIENT",
+                        ingredientId,
+                        type: "PRODUCTION_OUT",
+                        quantity: -quantity,
+                        balanceAfter: after.currentStock,
+                        referenceType: "CAKE_ORDER",
+                        referenceId: orderId,
+                        note: `Added after start: ${reason}`,
+                        createdById: user.id,
+                    },
+                });
+            }
+        });
+    } catch (err) {
+        if (err instanceof AddOrderIngredientsError) {
+            return { error: err.message };
+        }
+        throw err;
     }
 
     revalidatePath("/cake-orders");
