@@ -252,17 +252,19 @@ export function POSTerminal({
                         >
                             All
                         </Button>
-                        {categories.map((c) => (
-                            <Button
-                                key={c.id}
-                                type="button"
-                                size="sm"
-                                variant={activeCategory === c.id ? "default" : "secondary"}
-                                onClick={() => setActiveCategory(c.id)}
-                            >
-                                {c.name}
-                            </Button>
-                        ))}
+                        {categories
+                            .filter((c) => c.name.toLowerCase() !== "icing")
+                            .map((c) => (
+                                <Button
+                                    key={c.id}
+                                    type="button"
+                                    size="sm"
+                                    variant={activeCategory === c.id ? "default" : "secondary"}
+                                    onClick={() => setActiveCategory(c.id)}
+                                >
+                                    {c.name}
+                                </Button>
+                            ))}
                     </div>
                 </Card>
 
