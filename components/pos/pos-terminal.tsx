@@ -122,14 +122,22 @@ export function POSTerminal({
         {}
     );
 
+    // const visibleProducts = useMemo(
+    //     () =>
+    //         activeCategory === "ALL"
+    //             ? products
+    //             : products.filter((p) => p.categoryId === activeCategory),
+    //     [products, activeCategory]
+    // );
+
     const visibleProducts = useMemo(
         () =>
-            activeCategory === "ALL"
+            (activeCategory === "ALL"
                 ? products
-                : products.filter((p) => p.categoryId === activeCategory),
+                : products.filter((p) => p.categoryId === activeCategory)
+            ).filter((p) => p.categoryName.toLowerCase() !== "icing"),
         [products, activeCategory]
     );
-
     // Only the paid units count towards the bill; free units are shown separately.
     const subtotal = cart.reduce(
         (sum, line) => sum + (line.quantity - line.freeQuantity) * line.unitPrice,
