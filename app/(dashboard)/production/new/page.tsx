@@ -20,6 +20,7 @@ export default async function NewProductionPage() {
             status: "ACTIVE",
             OR: [{ productRecipes: { some: {} } }, { components: { some: {} } }],
         },
+        include: { category: true },
         orderBy: { name: "asc" },
     });
 
@@ -43,7 +44,13 @@ export default async function NewProductionPage() {
             ) : (
                 <ProductionForm
                     action={createProduction}
-                    products={products.map((p) => ({ id: p.id, name: p.name, unit: p.unit }))}
+                    products={products.map((p) => ({
+                        id: p.id,
+                        // The dropdown shows the category next to the name.
+                        name: p.name,
+                        categoryName: p.category.name,
+                        unit: p.unit,
+                    }))}
                 />
             )}
         </div>

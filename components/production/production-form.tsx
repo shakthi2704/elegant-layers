@@ -32,12 +32,24 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
+
 type Product = {
+    categoryName: string;
     id: string;
     name: string;
     unit: string;
 };
 
+function ProductLabel({ product }: { product: Product }) {
+    return (
+        <>
+            {product.name}{" "}
+            <span className="text-xs">
+                ({product.categoryName})
+            </span>
+        </>
+    );
+}
 type Row = {
     key: string;
     productId: string;
@@ -182,16 +194,10 @@ export function ProductionForm({
                                                     >
                                                         <SelectTrigger className="w-full">
                                                             <SelectValue placeholder="Select product">
-                                                                {(
-                                                                    value: string | null
-                                                                ) =>
-                                                                    products.find(
-                                                                        (p) =>
-                                                                            p.id ===
-                                                                            value
-                                                                    )?.name ??
-                                                                    "Select product"
-                                                                }
+                                                                {(value: string | null) => {
+                                                                    const chosen = products.find((p) => p.id === value);
+                                                                    return chosen ? <ProductLabel product={chosen} /> : "Select product";
+                                                                }}
                                                             </SelectValue>
                                                         </SelectTrigger>
 
@@ -210,7 +216,7 @@ export function ProductionForm({
                                                                     key={p.id}
                                                                     value={p.id}
                                                                 >
-                                                                    {p.name}
+                                                                    <ProductLabel product={p} />
                                                                 </SelectItem>
                                                             ))}
                                                         </SelectContent>
