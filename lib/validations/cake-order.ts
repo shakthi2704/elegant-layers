@@ -12,6 +12,7 @@ export const cakeOrderSchema = z
         productId: z.string().optional(),
         cakeName: z.string().trim().min(1, "Cake name is required").max(150),
         shape: z.string().trim().max(100).optional(),
+        flavour: z.string().trim().max(100).optional(),
         weight: z.string().trim().max(50).optional(),
         message: z.string().trim().max(200).optional(),
         imageUrl: z.string().trim().url("Must be a valid image URL").optional(),

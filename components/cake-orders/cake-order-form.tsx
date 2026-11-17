@@ -33,6 +33,7 @@ type CakeOrderFormValues = {
     productId: string | null;
     cakeName: string;
     shape: string | null;
+    flavour: string | null;
     weight: string | null;
     message: string | null;
     imageUrl: string | null;
@@ -226,6 +227,16 @@ export function CakeOrderForm({
                                 defaultValue={defaultValues?.weight ?? ""}
                             />
                         </div>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="flavour">Flavour</Label>
+
+                        <Input
+                            id="flavour"
+                            name="flavour"
+                            placeholder="e.g. Chocolate, Vanilla, Butterscotch"
+                            defaultValue={defaultValues?.flavour ?? ""}
+                        />
                     </div>
 
                     <div className="space-y-2">

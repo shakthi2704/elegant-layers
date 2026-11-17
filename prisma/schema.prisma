@@ -427,6 +427,7 @@ model CakeOrder {
   product       Product?        @relation(fields: [productId], references: [id])
   cakeName      String          // free text if not tied to a fixed Product
   shape         String?         // NEW — free text, e.g. "Round", "Heart", "2-tier square"
+  flavour       String?         // free text, e.g. "Chocolate", "Vanilla"
   weight        String?
   message       String?
   imageUrl      String?         // NEW — Cloudinary secure_url for the customer's reference photo

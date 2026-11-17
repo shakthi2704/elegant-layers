@@ -44,6 +44,7 @@ export type CakeOrderMinAggregateOutputType = {
   productId: string | null
   cakeName: string | null
   shape: string | null
+  flavour: string | null
   weight: string | null
   message: string | null
   imageUrl: string | null
@@ -72,6 +73,7 @@ export type CakeOrderMaxAggregateOutputType = {
   productId: string | null
   cakeName: string | null
   shape: string | null
+  flavour: string | null
   weight: string | null
   message: string | null
   imageUrl: string | null
@@ -100,6 +102,7 @@ export type CakeOrderCountAggregateOutputType = {
   productId: number
   cakeName: number
   shape: number
+  flavour: number
   weight: number
   message: number
   imageUrl: number
@@ -142,6 +145,7 @@ export type CakeOrderMinAggregateInputType = {
   productId?: true
   cakeName?: true
   shape?: true
+  flavour?: true
   weight?: true
   message?: true
   imageUrl?: true
@@ -170,6 +174,7 @@ export type CakeOrderMaxAggregateInputType = {
   productId?: true
   cakeName?: true
   shape?: true
+  flavour?: true
   weight?: true
   message?: true
   imageUrl?: true
@@ -198,6 +203,7 @@ export type CakeOrderCountAggregateInputType = {
   productId?: true
   cakeName?: true
   shape?: true
+  flavour?: true
   weight?: true
   message?: true
   imageUrl?: true
@@ -313,6 +319,7 @@ export type CakeOrderGroupByOutputType = {
   productId: string | null
   cakeName: string
   shape: string | null
+  flavour: string | null
   weight: string | null
   message: string | null
   imageUrl: string | null
@@ -364,6 +371,7 @@ export type CakeOrderWhereInput = {
   productId?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringFilter<"CakeOrder"> | string
   shape?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
+  flavour?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
@@ -395,6 +403,7 @@ export type CakeOrderOrderByWithRelationInput = {
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   cakeName?: Prisma.SortOrder
   shape?: Prisma.SortOrderInput | Prisma.SortOrder
+  flavour?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -429,6 +438,7 @@ export type CakeOrderWhereUniqueInput = Prisma.AtLeast<{
   productId?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringFilter<"CakeOrder"> | string
   shape?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
+  flavour?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
@@ -460,6 +470,7 @@ export type CakeOrderOrderByWithAggregationInput = {
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   cakeName?: Prisma.SortOrder
   shape?: Prisma.SortOrderInput | Prisma.SortOrder
+  flavour?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -496,6 +507,7 @@ export type CakeOrderScalarWhereWithAggregatesInput = {
   productId?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringWithAggregatesFilter<"CakeOrder"> | string
   shape?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
+  flavour?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"CakeOrder"> | string | null
@@ -522,6 +534,7 @@ export type CakeOrderCreateInput = {
   id?: string
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -552,6 +565,7 @@ export type CakeOrderUncheckedCreateInput = {
   productId?: string | null
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -578,6 +592,7 @@ export type CakeOrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -608,6 +623,7 @@ export type CakeOrderUncheckedUpdateInput = {
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -636,6 +652,7 @@ export type CakeOrderCreateManyInput = {
   productId?: string | null
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -662,6 +679,7 @@ export type CakeOrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -689,6 +707,7 @@ export type CakeOrderUncheckedUpdateManyInput = {
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -727,6 +746,7 @@ export type CakeOrderCountOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   cakeName?: Prisma.SortOrder
   shape?: Prisma.SortOrder
+  flavour?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   message?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
@@ -761,6 +781,7 @@ export type CakeOrderMaxOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   cakeName?: Prisma.SortOrder
   shape?: Prisma.SortOrder
+  flavour?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   message?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
@@ -789,6 +810,7 @@ export type CakeOrderMinOrderByAggregateInput = {
   productId?: Prisma.SortOrder
   cakeName?: Prisma.SortOrder
   shape?: Prisma.SortOrder
+  flavour?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   message?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
@@ -959,6 +981,7 @@ export type CakeOrderCreateWithoutCreatedByInput = {
   id?: string
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -988,6 +1011,7 @@ export type CakeOrderUncheckedCreateWithoutCreatedByInput = {
   productId?: string | null
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1044,6 +1068,7 @@ export type CakeOrderScalarWhereInput = {
   productId?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   cakeName?: Prisma.StringFilter<"CakeOrder"> | string
   shape?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
+  flavour?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   weight?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   message?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"CakeOrder"> | string | null
@@ -1070,6 +1095,7 @@ export type CakeOrderCreateWithoutProductInput = {
   id?: string
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1098,6 +1124,7 @@ export type CakeOrderUncheckedCreateWithoutProductInput = {
   customerId: string
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1150,6 +1177,7 @@ export type CakeOrderCreateWithoutCustomerInput = {
   id?: string
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1178,6 +1206,7 @@ export type CakeOrderUncheckedCreateWithoutCustomerInput = {
   productId?: string | null
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1232,6 +1261,7 @@ export type CakeOrderCreateManyCreatedByInput = {
   productId?: string | null
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1257,6 +1287,7 @@ export type CakeOrderUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1286,6 +1317,7 @@ export type CakeOrderUncheckedUpdateWithoutCreatedByInput = {
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1313,6 +1345,7 @@ export type CakeOrderUncheckedUpdateManyWithoutCreatedByInput = {
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1339,6 +1372,7 @@ export type CakeOrderCreateManyProductInput = {
   customerId: string
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1365,6 +1399,7 @@ export type CakeOrderUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1393,6 +1428,7 @@ export type CakeOrderUncheckedUpdateWithoutProductInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1420,6 +1456,7 @@ export type CakeOrderUncheckedUpdateManyWithoutProductInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1447,6 +1484,7 @@ export type CakeOrderCreateManyCustomerInput = {
   productId?: string | null
   cakeName: string
   shape?: string | null
+  flavour?: string | null
   weight?: string | null
   message?: string | null
   imageUrl?: string | null
@@ -1473,6 +1511,7 @@ export type CakeOrderUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1501,6 +1540,7 @@ export type CakeOrderUncheckedUpdateWithoutCustomerInput = {
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1528,6 +1568,7 @@ export type CakeOrderUncheckedUpdateManyWithoutCustomerInput = {
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cakeName?: Prisma.StringFieldUpdateOperationsInput | string
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  flavour?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1558,6 +1599,7 @@ export type CakeOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   productId?: boolean
   cakeName?: boolean
   shape?: boolean
+  flavour?: boolean
   weight?: boolean
   message?: boolean
   imageUrl?: boolean
@@ -1589,6 +1631,7 @@ export type CakeOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   productId?: boolean
   cakeName?: boolean
   shape?: boolean
+  flavour?: boolean
   weight?: boolean
   message?: boolean
   imageUrl?: boolean
@@ -1620,6 +1663,7 @@ export type CakeOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   productId?: boolean
   cakeName?: boolean
   shape?: boolean
+  flavour?: boolean
   weight?: boolean
   message?: boolean
   imageUrl?: boolean
@@ -1651,6 +1695,7 @@ export type CakeOrderSelectScalar = {
   productId?: boolean
   cakeName?: boolean
   shape?: boolean
+  flavour?: boolean
   weight?: boolean
   message?: boolean
   imageUrl?: boolean
@@ -1673,7 +1718,7 @@ export type CakeOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "discount" | "isComplimentary" | "complimentaryReason" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "cakeDiscardedAt" | "cakeDiscardReason" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
+export type CakeOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "productId" | "cakeName" | "shape" | "flavour" | "weight" | "message" | "imageUrl" | "pickupDate" | "pickupTime" | "status" | "price" | "advancePaid" | "discount" | "isComplimentary" | "complimentaryReason" | "paymentMethod" | "notes" | "createdById" | "advanceOutcome" | "advanceOutcomeAt" | "cakeDiscardedAt" | "cakeDiscardReason" | "createdAt" | "updatedAt", ExtArgs["result"]["cakeOrder"]>
 export type CakeOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   product?: boolean | Prisma.CakeOrder$productArgs<ExtArgs>
@@ -1703,6 +1748,7 @@ export type $CakeOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     productId: string | null
     cakeName: string
     shape: string | null
+    flavour: string | null
     weight: string | null
     message: string | null
     imageUrl: string | null
@@ -2154,6 +2200,7 @@ export interface CakeOrderFieldRefs {
   readonly productId: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly cakeName: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly shape: Prisma.FieldRef<"CakeOrder", 'String'>
+  readonly flavour: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly weight: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly message: Prisma.FieldRef<"CakeOrder", 'String'>
   readonly imageUrl: Prisma.FieldRef<"CakeOrder", 'String'>

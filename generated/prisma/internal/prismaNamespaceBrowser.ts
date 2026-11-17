@@ -371,6 +371,7 @@ export const CakeOrderScalarFieldEnum = {
   productId: 'productId',
   cakeName: 'cakeName',
   shape: 'shape',
+  flavour: 'flavour',
   weight: 'weight',
   message: 'message',
   imageUrl: 'imageUrl',

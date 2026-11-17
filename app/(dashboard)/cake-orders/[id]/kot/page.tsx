@@ -55,6 +55,7 @@ export default async function CakeOrderKotPage({
                 {order.product && <p>Base product: {order.product.name}</p>}
                 {order.shape && <p>Shape: {order.shape}</p>}
                 {order.weight && <p>Weight: {order.weight}</p>}
+                {order.flavour && <p>Flavour: {order.flavour}</p>}
                 {order.message && (
                     <p className="text-base font-bold">
                         Message: &quot;{order.message}&quot;

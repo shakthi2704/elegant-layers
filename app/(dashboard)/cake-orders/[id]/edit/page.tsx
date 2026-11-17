@@ -71,6 +71,7 @@ export default async function EditCakeOrderPage({
                     productId: order.productId,
                     cakeName: order.cakeName,
                     shape: order.shape,
+                    flavour: order.flavour,
                     weight: order.weight,
                     message: order.message,
                     imageUrl: order.imageUrl,

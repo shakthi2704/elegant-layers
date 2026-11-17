@@ -249,7 +249,16 @@ export default async function CakeOrderDetailPage({
                                         </dd>
                                     </>
                                 )}
-
+                                {order.flavour && (
+                                    <>
+                                        <dt className="text-muted-foreground">
+                                            Flavour
+                                        </dt>
+                                        <dd className="text-right">
+                                            {order.flavour}
+                                        </dd>
+                                    </>
+                                )}
                                 {order.message && (
                                     <>
                                         <dt className="text-muted-foreground">

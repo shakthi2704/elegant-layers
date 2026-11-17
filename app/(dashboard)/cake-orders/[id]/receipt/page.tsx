@@ -157,6 +157,7 @@ export default async function CakeOrderReceiptPage({
                     <p className="font-semibold">{order.cakeName}</p>
                     {order.shape && <p>Shape: {order.shape}</p>}
                     {order.weight && <p>Weight: {order.weight}</p>}
+                    {order.flavour && <p>Flavour: {order.flavour}</p>}
                     {order.message && <p>Message: &quot;{order.message}&quot;</p>}
                 </div>
 
