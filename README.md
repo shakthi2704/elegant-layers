@@ -39,3 +39,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 [![Architecture diagram](https://gitdiagram.com/diagram-badge.svg)](https://gitdiagram.com/shakthi2704/elegant-layers?utm_source=readme&utm_medium=badge)
+
+
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ Recorded as: owner1@elegantlayers.local
+ Ingredients and supplies to create : 105 (of 105)
+ ...with opening stock above zero    : 101
+ Fixed assets to create              : 10 (of 10)
+ Depreciation these assets will add  : about Rs 17,950 a month
+root@d7334b9801e7:/app# 
