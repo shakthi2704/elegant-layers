@@ -88,7 +88,10 @@ export default async function CakeOrderReceiptPage({
     const price = order.price.toNumber();
     const advance = order.advancePaid ? order.advancePaid.toNumber() : 0;
     const discount = order.discount.toNumber();
-    const remaining = price - advance;
+    const delivery = order.deliveryCharge.toNumber();
+    // Cake price (after discount) plus delivery; the advance may include delivery.
+    const totalToPay = price + delivery;
+    const remaining = totalToPay - advance;
     const billNumber = order.id.slice(-8).toUpperCase();
 
     // The client settles the full balance at handover, so Collected = paid in full.
@@ -182,7 +185,18 @@ export default async function CakeOrderReceiptPage({
                             </div>
                         </>
                     )}
-
+                    {delivery > 0 && (
+                        <>
+                            <div className="flex justify-between gap-2">
+                                <span>Delivery Charge</span>
+                                <span>+ {money(delivery)}</span>
+                            </div>
+                            <div className="flex justify-between gap-2 border-t border-black pt-1">
+                                <span>Total to Pay</span>
+                                <span>{money(totalToPay)}</span>
+                            </div>
+                        </>
+                    )}
                     {advance > 0 && (
                         <div className="flex justify-between gap-2">
                             <span>

@@ -380,6 +380,7 @@ export const CakeOrderScalarFieldEnum = {
   status: 'status',
   price: 'price',
   advancePaid: 'advancePaid',
+  deliveryCharge: 'deliveryCharge',
   discount: 'discount',
   isComplimentary: 'isComplimentary',
   complimentaryReason: 'complimentaryReason',

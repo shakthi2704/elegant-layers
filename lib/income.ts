@@ -58,8 +58,10 @@ function dayRange(from?: string, to?: string): Prisma.DateTimeFilter | undefined
  *  - Cake advance: advancePaid on non-cancelled orders, counted at createdAt.
  *  - Kept advance: advancePaid on CANCELLED orders whose outcome is KEPT,
  *    counted at advanceOutcomeAt. It is part of the "cake advance" source.
- *  - Cake balance: price - advancePaid on COLLECTED orders, counted at updatedAt
- *    (safe: Collected orders can't be edited, so updatedAt is the collection time).
+ *  - Cake balance: price + deliveryCharge - advancePaid on COLLECTED orders,
+ *    counted at updatedAt (safe: Collected orders can't be edited, so updatedAt
+ *    is the collection time). Delivery is never a separate income entry: it
+ *    counts in the advance if the customer paid it then, otherwise here.
  *  - Refunded advances are never income. Advances on cancelled orders with no
  *    outcome yet are reported separately in heldOnCancelled.
  */
@@ -164,6 +166,7 @@ export async function getIncome(
                 id: true,
                 cakeName: true,
                 price: true,
+                deliveryCharge: true,
                 advancePaid: true,
                 updatedAt: true,
                 ...customerSelect,
@@ -173,7 +176,7 @@ export async function getIncome(
         }),
         prisma.cakeOrder.aggregate({
             where: { ...balanceWhere, price: { not: null } },
-            _sum: { price: true, advancePaid: true },
+            _sum: { price: true, deliveryCharge: true, advancePaid: true },
             _count: { _all: true },
         }),
         prisma.cakeOrder.count({ where: { ...balanceWhere, price: null } }),
@@ -232,7 +235,9 @@ export async function getIncome(
                 label: `${o.cakeName} — ${o.customer.name}`,
                 href: `/cake-orders/${o.id}`,
                 amount: hasPrice
-                    ? o.price!.toNumber() - (o.advancePaid?.toNumber() ?? 0)
+                    ? o.price!.toNumber() +
+                    o.deliveryCharge.toNumber() -
+                    (o.advancePaid?.toNumber() ?? 0)
                     : 0,
                 flag: hasPrice ? undefined : "No price set",
             });
@@ -247,7 +252,8 @@ export async function getIncome(
         (keptAgg._sum.advancePaid?.toNumber() ?? 0)
         : 0;
     const cakeBalance = wantBalance
-        ? (balAgg._sum.price?.toNumber() ?? 0) -
+        ? (balAgg._sum.price?.toNumber() ?? 0) +
+        (balAgg._sum.deliveryCharge?.toNumber() ?? 0) -
         (balAgg._sum.advancePaid?.toNumber() ?? 0)
         : 0;
 

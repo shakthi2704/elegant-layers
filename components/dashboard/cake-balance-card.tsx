@@ -30,6 +30,7 @@ export async function CakeBalanceCard() {
         },
         select: {
             price: true,
+            deliveryCharge: true,
             advancePaid: true,
         },
     });
@@ -48,7 +49,9 @@ export async function CakeBalanceCard() {
             continue;
         }
 
-        const price = order.price.toNumber();
+        // What the customer pays in total: the cake (after discount) plus
+        // any delivery charge.
+        const price = order.price.toNumber() + order.deliveryCharge.toNumber();
 
         orderValue += price;
         balance += price - advance;

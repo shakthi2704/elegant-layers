@@ -37,6 +37,7 @@ function pricing(data: {
     discount?: number;
     isComplimentary?: boolean;
     complimentaryReason?: string;
+    deliveryCharge?: number;
 }) {
     if (data.isComplimentary) {
         return {
@@ -44,6 +45,7 @@ function pricing(data: {
             discount: data.price ?? 0,
             isComplimentary: true,
             complimentaryReason: data.complimentaryReason ?? null,
+            deliveryCharge: data.deliveryCharge ?? 0,
         };
     }
     const discount = data.discount ?? 0;
@@ -52,7 +54,10 @@ function pricing(data: {
         discount,
         isComplimentary: false,
         complimentaryReason: null,
+        deliveryCharge: data.deliveryCharge ?? 0,
     };
+
+
 }
 
 function parseFormData(formData: FormData) {
@@ -72,6 +77,7 @@ function parseFormData(formData: FormData) {
         pickupDate: formData.get("pickupDate"),
         pickupTime: formData.get("pickupTime"),
         discount: formData.get("discount") || undefined,
+        deliveryCharge: formData.get("deliveryCharge") || undefined,
         // An unticked checkbox is simply absent from the form data.
         isComplimentary: formData.get("isComplimentary") === "1",
         complimentaryReason: formData.get("complimentaryReason") || undefined,
@@ -104,8 +110,8 @@ export async function createCakeOrder(
 
         return tx.cakeOrder.create({
             data: {
-                ...pricing(orderData),
                 ...orderData,
+                ...pricing(orderData),
                 customerId: customer.id,
                 createdById: user.id,
             },
@@ -168,6 +174,7 @@ export async function updateCakeOrder(
                 discount: money.discount,
                 isComplimentary: money.isComplimentary,
                 complimentaryReason: money.complimentaryReason,
+                deliveryCharge: money.deliveryCharge,
                 advancePaid: orderData.advancePaid ?? null,
                 paymentMethod: orderData.paymentMethod ?? null,
                 notes: orderData.notes ?? null,

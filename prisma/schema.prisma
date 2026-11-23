@@ -436,6 +436,7 @@ model CakeOrder {
   status        CakeOrderStatus @default(PENDING)
   price         Decimal?        @db.Decimal(10, 2)
   advancePaid   Decimal?        @db.Decimal(10, 2)
+  deliveryCharge Decimal @default(0) @db.Decimal(10, 2) // delivery fee added to the order; collected with the final payment
   discount            Decimal  @default(0) @db.Decimal(10, 2) // amount taken off when the order was placed; price is what the customer pays after it
   isComplimentary     Boolean  @default(false)               // the whole order is free
   complimentaryReason String?

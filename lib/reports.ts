@@ -230,7 +230,12 @@ export async function getDailyIncome(
                 price: { not: null },
                 updatedAt: range,
             },
-            select: { price: true, advancePaid: true, updatedAt: true },
+            select: {
+                price: true,
+                deliveryCharge: true,
+                advancePaid: true,
+                updatedAt: true,
+            },
         }),
         prisma.cakeOrder.findMany({
             where: {
@@ -277,7 +282,9 @@ export async function getDailyIncome(
     }
     for (const o of balances) {
         day(o.updatedAt).cakeBalance +=
-            (o.price?.toNumber() ?? 0) - (o.advancePaid?.toNumber() ?? 0);
+            (o.price?.toNumber() ?? 0) +
+            o.deliveryCharge.toNumber() -
+            (o.advancePaid?.toNumber() ?? 0);
     }
 
     const rows = [...days.values()]

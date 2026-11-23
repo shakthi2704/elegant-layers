@@ -40,6 +40,7 @@ type CakeOrderFormValues = {
     pickupDate: string;
     pickupTime: string;
     price: number | string | null;
+    deliveryCharge: number | string | null;
     advancePaid: number | string | null;
     discount: number | string | null;
     isComplimentary: boolean;
@@ -69,6 +70,9 @@ export function CakeOrderForm({
     // Kept in state so the "amount to pay" line updates as the owner types.
     const [price, setPrice] = useState(String(defaultValues?.price ?? ""));
     const [discount, setDiscount] = useState(String(defaultValues?.discount ?? ""));
+    const [deliveryCharge, setDeliveryCharge] = useState(
+        String(defaultValues?.deliveryCharge ?? "")
+    );
     const [isComplimentary, setIsComplimentary] = useState(
         defaultValues?.isComplimentary ?? false
     );
@@ -76,6 +80,7 @@ export function CakeOrderForm({
         defaultValues?.complimentaryReason ?? ""
     );
     const grossPrice = Number(price) || 0;
+    const deliveryAmount = Number(deliveryCharge) || 0;
     const discountAmount = isComplimentary ? grossPrice : Number(discount) || 0;
     const toPay = Math.max(0, grossPrice - discountAmount);
 
@@ -543,6 +548,52 @@ export function CakeOrderForm({
                                 <span className="font-medium">
                                     Rs.{" "}
                                     {toPay.toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                    {/* Delivery */}
+                    <div className="space-y-4 rounded-md border border-border p-4">
+                        <div>
+                            <h3 className="text-sm font-medium">Delivery</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Optional. Add a delivery charge if the cake is
+                                delivered. It is added to the amount to pay, and
+                                can be paid with the final bill.
+                            </p>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="deliveryCharge">
+                                Delivery charge (Rs.)
+                            </Label>
+                            <Input
+                                id="deliveryCharge"
+                                name="deliveryCharge"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                value={deliveryCharge}
+                                onChange={(e) => setDeliveryCharge(e.target.value)}
+                            />
+                            {state.fieldErrors?.deliveryCharge && (
+                                <p className="text-sm text-destructive">
+                                    {state.fieldErrors.deliveryCharge[0]}
+                                </p>
+                            )}
+                        </div>
+
+                        {deliveryAmount > 0 && grossPrice > 0 && (
+                            <div className="flex justify-between border-t border-border pt-3 text-sm">
+                                <span className="text-muted-foreground">
+                                    Total to pay (cake + delivery)
+                                </span>
+                                <span className="font-medium">
+                                    Rs.{" "}
+                                    {(toPay + deliveryAmount).toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
                                     })}

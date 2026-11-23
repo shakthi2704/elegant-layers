@@ -61,12 +61,14 @@ export default async function CakeOrderDetailPage({
         notFound();
     }
 
-    const balanceDue =
-        order.price && order.advancePaid
-            ? order.price.toNumber() - order.advancePaid.toNumber()
-            : order.price
-                ? order.price.toNumber()
-                : null;
+    const deliveryCharge = order.deliveryCharge.toNumber();
+    // Price (after discount) + delivery - advance. A Prisma Decimal is an
+    // object, so `order.price` is truthy even when it is 0 (complimentary).
+    const balanceDue = order.price
+        ? order.price.toNumber() +
+        deliveryCharge -
+        (order.advancePaid?.toNumber() ?? 0)
+        : null;
 
     const isLocked =
         order.status === "COLLECTED" || order.status === "CANCELLED";
@@ -353,6 +355,34 @@ export default async function CakeOrderDetailPage({
                                                 </dd>
                                             </>
                                         )}
+                                    {deliveryCharge > 0 && (
+                                        <>
+                                            <dt className="text-muted-foreground">
+                                                Delivery charge
+                                            </dt>
+                                            <dd className="text-right">
+                                                Rs.{" "}
+                                                {deliveryCharge.toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                            </dd>
+
+                                            <dt className="text-muted-foreground">
+                                                Total to pay
+                                            </dt>
+                                            <dd className="text-right">
+                                                Rs.{" "}
+                                                {(
+                                                    Number(order.price ?? 0) +
+                                                    deliveryCharge
+                                                ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                            </dd>
+                                        </>
+                                    )}
 
                                     {order.advancePaid && (
                                         <>

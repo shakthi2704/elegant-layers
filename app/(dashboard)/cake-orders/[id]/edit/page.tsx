@@ -89,6 +89,10 @@ export default async function EditCakeOrderPage({
                     isComplimentary: order.isComplimentary,
                     complimentaryReason: order.complimentaryReason,
                     advancePaid: order.advancePaid?.toString() ?? null,
+                    deliveryCharge:
+                        order.deliveryCharge.toNumber() > 0
+                            ? order.deliveryCharge.toString()
+                            : null,
                     paymentMethod: order.paymentMethod,
                     notes: order.notes,
                 }}

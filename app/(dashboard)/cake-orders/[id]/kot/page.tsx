@@ -23,6 +23,24 @@ export default async function CakeOrderKotPage({
         notFound();
     }
 
+    const delivery = order.deliveryCharge.toNumber();
+    // Cake price (after discount) + delivery - advance. The advance may
+    // already include the delivery, so this is what is still to be collected.
+    const balanceToCollect =
+        order.price === null
+            ? null
+            : order.price.toNumber() +
+            delivery -
+            (order.advancePaid?.toNumber() ?? 0);
+    const showBalance =
+        balanceToCollect !== null &&
+        order.status !== "COLLECTED" &&
+        order.status !== "CANCELLED";
+    const money = (value: number) =>
+        `Rs. ${value.toLocaleString("en-LK", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })}`;
     const ticketNumber = order.id.slice(-8).toUpperCase();
 
     return (
@@ -69,7 +87,17 @@ export default async function CakeOrderKotPage({
                     <p className="whitespace-pre-wrap">{order.notes}</p>
                 </div>
             )}
-
+            {delivery > 0 && (
+                <div className="space-y-1 border-t border-dashed border-border pt-2 print:border-black">
+                    <p className="font-semibold">DELIVERY</p>
+                    <p>Delivery charge: {money(delivery)}</p>
+                    {showBalance && (
+                        <p className="text-base font-bold">
+                            Balance to collect: {money(balanceToCollect)}
+                        </p>
+                    )}
+                </div>
+            )}
             <p className="border-t border-dashed border-border pt-2 text-xs opacity-70 print:border-black print:opacity-100">
                 Printed {formatDateTime(new Date())}
             </p>

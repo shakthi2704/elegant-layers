@@ -25,6 +25,7 @@ export const cakeOrderSchema = z
         // pays (price - discount) so income and balances stay correct.
         price: z.coerce.number().min(0, "Price can't be negative").optional(),
         discount: z.coerce.number().min(0, "Discount can't be negative").optional(),
+        deliveryCharge: z.coerce.number().min(0, "Delivery charge can't be negative").optional(),
         isComplimentary: z.boolean().optional(),
         complimentaryReason: z.string().trim().max(200).optional(),
         advancePaid: z.coerce.number().min(0, "Advance can't be negative").optional(),
@@ -50,6 +51,10 @@ export const cakeOrderSchema = z
             path: ["discount"],
         }
     )
+    .refine((data) => !data.deliveryCharge || data.price !== undefined, {
+        message: "Enter the cake price before adding a delivery charge",
+        path: ["deliveryCharge"],
+    })
     .refine((data) => !data.isComplimentary || (data.price ?? 0) > 0, {
         message: "Enter the price: it is recorded as the value given away",
         path: ["price"],
@@ -71,7 +76,8 @@ export const cakeOrderSchema = z
             data.isComplimentary ||
             !data.price ||
             !data.advancePaid ||
-            data.advancePaid <= data.price - (data.discount ?? 0),
+            data.advancePaid <=
+            data.price - (data.discount ?? 0) + (data.deliveryCharge ?? 0),
         {
             message: "Advance paid can't exceed the amount to pay",
             path: ["advancePaid"],
