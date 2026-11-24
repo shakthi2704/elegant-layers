@@ -118,7 +118,7 @@ export default async function CakeOrderBillPage({
                 <div className="flex items-start justify-between border-b border-black pb-4">
                     <div className="flex items-center gap-4">
                         <Image
-                            src="/logo/logo.jpg"
+                            src="/logo/logo-Photoroom.png"
                             alt={shop.name}
                             width={320}
                             height={320}
